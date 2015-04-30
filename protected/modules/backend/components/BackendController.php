@@ -12,12 +12,10 @@ class BackendController extends Controller {
 
   public function init() {
     
-    if (!Yii::app()->user->isGuest) {
+    /*if (!Yii::app()->user->isGuest) {
       $user = Superuser::model()->findByPk(Yii::app()->user->id);
 
-      /**
-       * Disconnect user if is not active
-       */
+      
       if (!$user->is_active) {
         Yii::app()->user->logout();
       } else {
@@ -25,7 +23,7 @@ class BackendController extends Controller {
         $user->last_login = new CDbExpression('NOW()');
         $user->save();
       }
-    }
+    }*/
 
     if (!empty($this->sidebar_tab))
       Yii::app()->session["sidebar_tab"] = $this->sidebar_tab;
