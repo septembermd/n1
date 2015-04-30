@@ -16,7 +16,7 @@ class LastUsers extends CWidget
         $crt->condition = 'last_login > :param AND is_staff = 1';
         $crt->params = array(':param' => $day_ago);
 
-        $users = User::model()->findAll($crt);
+        $users = Superuser::model()->findAll($crt);
         $this->render('last_users',array('users'=>$users));
     }
 }
