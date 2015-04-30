@@ -112,4 +112,41 @@ class Superuser extends ActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+  
+  public function getIsUserOnline()
+    {
+        // select five minutes ago
+        $five_minutes_ago = mktime(date("H"), date("i") - 5, date("s"), date("m"), date("d"), date("Y"));
+
+        if ($this->last_login > $five_minutes_ago)
+            return true;
+        else
+            return false;
+    }
+  
+  public function validatePassword($password)
+    {
+        return $this->hashPassword($password, $this->salt) === $this->password;
+    }
+
+    /**
+     * Generates the password hash.
+     * @param string password
+     * @param string salt
+     * @return string hash
+     */
+    public function hashPassword($password, $salt)
+    {
+        return md5($salt . $password);
+    }
+
+    /**
+     * Generates a salt that can be used to generate a password hash.
+     * @return string the salt
+     */
+    public function generateSalt()
+    {
+        return uniqid('', true);
+    }
+
 }
