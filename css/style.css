@@ -1,0 +1,1017 @@
+@charset "utf-8";
+/* CSS Document */
+
+* { margin: 0; padding: 0;}
+
+html {
+    overflow-x:hidden;}
+
+body {
+    background:#0072ae;
+    font-family:Tahoma;
+    font-size: 12px;
+}
+
+#header {
+    position:relative;
+    left:50%;
+    margin-top:0;
+    margin-left:-480px;
+    margin-bottom:9px;}
+
+#header_text {
+    position:relative;
+    color:#FFF;
+    margin-left:620px;
+    font-size:12px;
+    padding:7px 0 7px 0;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;}
+
+#header_text a:link{color:#96bdda; text-decoration:none;}
+#header_text a:hover{color:#96bdda; text-decoration:none;}
+#header_text a:visited{color:#96bdda; text-decoration:none;}
+#header_text a:active{color:#96bdda; text-decoration:none;}
+
+#home {
+    position:relative;
+    float:left;
+    color:#FFF;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;}
+
+#home a:link{color:#FFF; text-decoration:none;}
+#home a:hover{color:#FFF; text-decoration:none;}
+#home a:visited{color:#FFF; text-decoration:none;}
+#home a:active{color:#FFF; text-decoration:none;}
+
+#lang {
+    position:relative;
+    float:left;
+    margin-left:50px;}
+
+
+
+/*    MENU
+---------------------------------------------------------*/
+
+#menu {
+    position:relative;
+    width:960px;
+    height:363px;
+    background-image:url(/images/menu_bg.jpg);
+    left:50%;
+    margin-bottom:13px;
+    margin-left:-480px;}
+
+#menu_main {
+    position:relative;
+    top:5px;
+    left:5px;}
+
+#subtext {
+}
+
+#minimenu {
+    position:relative;
+    height:90px;
+    width:960px;
+    background:#005392;
+    left:50%;
+    margin-left:-480px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#mainmenutext1_ro {
+    background:url(/images/ro/compania.png) no-repeat;
+    width:95px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ro/compania.png', sizingMethod='scale');}
+
+#mainmenutext1_ru {
+    background:url(/images/ru/compania.png) no-repeat;
+    width:95px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ru/compania.png', sizingMethod='scale');}
+
+#mainmenutext1_en {
+    background:url(/images/en/compania.png) no-repeat;
+    width:95px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/en/compania.png', sizingMethod='scale');}
+
+#mainmenutext2_ro {
+    background:url(/images/ro/servicii.png) no-repeat;
+    width:95px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ro/servicii.png', sizingMethod='scale');}
+
+#mainmenutext2_ru {
+    background:url(/images/ru/servicii.png) no-repeat;
+    width:104px;
+    height:47px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ru/servicii.png', sizingMethod='scale');}
+
+#mainmenutext2_en {
+    background:url(/images/en/servicii.png) no-repeat;
+    width:100px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/en/servicii.png', sizingMethod='scale');}
+
+#mainmenutext3_ro {
+    background:url(/images/ro/calitate.png) no-repeat;
+    width:100px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ro/calitate.png', sizingMethod='scale');}
+
+#mainmenutext3_ru {
+    background:url(/images/ru/calitate.png) no-repeat;
+    width:104px;
+    height:45px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ru/calitate.png', sizingMethod='scale');}
+
+#mainmenutext3_en {
+    background:url(/images/en/calitate.png) no-repeat;
+    width:100px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/en/calitate.png', sizingMethod='scale');}
+
+#mainmenutext4_ro {
+    background:url(/images/ro/beneficii.png) no-repeat;
+    width:104px;
+    height:47px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ro/beneficii.png', sizingMethod='scale');}
+
+#mainmenutext4_ru {
+    background:url(/images/ru/beneficii.png) no-repeat;
+    width:110px;
+    height:47px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ru/beneficii.png', sizingMethod='scale');}
+
+#mainmenutext4_en {
+    background:url(/images/en/beneficii.png) no-repeat;
+    width:94px;
+    height:47px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/en/beneficii.png', sizingMethod='scale');}
+
+#mainmenutext5_ro {
+    background:url(/images/ro/partneri.png) no-repeat;
+    width:94px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ro/partneri.png', sizingMethod='scale');}
+
+#mainmenutext5_ru {
+    background:url(/images/ru/partneri.png) no-repeat;
+    width:94px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ru/partneri.png', sizingMethod='scale');}
+
+#mainmenutext5_en {
+    background:url(/images/en/partneri.png) no-repeat;
+    width:94px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/en/partneri.png', sizingMethod='scale');}
+
+#mainmenutext6_ro {
+    background:url(/images/ro/contact.png) no-repeat;
+    width:94px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ro/contact.png', sizingMethod='scale');}
+
+#mainmenutext6_ru {
+    background:url(/images/ru/contact.png) no-repeat;
+    width:110px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/ru/contact.png', sizingMethod='scale');}
+
+#mainmenutext6_en {
+    background:url(/images/en/contact.png) no-repeat;
+    width:105px;
+    height:33px;
+    border:none;
+    -background: none;  /* убираем бэкграунд для ie6 */
+    -filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/en/contact.png', sizingMethod='scale');}
+
+/* Menu - mini
+------------------------------------------------------------------------------*/
+ul#mini {
+    margin: 0; padding:0 0 0 8px;
+    float: left;
+    width: 950px;
+    list-style: none;
+    height:80px;
+    position: relative; /*--Set relative positioning on the unordered list itself - not on the list item--*/
+    background:url(/images/menu_main.jpg) no-repeat;
+    top:5px;
+    left:5px;
+    z-index:2;}
+
+ul#mini li {
+    text-align:center;
+    width:156px;
+    float: left;
+    padding-top: 18px;
+    cursor:pointer;
+    height:80px;
+    font-family:Arial;
+    font-size:17px;
+    color:#000;
+    text-shadow:1px 1px #fff;}
+
+ul#mini li:hover
+{
+    background:url(/images/minimenu_active.png) no-repeat;
+    background-position: 18px 10px;
+}
+
+ul#mini li div
+{
+    font-size: 12px;
+    color:#005392;
+    text-shadow:1px 1px #fff;
+}
+
+ul#mini li img {
+    padding-top:20px;}
+
+#minimenu_1 {
+    position:relative;
+    float:left;
+    width:156px;
+    height:80px;
+    padding: 0;
+    display: block;
+    background:url(/images/menu_active.png) no-repeat bottom;}
+
+#minimenu_1 img {
+    padding:20px 0 0 28px;}
+
+#minimenu_2 {
+    position:relative;
+    float:left;
+    width:156px;
+    height:80px;
+    padding: 0;
+    display: block;
+    background:url(/images/menu_active.png) no-repeat bottom;}
+
+#minimenu_2 img {
+    padding:20px 0 0 24px;}
+
+#minimenu_3 {
+    position:relative;
+    float:left;
+    width:156px;
+    height:80px;
+    padding: 0;
+    display: block;
+    background:url(/images/menu_active.png) no-repeat bottom;}
+
+#minimenu_3 img {
+    padding:20px 0 0 33px;}
+
+
+@-moz-document url-prefix() {
+  ul#mini li {padding: 0px 0 0px 0; !important;}
+}
+
+ul#mini li a {
+    width:156px;
+    display: block;
+    text-decoration:none;
+    color:#000;
+    font-weight:500;
+}
+
+/* Menu - index
+------------------------------------------------------------------------------*/
+ul#topnav {
+    margin: 0; padding:0 0 0 8px;
+    width: 950px;
+    list-style: none;
+    height:80px;
+    position: relative; /*--Set relative positioning on the unordered list itself - not on the list item--*/
+    background:url(/images/menu_main.jpg) no-repeat;
+    top:5px;
+    left:5px;
+}
+
+ul#topnav li
+{
+    float: left;
+    text-align:center;
+    padding-top: 18px;
+    margin-right: 15px;
+    cursor:pointer;
+    height:62px;
+    font-family:Arial;
+    font-size:17px;
+    text-shadow:1px 1px #fff;
+}
+
+ul#topnav li:hover
+{
+    background:url(/images/menu_active.png) no-repeat;
+    background-position: 0 11px
+}
+
+.menu_active
+{
+    background:url(/images/menu_active.png) no-repeat;
+    background-position: 0 11px;
+}
+
+.menu_link
+{
+    color:#fff;
+    text-shadow:0px 1px 1px rgba(0,0,0, 0.5);
+}
+
+ul#topnav li:hover, ul#topnav li:hover a div
+{
+    color:#fff;
+    text-shadow:0px 1px 1px rgba(0,0,0, 0.5);
+}
+
+ul#topnav li a div
+{
+    font-size:12px;
+    color:#005392;
+}
+
+ul#topnav li a
+{
+    width:143px;
+    display: block;
+    text-decoration:none;
+    color:#000;
+}
+
+#submenu {
+    position:relative;
+    padding-left:6px;
+    text-align: center;
+}
+
+#submenu span{
+    position:relative;
+    padding-top:15px;
+    float:left;
+    padding-left:1px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:10px;
+    color:#FFF;
+    cursor:pointer;}
+
+.submenu_bg
+{
+    background:url(/images/submenu_bg.jpg);
+    background-repeat:no-repeat;
+    background-position:bottom;
+}
+
+#submenu_1 {
+    position:relative;
+    width:157px;
+    height:244px;
+}
+
+#submenu_2 {
+    position:relative;
+    width:157px;
+    height:244px;
+}
+
+#submenu_3 {
+    position:relative;
+    width:157px;
+    height:244px;
+}
+
+#submenu_4 {
+    position:relative;
+    width:157px;
+    height:244px;
+}
+
+#submenu_5 {
+    position:relative;
+    width:157px;
+    height:244px;
+}
+
+#submenu_6 {
+    position:relative;
+    width:157px;
+    height:244px;
+}
+
+.menu_picture {
+    position:relative;
+    padding:4px 3px 3px 2px;}
+/* #menu_picture for Chrome
+------------------------------------------------------------------------------*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    body:first-of-type .menu_picture {position:relative;
+        padding: 4px 2px 3px 3px;}
+}
+
+
+
+.number {
+    margin:8px 0 8px 0;}
+
+/* Services
+------------------------------------------------------------------------------*/
+#services {
+    position:relative;
+    background:#015291;
+    width:960px;
+    left:50%;
+    margin-bottom:13px;
+    margin-left:-480px;
+    min-height:245px;
+    height:100%;
+    position: relative;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+#services:after {content: ''; display: block; clear: both; visibility: hidden; height:0;}
+#service_content {
+    float:right;
+    margin-top: -213px;
+    top:0px;
+    left:323px;
+    width:637px;
+    background:#FFF;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+@-moz-document url-prefix()
+{
+    #service_content{
+        margin-top: -227px;
+    }
+}
+
+#service_text .items>div {display: none;}
+
+#service_text {
+    position:relative;
+    float:left;
+    width: 325px;
+    padding:10px 0 10px 20px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    z-index : 2;
+}
+
+#service_text2 {
+    position:relative;
+    float:left;
+    width: 325px;
+    padding:10px 0 10px 20px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    z-index : 0;}
+
+#service_text strong {
+    font-size:11px;}
+
+#service_picture {
+    position:relative;
+    padding:7px 8px 8px 20px;
+    float:right;}
+
+.arrows {
+    padding-right:5px;
+    padding-left:10px;}
+
+#services ul{
+    position:relative;
+    padding:15px 0 15px 10px;
+    list-style:none;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    color:#FFF}
+
+#services ul li {
+    margin:7px 0 7px 0;}
+
+#services ul li a:link{color:#FFF; text-decoration:none}
+#services ul li a:active{color:#FFF; text-decoration:none}
+#services ul li a:visited{color:#FFF; text-decoration:none}
+#services ul li a:hover{color:#FFF; text-decoration:none}
+
+#active {
+    background-color:#FFF !important;
+    height:29px;
+    line-height:29px;
+    background:url(/images/active_head.jpg) no-repeat;
+}
+
+#active div {background-color: transparent;}
+#active a {color: #0076A3 !important;}
+
+.active_head {
+    position:relative;
+    float:left;}
+
+.arrow_active {
+    padding-right:5px;
+    padding-left:0px;}
+
+/* Corners
+------------------------------------------------------------------------------*/
+.topleft_corner {
+    position:absolute;
+    top:0px;
+    left:0px;
+    z-index:1;}
+
+.bottomleft_corner {
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    z-index:1;}
+
+.topright_corner {
+    position:absolute;
+    top:0px;
+    right:0px;
+    z-index:1;}
+
+.bottomright_corner {
+    position:absolute;
+    bottom:0px;
+    right:0px;
+    z-index:1;}
+
+.cornerup {
+    position:relative;
+    top:-40px;
+    left:302px;}
+
+.cornerdown {
+    position:relative;
+    top:-11px;
+    left:302px;}
+
+#footer {
+    position:relative;
+    background:#015291;
+    width:960px;
+    height:64px;
+    left:50%;
+    margin-bottom:10px;
+    margin-left:-480px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    color:#96bdda;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#lastquotes {
+    position:relative;
+    background:#015291;
+    width:930px;
+    min-height:45px;
+    left:50%;
+    margin-bottom:10px;
+    margin-left:-480px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    color:#ffffff;
+    padding:15px 0 0px 30px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#lastquotes a:link,#lastquotes a:hover,#lastquotes a:visited
+{
+    color:#ffffff;
+    text-decoration : none;
+}
+
+.quote_create
+{
+    position: absolute;
+    top:8px;
+    right:10px;
+    background:url(/images/quote.png);
+    background-repeat: no-repeat;
+    width:158px;
+    height:45px;
+    line-height: 38px;
+    padding-left:15px;
+    font-weight: bold;
+}
+
+#copyright {
+    position:absolute;
+    left:25px;
+    top:20px;
+}
+
+#partner {
+    position:absolute;
+    top:26px;
+    left:50%;
+    margin-left:-140px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    color:#FFF;
+}
+
+#logo {
+    position:absolute;
+    top:20px;
+    right:40px;}
+
+/* Content
+------------------------------------------------------------------------------*/
+
+/* Company
+------------------------------------------------------------------------------*/
+
+#content {
+    position:relative;
+    background:#005392;
+    left:50%;
+    margin-left:-480px;
+    width:960px;
+    min-height:263px;
+    padding-top:5px;
+    padding-bottom:5px;
+    margin-bottom:13px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#company {
+    margin-left:5px;
+    width:950px;
+    background:#FFF;
+    height:100%;
+    min-height:370px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#top_content {
+    position:absolute;
+    top: 15px;
+    left:5px;
+    width:950px;
+    height:10px;
+    z-index:2;}
+
+#bottom_content {
+    position:absolute;
+    bottom:10px;
+    left:5px;
+    width:950px;
+    height:5px;
+    z-index:2;}
+
+#company_left {
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    float:left;
+    line-height: 15px;
+    width:250px;
+    padding:25px 0 25px 15px;
+    margin-right:25px;}
+
+#company_right {
+    width:600px;
+    float:left;
+    line-height: 15px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    padding:25px 15px 25px 15px;}
+
+/* Service
+------------------------------------------------------------------------------*/
+#service_left {
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    float:left;
+    width:250px;
+    padding:25px 0 25px 15px;
+    margin-right:25px;
+}
+
+#service_right {
+    width:600px;
+    float:left;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    padding:25px 15px 25px 15px;}
+
+#service_left ul{
+    list-style:none;}
+
+#service_left ul div li{
+    position:relative;
+    left:10px}
+
+#service_left a:link{color:#000;     line-height: 15px;}
+#service_left a:visited{color:#000;}
+#service_left a:active{color:#000;}
+#service_left a:hover{color:#000;}
+
+#service_right b{font-size:13px; color:#0073ae;}
+
+/* Contacts
+------------------------------------------------------------------------------*/
+#contacts_left {
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    float:left;
+    width:410px;
+    padding:25px 0 25px 25px;
+}
+
+#contacts_right {
+    width:440px;
+    float:left;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    padding:25px 15px 25px 15px;}
+
+#contact_adress {
+    margin-bottom:30px;}
+
+#contacts_right b{
+    font-size:13px;}
+
+#contacts_right form{
+    margin-top:20px;}
+
+#contacts_right form input{
+    margin-top:5px;}
+
+#contacts_right form textarea{
+    width:420px;
+    height:150px;
+    margin-top:5px;}
+
+#adress {
+    width:420px;}
+
+#theme {
+    width:420px;
+    margin-bottom:11px;}
+
+#name {
+    width: 210px;
+    height:50px;
+    float:left;
+    margin-top:11px;
+    margin-right:10px;}
+
+#name_field {
+    width:200px;}
+
+#submit_field {
+    float:right;
+    margin: 10px 30px 0 0;
+    font-weight:bold;}
+
+#submit_field img {border:none;}
+
+#submit_field a:link{color:#000; text-decoration:none; font-weight:bold; cursor:pointer}
+#submit_field a:visited{color:#000; text-decoration:none; font-weight:bold; cursor:pointer}
+#submit_field a:active{color:#000; text-decoration:none; font-weight:bold; cursor:pointer}
+#submit_field a:hover{color:#000; text-decoration:none; font-weight:bold; cursor:pointer}
+
+#contacts_left a:link{color:#0073ae;}
+#contacts_left a:visited{color:#0073ae;}
+#contacts_left a:active{color:#0073ae;}
+#contacts_left a:hover{color:#0073ae;}
+
+#contact {
+    margin-bottom:15px;}
+
+#partners_table {
+    position:relative;
+    margin-left:5px;
+    width:936px;
+    min-height:370px;
+    background-color:#FFF;
+    padding: 0 7px 0 7px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#reviews
+{
+    background-color:#ffffff;
+    min-height:300px;
+    padding:10px 10px 10px 10px;
+    margin-left:5px;
+    width:930px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#partners {
+    position:relative;
+    width:304px;
+    height:355px;
+    background:url(/images/partner_border.png);
+    background-repeat:no-repeat;
+    padding: 0 0px 0 10px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:11px;
+    text-align:center;
+    float:left;}
+
+#partners img{
+    margin-top:10px;
+    margin-left:-15px;
+    width:290px;
+    height:105px;}
+
+#partners_text {
+    width:280px;}
+
+#list_img {
+    position:absolute;
+    float:left;
+    left: -10px;}
+
+#reviewform
+{
+    position:relative;
+    margin : 0px 10px 20px 10px;
+    width:930px;
+}
+
+#reviewform textarea
+{
+    margin-top :10px;
+    width:800px;
+    height: 210px;
+}
+
+#reviewform input
+{
+    width: 200px;
+}
+
+#minimenu_item
+{
+    position:relative;
+    float:left;
+    width:143px;
+    height:80px;
+    display: block;
+    font-size: 17px;
+    font-family: Arial;
+    color: #fff;
+    text-align: center;
+    text-shadow:0px 1px 1px rgba(0,0,0, 0.5);
+    padding: 7px 0px 0 0px;
+    margin-top: 11px;
+    background:url(/images/menu_active.png) no-repeat;
+}
+
+#minimenu_item a
+{
+    color: #fff;
+}
+
+.minimenu_item
+{
+    color: #fff;
+}
+
+#minimenu_item div
+{
+    font-size: 12px;
+}
+
+.article
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.article img
+{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    -moz-box-shadow:    1px 1px 3px 1px #ccc;
+    -webkit-box-shadow: 1px 1px 3px 1px #ccc;
+    box-shadow:         1px 1px 3px 1px #ccc;
+}
+
+.article h2
+{
+    font-size: 13px;
+}
+
+.article h3
+{
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 10px;
+    font-weight: normal;
+
+}
+
+.article p
+{
+    margin-bottom:10px;
+}
+
+.article span a
+{
+    text-decoration: none;
+    color:#005392;
+}
+
+.article span a:hover
+{
+
+    color:#000;
+}
+@-moz-document url-prefix()
+{
+    ul#mini li{padding-top:18px;}
+}
+
+.format {cursor:pointer; width:90px; border:none; background-color: transparent; font-family: Tahoma,Geneva,sans-serif; font-size: 11px; font-weight: bold; background:url(/images/b_arrow.png) 0 0px no-repeat;}
+@-moz-document url-prefix()
+{
+/*    .format {
+        background:url(/images/b_arrow.png) 0 3px no-repeat;
+    }*/
+}
+
+#lang .active {font-weight: bold; color: #FFFFFF !important;}
+ul.photo {
+    list-style:none;
+}
+.photo li{display: inline-block;}

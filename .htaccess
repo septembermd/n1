@@ -1,0 +1,20 @@
+AddDefaultCharset utf-8
+
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# If a directory or a file exists, use it directly.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+
+# Otherwise forward it to index.php.
+RewriteRule . index.php
+
+ErrorDocument 404 /protected/views/layouts/404.php
+
+
+
+
