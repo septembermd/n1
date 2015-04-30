@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends BackendController
+class SuperuserController extends BackendController
 {
     public $sidebar_tab = "account_manager";
 	/**
@@ -20,10 +20,10 @@ class UserController extends BackendController
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new Superuser;
 
-		if(isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
+		if(isset($_POST['Superuser'])) {
+            $model->attributes = $_POST['Superuser'];
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
@@ -45,9 +45,9 @@ class UserController extends BackendController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['Superuser']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['Superuser'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -84,10 +84,10 @@ class UserController extends BackendController
 	 */
 	public function actionAdmin()
 	{
-		$model=new User('search');
+		$model=new Superuser('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['Superuser']))
+			$model->attributes=$_GET['Superuser'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -101,7 +101,7 @@ class UserController extends BackendController
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk($id);
+		$model=Superuser::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -122,12 +122,12 @@ class UserController extends BackendController
 
     public function actionUpdatePassword($id){
 
-        $model = User::model()->findByPk($id);
+        $model = Superuser::model()->findByPk($id);
         $model->scenario = 'updatepassword';
         $model->password = '';
 
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
+        if (isset($_POST['Superuser'])) {
+            $model->attributes = $_POST['Superuser'];
             if ($model->validate()) {
 
                 // Generating Password

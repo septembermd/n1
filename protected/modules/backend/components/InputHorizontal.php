@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by Idol IT.
+ * .
  * Date: 10/4/12
  * Time: 4:58 PM
  */

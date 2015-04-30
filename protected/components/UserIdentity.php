@@ -9,13 +9,13 @@
 class UserIdentity extends CUserIdentity
 {
     public $_id;
-    public $username;
-    public $_username;
-    public $_name;
+    public $email;
+    public $_email;
+    public $_fullname;
 
     /**
      * Authenticates a user.
-     * The example implementation makes sure if the username and password
+     * The example implementation makes sure if the email and password
      * are both 'demo'.
      * In practical applications, this should be changed to authenticate
      * against some persistent user identity storage (e.g. database).
@@ -23,7 +23,7 @@ class UserIdentity extends CUserIdentity
      */
     public function authenticate()
     {
-        $user = User::model()->find('LOWER(username)=?', array(strtolower($this->username)));
+        $user = User::model()->find('LOWER(email)=?', array(strtolower($this->email)));
         if ($user === null)
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         else if (!$user->validatePassword($this->password))
@@ -31,10 +31,8 @@ class UserIdentity extends CUserIdentity
         else
         {
             $this->_id = $user->id;
-            $this->_name = $user->name;
-            $this->_username = $user->username;
-            $this->setState('surname', $user->surname);
-            $this->setState('is_staff', $user->is_staff);
+            $this->_fullname = $user->fullname;
+            $this->_email = $user->email;            
             $this->errorCode = self::ERROR_NONE;
             Yii::app()->user->setFlash('success', "You have sucessfully logged in!");
         }
@@ -49,11 +47,11 @@ class UserIdentity extends CUserIdentity
 
     public function getName()
     {
-        return $this->_name;
+        return $this->_email;
     }
 
-    public function getUsername()
+    public function getUserfullname()
     {
-        return $this->_username;
+        return $this->_fullname;
     }
 }
