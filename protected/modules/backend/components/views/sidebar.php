@@ -14,23 +14,6 @@
                 <div class="sidebar_inner">
                     <br><br>
                     <div id="side_accordion" class="accordion">
-
-<!--                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a href="#collapseSix" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
-                                    <i class="icon-shopping-cart"></i> Магазин
-                                </a>
-                            </div>
-                            <div class="accordion-body collapse<?php /*if($c=="store") echo " in"; */?>" id="collapseSix">
-                                <div class="accordion-inner">
-                                    <ul class="nav nav-list">
-                                        <li><a href="<?php /*echo Yii::app()->createUrl("backend/Order/admin");*/?>">Управление заказами</a></li>
-                                        <li><a href="<?php /*echo Yii::app()->createUrl("backend/product/admin");*/?>">Управление товарами</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>-->
-
                         <div class="accordion-group">
                             <div class="accordion-heading">
                                 <a href="#collapseOne" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
@@ -40,16 +23,7 @@
                             <div class="accordion-body collapse<?php if($c=="content") echo " in"; ?>" id="collapseOne">
                                 <div class="accordion-inner">
                                     <ul class="nav nav-list">
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/company/admin");?>">О компании</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/service/admin");?>">Услуги</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/qualily/admin");?>">Качество</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/benefits/admin");?>">Выгоды</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/news/admin");?>">Новости</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/partners/admin");?>">Партнеры</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/contacts/admin");?>">Контакты</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/contactpeople/admin");?>">Контактные данные</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/reviews/admin");?>">Отзывы</a></li>
-                                        <li><a href="<?php echo Yii::app()->createUrl("backend/servicepanel/admin");?>">Сервис панель</a></li>
+                                        <li><a href="<?php echo Yii::app()->createUrl("backend/servicepanel/admin");?>"></a></li>
                                     </ul>
                                 </div>
                             </div>

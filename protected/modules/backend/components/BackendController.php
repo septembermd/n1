@@ -23,7 +23,7 @@ class BackendController extends Controller {
       } else {
         $user->flash_messages = false;
         $user->last_login = new CDbExpression('NOW()');
-        //$user->save();
+        $user->save();
       }
     }
 
