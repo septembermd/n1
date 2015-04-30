@@ -83,7 +83,7 @@ class BackendLoginForm extends CFormModel
 
     public function isStaffAndNotSuspended()
     {
-        if ($user = User::model()->find('LOWER(username)=?', array($this->username))) {
+        if ($user = Superuser::model()->find('LOWER(username)=?', array($this->username))) {
 
             if (!$user->is_staff) {
                 $this->addError('password', 'Incorrect username or password.');
