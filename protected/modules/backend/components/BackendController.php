@@ -75,7 +75,7 @@ class BackendController extends Controller {
           'viewall',
           'excel'
         ),
-        'expression' => 'isset(Yii::app()->user->id) && User::model()->findByPk(Yii::app()->user->id)->is_staff',
+        'expression' => 'isset(Yii::app()->user->id) && Superuser::model()->findByPk(Yii::app()->user->id)->is_staff',
       ),
       array('deny', // deny all users
         'users' => array('*'),
