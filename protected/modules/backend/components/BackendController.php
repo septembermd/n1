@@ -12,19 +12,6 @@ class BackendController extends Controller {
 
   public function init() {
     
-    if (!Yii::app()->user->isGuest) {
-      $user = Superuser::model()->findByPk(Yii::app()->user->id);
-
-      
-      if (!$user->is_active) {
-        Yii::app()->user->logout();
-      } else {
-        $user->flash_messages = false;
-        $user->last_login = new CDbExpression('NOW()');
-        $user->save();
-      }
-    }
-    
     parent::init();
 
     if (!empty($this->sidebar_tab))
