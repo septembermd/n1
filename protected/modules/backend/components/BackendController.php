@@ -12,7 +12,7 @@ class BackendController extends Controller {
 
   public function init() {
     
-    /*if (!Yii::app()->user->isGuest) {
+    if (!Yii::app()->user->isGuest) {
       $user = Superuser::model()->findByPk(Yii::app()->user->id);
 
       
@@ -23,7 +23,7 @@ class BackendController extends Controller {
         $user->last_login = new CDbExpression('NOW()');
         $user->save();
       }
-    }*/
+    }
     
     parent::init();
 
