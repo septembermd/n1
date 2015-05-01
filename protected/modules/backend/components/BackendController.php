@@ -24,6 +24,8 @@ class BackendController extends Controller {
         $user->save();
       }
     }*/
+    
+    parent::init();
 
     if (!empty($this->sidebar_tab))
       Yii::app()->session["sidebar_tab"] = $this->sidebar_tab;
