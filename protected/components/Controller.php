@@ -28,12 +28,10 @@ class Controller extends CController
 
     public function init()
     {
-        if (!Yii::app()->user->isGuest) {
+        /*if (!Yii::app()->user->isGuest) {
             $user = User::model()->findByPk(Yii::app()->user->id);
 
-            /**
-             * Disconnect user if is not active
-             */
+           
             if (!$user->is_active) {
                 Yii::app()->user->logout();
             } else {
@@ -41,7 +39,7 @@ class Controller extends CController
                 $user->last_login = new CDbExpression('NOW()');
                 //$user->save();
             }
-        }
+        }*/
 
     }
 
