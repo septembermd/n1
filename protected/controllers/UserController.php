@@ -2,9 +2,50 @@
 
 class UserController extends Controller
 {
-    public $password_repeat;
+	/**
+	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+	 * using two-column layout. See 'protected/views/layouts/column2.php'.
+	 */
+//	public $layout='//layouts/column2';
 
-     /**
+	/**
+	 * @return array action filters
+	 */
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+			'postOnly + delete', // we only allow deletion via POST request
+		);
+	}
+
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
+				'users'=>array('@'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
+
+	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
@@ -21,20 +62,21 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new User('create');
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['User']))
 		{
-            $post = $_POST['User'];
-
-            $post['is_staff'] = 0;
-
-			$model->attributes=$post;
-            if($model->type=="1"){
-                $model->scenario = "scenario1";
+			$model->attributes=$_POST['User'];
+            $model->created = date('Y-m-d H:i:s');
+            if($model->validate()) {
+                $model->setPassword($model->password);
+                if($model->save()) {
+                    $this->redirect(array('view', 'id' => $model->id));
+                }
             }
-			if($model->save())
-				$this->redirect(array('/site/index','id'=>$model->id));
 		}
 
 		$this->render('create',array(
@@ -57,8 +99,15 @@ class UserController extends Controller
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+            if($model->validate()) {
+                if(!empty($model->new_password)) {
+                    $model->setPassword($model->new_password);
+                }
+                $model->setScenario('update');
+                if($model->save()) {
+                    $this->redirect(array('view','id'=>$model->id));
+                }
+            }
 		}
 
 		$this->render('update',array(
@@ -133,36 +182,4 @@ class UserController extends Controller
 			Yii::app()->end();
 		}
 	}
-
-    public function actionUpdatePassword2()
-    {
-        $this->layout = '//layouts/mainlogin';
-
-        $a = Yii::app()->session['pass'][Yii::app()->session['passver']];
-        $model=User::model()->findByPk($a);
-
-        //Yii::app()->session["passver"] = "test";
-
-        $model->scenario = 'updatepassword';
-        $model->password = '';
-
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
-            if ($model->validate()) {
-
-                // Generating Password
-                $salt = $model->generateSalt();
-                $password = $model->hashPassword($model->password, $salt);
-
-                if($model->save()){
-                    $model->password = $password;
-                    $model->salt = $salt;
-                    $model->update();
-                    $this->redirect(array('site/login'));
-                }
-            }
-        }
-
-        $this->render("update_password2",array("model"=>$model));
-    }
 }

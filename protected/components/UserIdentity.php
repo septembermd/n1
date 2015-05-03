@@ -13,6 +13,12 @@ class UserIdentity extends CUserIdentity
     public $_email;
     public $_fullname;
 
+    public function __construct($username, $password)
+    {
+        $this->email = $username;
+        $this->password = $password;
+    }
+
     /**
      * Authenticates a user.
      * The example implementation makes sure if the email and password
@@ -26,8 +32,9 @@ class UserIdentity extends CUserIdentity
         $user = User::model()->find('LOWER(email)=?', array(strtolower($this->email)));
         if ($user === null)
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        else if (!$user->validatePassword($this->password))
+        else if (!$user->validatePassword($this->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        }
         else
         {
             $this->_id = $user->id;

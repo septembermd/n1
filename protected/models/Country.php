@@ -1,33 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "company".
+ * This is the model class for table "country".
  *
- * The followings are the available columns in table 'company':
+ * The followings are the available columns in table 'country':
  * @property string $id
  * @property string $title
  *
  * The followings are the available model relations:
- * @property User[] $users
+ * @property SupplierAddresses[] $supplierAddresses
  */
-class Company extends ActiveRecord
+class Country extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Company the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'company';
+		return 'country';
 	}
 
 	/**
@@ -41,7 +31,7 @@ class Company extends ActiveRecord
 			array('title', 'required'),
 			array('title', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
+			// @todo Please remove those attributes that should not be searched.
 			array('id, title', 'safe', 'on'=>'search'),
 		);
 	}
@@ -54,7 +44,7 @@ class Company extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'users' => array(self::HAS_MANY, 'User', 'company_id'),
+			'supplierAddresses' => array(self::HAS_MANY, 'SupplierAddresses', 'country_id'),
 		);
 	}
 
@@ -71,12 +61,19 @@ class Company extends ActiveRecord
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -88,8 +85,14 @@ class Company extends ActiveRecord
 		));
 	}
 
-    public static function getList()
-    {
-        return CHtml::listData(self::model()->findAll(),'id','title');
-    }
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Country the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 }

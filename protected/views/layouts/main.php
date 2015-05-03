@@ -14,14 +14,13 @@
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/static/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/static/css/bootstrap-theme.min.css" />
     
-    <script type="text/javascript" src="<?php echo Yii::app()->baseUrl; ?>/static/js/jquery-1.7.2.min.js"></script>
+    <script src="<?php echo Yii::app()->baseUrl; ?>/static/js/jquery-1.7.2.min.js"></script>
     
-    <script type="text/javascript" src="<?php echo Yii::app()->baseUrl; ?>/static/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="<?php echo Yii::app()->baseUrl; ?>/static/js/scripts.js"></script>
+    <script src="<?php echo Yii::app()->baseUrl; ?>/static/js/jquery-ui.min.js"></script>
+    <script src="<?php echo Yii::app()->baseUrl; ?>/static/js/scripts.js"></script>
     
     <!-- END head -->
     <?php
-        //Yii::app()->bootstrap->register();
         Yii::app()->clientScript->scriptMap=array(
             'jquery.js'=>false,
             'jquery.min.js'=>false,
@@ -31,6 +30,28 @@
 </head>
 <!-- BEGIN body -->
 <body>
+    <header class="navbar navbar-static-top">
+        <div class="container">
+            <nav class="navbar-collapse bs-navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">Nr.1</a>
+                    </li>
+                    <li><?php echo CHtml::link(Yii::t('main', 'Пользователи'), array('user/index'));?></li>
+                    <li><?php echo CHtml::link(Yii::t('main', 'Наряды'), array(''));?></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                    <?php if(Yii::app()->user->isGuest): ?>
+                        <?php echo CHtml::link(Yii::t('main', 'Войти'), array('site/login')) ?>
+                    <?php else: ?>
+                        <?php echo CHtml::link(Yii::t('main', 'Выйти'), array('site/logout')) ?>
+                    <?php endif ?>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
   
   <div class="container">
     <div class="row">
@@ -39,6 +60,15 @@
       </div>
     </div>
   </div>
+
+<footer style="position:absolute; bottom: 0; left: 0; width: 100%;">
+    <div class="container">
+        <div class="copyright">
+            <a href="#" class="pull-left">Developed by Cybtronix</a>
+            <span class="pull-right">Nr.1 &copy; 2015</span>
+        </div>
+    </div>
+</footer>
 
 </body>
 <!-- END html -->

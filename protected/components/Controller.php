@@ -49,4 +49,14 @@ class Controller extends CController
             $this->_assetsUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('webroot.static'), false, -1, true);
         return $this->_assetsUrl;
     }
+
+    public function redirectToHomePage()
+    {
+        $this->redirect(Yii::app()->homeUrl);
+    }
+
+    public function redirectToLoginPage()
+    {
+        $this->redirect(array('site/login'));
+    }
 }

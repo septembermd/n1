@@ -2,6 +2,37 @@
 
 class SiteController extends Controller
 {
+    public function filters()
+    {
+        return array('accessControl');
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array(
+                'deny',
+                'actions' => array(
+                    'login',
+                    'accessRequest',
+                    'accessRestoreRequest'
+                ),
+                'users' => array('@'),
+                'deniedCallback' => array($this, 'redirectToHomePage')
+            ),
+
+            array(
+                'deny',
+                'actions' => array(
+                    'index',
+                    'logout'
+                ),
+                'users' => array('?'),
+                'deniedCallback' => array($this, 'redirectToLoginPage')
+            )
+        );
+    }
+
 	/**
 	 * Declares class-based actions.
 	 */
@@ -91,8 +122,9 @@ class SiteController extends Controller
 		{
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+			if($model->validate() && $model->login()) {
+                $this->redirect(Yii::app()->user->returnUrl);
+            }
 		}
 		// display the login form
 		$this->render('login',array('model'=>$model));
@@ -104,6 +136,22 @@ class SiteController extends Controller
 	public function actionLogout()
 	{
 		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+		$this->redirectToLoginPage();
 	}
+
+    /**
+     * Request access page
+     */
+    public function actionAccessRequest()
+    {
+        $this->render('accessRequest');
+    }
+
+    /**
+     * Restore access request page
+     */
+    public function actionAccessRestoreRequest()
+    {
+        $this->render('accessRestoreRequest');
+    }
 }

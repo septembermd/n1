@@ -23,6 +23,29 @@
  */
 class User extends ActiveRecord
 {
+    const STATE_INACTIVE = 0;
+    const STATE_ACTIVE = 1;
+
+    public $new_password;
+
+    public static $userStateList = array(
+        self::STATE_ACTIVE => 'Active',
+        self::STATE_INACTIVE => 'Inactive'
+    );
+
+    /**
+     * @param $state
+     * @return bool
+     */
+    public static function getUserStateLabel($state)
+    {
+        if(isset(self::$userStateList[$state])) {
+            return self::$userStateList[$state];
+        }
+
+        return false;
+    }
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -49,15 +72,21 @@ class User extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('company_id, fullname, email, phone, role_id, created', 'required'),
+			array('company_id, fullname, email, password, phone, role_id, created', 'required', 'on'=>'create'),
+			array('company_id, fullname, email, phone, role_id, created', 'required', 'on'=>'update'),
+			array('email', 'email'),
+            array('email', 'filter', 'filter'=>'trim'),
+            array('email', 'unique'),
 			array('role_id', 'numerical', 'integerOnly'=>true),
 			array('company_id', 'length', 'max'=>5),
 			array('fullname, email', 'length', 'max'=>100),
 			array('phone', 'length', 'max'=>20),
-			array('password, salt', 'length', 'max'=>255),
+			array('password, new_password, salt', 'length', 'max'=>255),
+			array('password, new_password', 'length', 'min'=>6),
 			array('is_active', 'length', 'max'=>1),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
+			array('password', 'safe', 'on'=>'update'),
 			array('id, company_id, fullname, email, phone, password, salt, role_id, created, is_active', 'safe', 'on'=>'search'),
 		);
 	}
@@ -122,4 +151,26 @@ class User extends ActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * Validate user password
+     *
+     * @param $password
+     * @return bool
+     */
+    public function validatePassword($password)
+    {
+        return CPasswordHelper::verifyPassword($password, $this->password);
+    }
+
+    public function isActive()
+    {
+        return self::STATE_ACTIVE == $this->is_active;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = CPasswordHelper::hashPassword($password);
+        $this->salt = CPasswordHelper::generateSalt();
+    }
 }
