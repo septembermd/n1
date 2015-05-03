@@ -6,18 +6,19 @@
 ?>
 <?php
 echo "<?php\n";
-$label=$this->pluralize($this->class2name($this->modelClass));
+$label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
-	'$label'=>array('admin'),
+	'$label'=>array('index'),
 	'Create',
 );\n";
 ?>
 
 $this->menu=array(
-	array('label'=>'Manage <?php echo $this->modelClass; ?>','url'=>array('admin')),
+array('label'=>'List <?php echo $this->modelClass; ?>','url'=>array('index')),
+array('label'=>'Manage <?php echo $this->modelClass; ?>','url'=>array('admin')),
 );
 ?>
 
-<legend>Create <?php echo $this->modelClass; ?></legend>
+<h1>Create <?php echo $this->modelClass; ?></h1>
 
 <?php echo "<?php echo \$this->renderPartial('_form', array('model'=>\$model)); ?>"; ?>

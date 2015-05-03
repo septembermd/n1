@@ -1,73 +1,69 @@
 <?php
 /**
- * TbLabel class file.
+ *## TbLabel class file.
+ *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright  Copyright &copy; Christoffer Niska 2011-
- * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @package bootstrap.widgets
+ * @license [New BSD License](http://www.opensource.org/licenses/bsd-license.php)
  */
-
+Yii::import('booster.widgets.TbWidget');
 /**
- * Bootstrap label widget.
- * @see http://twitter.github.com/bootstrap/components.html#labels
+ *## Bootstrap label widget.
+ *
+ * @see <http://twitter.github.com/bootstrap/components.html#labels>
+ *
+ * @package booster.widgets.decoration
  */
-class TbLabel extends CWidget
-{
-	// Label types.
-	const TYPE_SUCCESS = 'success';
-	const TYPE_WARNING = 'warning';
-	const TYPE_IMPORTANT = 'important';
-	const TYPE_INFO = 'info';
-	const TYPE_INVERSE = 'inverse';
+class TbLabel extends TbWidget {
 
-	/**
-	 * @var string the label type.
-	 * Valid types are 'success', 'warning', 'important', 'info' and 'inverse'.
-	 */
-	public $type;
 	/**
 	 * @var string the label text.
 	 */
 	public $label;
+
 	/**
 	 * @var boolean whether to encode the label.
 	 */
 	public $encodeLabel = true;
+
 	/**
 	 * @var array the HTML attributes for the widget container.
 	 */
 	public $htmlOptions = array();
 
 	/**
-	 * Initializes the widget.
+	 *### .init()
+	 *
+     * At the start of widget we collect the attributes for badge tag.
 	 */
-	public function init()
-	{
+	public function init() {
+		
 		$classes = array('label');
 
-		$validTypes = array(self::TYPE_SUCCESS, self::TYPE_WARNING, self::TYPE_IMPORTANT, self::TYPE_INFO, self::TYPE_INVERSE);
+		if($this->isValidContext())
+			$classes[] = 'label-' . $this->getContextClass();
 
-		if (isset($this->type) && in_array($this->type, $validTypes))
-			$classes[] = 'label-'.$this->type;
-
-		if (!empty($classes))
-		{
+		if (!empty($classes)) {
 			$classes = implode(' ', $classes);
-			if (isset($this->htmlOptions['class']))
-				$this->htmlOptions['class'] .= ' '.$classes;
-			else
+			if (isset($this->htmlOptions['class'])) {
+				$this->htmlOptions['class'] .= ' ' . $classes;
+			} else {
 				$this->htmlOptions['class'] = $classes;
+			}
 		}
 
-		if ($this->encodeLabel === true)
+		if ($this->encodeLabel === true) {
 			$this->label = CHtml::encode($this->label);
+		}
 	}
 
 	/**
-	 * Runs the widget.
+	 *### .run()
+	 *
+     * Upon completing the badge we write the span tag with collected attributes to document.
 	 */
-	public function run()
-	{
+	public function run() {
+		
 		echo CHtml::tag('span', $this->htmlOptions, $this->label);
 	}
 }
