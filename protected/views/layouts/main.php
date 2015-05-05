@@ -38,7 +38,7 @@
                         <a href="#">Nr.1</a>
                     </li>
                     <li><?php echo CHtml::link(Yii::t('main', 'Пользователи'), array('user/index'));?></li>
-                    <li><?php echo CHtml::link(Yii::t('main', 'Наряды'), array(''));?></li>
+                    <li><?php echo CHtml::link(Yii::t('main', 'Наряды'), array('order/index'));?></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-<footer style="position:absolute; bottom: 0; left: 0; width: 100%;">
+<footer>
     <div class="container">
         <div class="copyright">
             <a href="#" class="pull-left">Developed by Cybtronix</a>

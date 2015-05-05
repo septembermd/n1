@@ -6,40 +6,53 @@
  * The followings are the available columns in table 'order':
  * @property string $id
  * @property string $creator_id
- * @property string $item_id
  * @property integer $currency_id
- * @property integer $status_id
- * @property integer $temperature_id
+ * @property string $status_id
  * @property string $supplier_id
  * @property string $loading_id
  * @property string $delivery_id
- * @property string $created
- * @property string $due_date
+ * @property integer $temperature_id
  * @property integer $remark_id
+ * @property string $valid_date
+ * @property string $load_date
+ * @property string $deliver_date
+ * @property string $loaded_on_date
+ * @property string $delivered_on_date
+ * @property string $deleted_on_date
  * @property string $is_deleted
+ * @property string $created
  *
  * The followings are the available model relations:
- * @property Currency $currency
- * @property OrderStatus $status
- * @property Temperature $temperature
  * @property Supplier $supplier
  * @property Remark $remark
  * @property SupplierAddresses $loading
  * @property DeliveryAddress $delivery
- * @property OrderItems $item
+ * @property Temperature $temperature
+ * @property Currency $currency
  * @property OrderBids[] $orderBids
+ * @property OrderItems[] $orderItems
  */
-class Order extends ActiveRecord
+class Order extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Order the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    const STATUS_HAULER_NEEDED = 1;
+    const STATUS_IN_TRANSIT = 2;
+    const STATUS_DELIVERED = 3;
+    const STATUS_WITHDRAWN = 4;
+
+    public static $statusMap = array(
+        self::STATUS_HAULER_NEEDED => "Hauler needed",
+        self::STATUS_IN_TRANSIT => "In transit",
+        self::STATUS_DELIVERED => "Delivered",
+        self::STATUS_WITHDRAWN => "Withdrawn"
+    );
+
+    public static function getStatusLabel($status) {
+        if(isset(self::$statusMap[$status])) {
+            return self::$statusMap[$status];
+        }
+
+        return false;
+    }
 
 	/**
 	 * @return string the associated database table name
@@ -49,6 +62,18 @@ class Order extends ActiveRecord
 		return 'order';
 	}
 
+    /**
+     * Model behaviors
+     * @return array
+     */
+    public function behaviors(){
+        return array(
+            'ESaveRelatedBehavior' => array(
+                'class' => 'application.components.ESaveRelatedBehavior'
+            )
+        );
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -57,13 +82,14 @@ class Order extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('creator_id, item_id, currency_id, status_id, temperature_id, supplier_id, loading_id, delivery_id, created, due_date, remark_id', 'required'),
-			array('currency_id, status_id, temperature_id, remark_id', 'numerical', 'integerOnly'=>true),
-			array('creator_id, item_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9),
-			array('is_deleted', 'length', 'max'=>1),
+			array('creator_id, currency_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required'),
+			array('currency_id, temperature_id, remark_id', 'numerical', 'integerOnly'=>true),
+			array('creator_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9),
+			array('status_id, is_deleted', 'length', 'max'=>1),
+			array('created, remark_id, supplier_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, creator_id, item_id, currency_id, status_id, temperature_id, supplier_id, loading_id, delivery_id, created, due_date, remark_id, is_deleted', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('id, creator_id, currency_id, status_id, supplier_id, loading_id, delivery_id, temperature_id, remark_id, valid_date, load_date, deliver_date, loaded_on_date, delivered_on_date, deleted_on_date, is_deleted, created', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,15 +101,15 @@ class Order extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'currency' => array(self::BELONGS_TO, 'Currency', 'currency_id'),
-			'status' => array(self::BELONGS_TO, 'OrderStatus', 'status_id'),
-			'temperature' => array(self::BELONGS_TO, 'Temperature', 'temperature_id'),
+			'creator' => array(self::BELONGS_TO, 'User', 'creator_id'),
 			'supplier' => array(self::BELONGS_TO, 'Supplier', 'supplier_id'),
 			'remark' => array(self::BELONGS_TO, 'Remark', 'remark_id'),
 			'loading' => array(self::BELONGS_TO, 'SupplierAddresses', 'loading_id'),
 			'delivery' => array(self::BELONGS_TO, 'DeliveryAddress', 'delivery_id'),
-			'item' => array(self::BELONGS_TO, 'OrderItems', 'item_id'),
+			'temperature' => array(self::BELONGS_TO, 'Temperature', 'temperature_id'),
+			'currency' => array(self::BELONGS_TO, 'Currency', 'currency_id'),
 			'orderBids' => array(self::HAS_MANY, 'OrderBids', 'order_id'),
+			'orderItems' => array(self::HAS_MANY, 'OrderItems', 'order_id'),
 		);
 	}
 
@@ -95,47 +121,73 @@ class Order extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'creator_id' => 'Creator',
-			'item_id' => 'Item',
 			'currency_id' => 'Currency',
 			'status_id' => 'Status',
-			'temperature_id' => 'Temperature',
 			'supplier_id' => 'Supplier',
 			'loading_id' => 'Loading',
 			'delivery_id' => 'Delivery',
-			'created' => 'Created',
-			'due_date' => 'Due Date',
+			'temperature_id' => 'Temperature',
 			'remark_id' => 'Remark',
+			'valid_date' => 'Valid Date',
+			'load_date' => 'Load Date',
+			'deliver_date' => 'Deliver Date',
+			'loaded_on_date' => 'Loaded On Date',
+			'delivered_on_date' => 'Delivered On Date',
+			'deleted_on_date' => 'Deleted On Date',
 			'is_deleted' => 'Is Deleted',
+			'created' => 'Created',
 		);
 	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('creator_id',$this->creator_id,true);
-		$criteria->compare('item_id',$this->item_id,true);
 		$criteria->compare('currency_id',$this->currency_id);
-		$criteria->compare('status_id',$this->status_id);
-		$criteria->compare('temperature_id',$this->temperature_id);
+		$criteria->compare('status_id',$this->status_id,true);
 		$criteria->compare('supplier_id',$this->supplier_id,true);
 		$criteria->compare('loading_id',$this->loading_id,true);
 		$criteria->compare('delivery_id',$this->delivery_id,true);
-		$criteria->compare('created',$this->created,true);
-		$criteria->compare('due_date',$this->due_date,true);
+		$criteria->compare('temperature_id',$this->temperature_id);
 		$criteria->compare('remark_id',$this->remark_id);
+		$criteria->compare('valid_date',$this->valid_date,true);
+		$criteria->compare('load_date',$this->load_date,true);
+		$criteria->compare('deliver_date',$this->deliver_date,true);
+		$criteria->compare('loaded_on_date',$this->loaded_on_date,true);
+		$criteria->compare('delivered_on_date',$this->delivered_on_date,true);
+		$criteria->compare('deleted_on_date',$this->deleted_on_date,true);
 		$criteria->compare('is_deleted',$this->is_deleted,true);
+		$criteria->compare('created',$this->created,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Order the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
 	}
 }

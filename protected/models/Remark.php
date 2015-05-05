@@ -87,4 +87,9 @@ class Remark extends ActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public static function getList()
+    {
+        return CHtml::listData(self::model()->findAll(),'id','title');
+    }
 }

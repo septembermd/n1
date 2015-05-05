@@ -101,6 +101,7 @@ class User extends ActiveRecord
 		return array(
 			'orderBids' => array(self::HAS_MANY, 'OrderBids', 'user_id'),
 			'statusChanges' => array(self::HAS_MANY, 'StatusChanges', 'user_id'),
+			'orders' => array(self::HAS_MANY, 'Orders', 'creator_id'),
 			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
 			'role' => array(self::BELONGS_TO, 'Role', 'role_id'),
 		);

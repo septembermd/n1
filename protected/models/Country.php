@@ -95,4 +95,9 @@ class Country extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function getList()
+    {
+        return CHtml::listData(self::model()->findAll(),'id','title');
+    }
 }

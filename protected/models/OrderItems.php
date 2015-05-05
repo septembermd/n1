@@ -5,24 +5,15 @@
  *
  * The followings are the available columns in table 'order_items':
  * @property string $id
+ * @property string $order_id
  * @property string $type
  * @property string $amount
  *
  * The followings are the available model relations:
- * @property Order[] $orders
+ * @property Order $order
  */
-class OrderItems extends ActiveRecord
+class OrderItems extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return OrderItems the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -39,12 +30,13 @@ class OrderItems extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, amount', 'required'),
+			array('order_id, type, amount', 'required'),
+			array('order_id', 'length', 'max'=>9),
 			array('type', 'length', 'max'=>150),
 			array('amount', 'length', 'max'=>20),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, type, amount', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('id, order_id, type, amount', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +48,7 @@ class OrderItems extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'orders' => array(self::HAS_MANY, 'Order', 'item_id'),
+			'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
 		);
 	}
 
@@ -67,6 +59,7 @@ class OrderItems extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'order_id' => 'Order',
 			'type' => 'Type',
 			'amount' => 'Amount',
 		);
@@ -74,21 +67,40 @@ class OrderItems extends ActiveRecord
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
+		$criteria->compare('order_id',$this->order_id,true);
 		$criteria->compare('type',$this->type,true);
 		$criteria->compare('amount',$this->amount,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return OrderItems the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
 	}
 }

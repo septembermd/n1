@@ -54,7 +54,7 @@ class Temperature extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'orders' => array(self::HAS_MANY, 'Order', 'temperature_id'),
+			'orders' => array(self::MANY_MANY, 'Order', 'order_temperature(order_id,temperature_id)'),
 		);
 	}
 
@@ -87,4 +87,9 @@ class Temperature extends ActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public static function getList()
+    {
+        return CHtml::listData(self::model()->findAll(),'id','title');
+    }
 }
