@@ -11,19 +11,16 @@ $this->menu=array(
 
 <?php
 $statusNavigationItems = array();
-$statusNavigationItems[] = array(
-    'label' => 'All',
-    'url' => array('order/index', 'status'=>0)
-);
 foreach(Order::$statusMap as $statusId => $label) {
     $statusNavigationItems[] = array(
         'label' => $label,
-        'url' => array('order/index', 'status' => $statusId)
+        'url' => array('order/index', 'status' => $statusId),
+        'active' => $isDeleted ? false : ($currentStatus === $statusId)
     );
 }
 $statusNavigationItems[] = array(
     'label' => 'Deleted',
-    'url' => array('order/index', 'deleted'=>1)
+    'url' => array('order/index', 'deleted'=>Order::IS_DELETED)
 );
 
 echo CHtml::link(Yii::t('main', 'New Order'), array('order/create'), array('class'=>'btn btn-primary pull-right'));
@@ -32,7 +29,7 @@ $this->widget(
     'booster.widgets.TbMenu',
     array(
         'type' => 'pills',
-        'items' => $statusNavigationItems
+        'items' => $statusNavigationItems,
     )
 );
 ?>

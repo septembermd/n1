@@ -39,6 +39,9 @@ class Order extends CActiveRecord
     const STATUS_DELIVERED = 3;
     const STATUS_WITHDRAWN = 4;
 
+    const IS_ACTIVE = 0;
+    const IS_DELETED = 1;
+
     public static $statusMap = array(
         self::STATUS_HAULER_NEEDED => "Hauler needed",
         self::STATUS_IN_TRANSIT => "In transit",

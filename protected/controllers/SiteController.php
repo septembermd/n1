@@ -11,25 +11,29 @@ class SiteController extends Controller
     {
         return array(
             array(
-                'deny',
+                'allow',
                 'actions' => array(
                     'login',
                     'accessRequest',
                     'accessRestoreRequest'
                 ),
-                'users' => array('@'),
+                'users' => array('?'),
                 'deniedCallback' => array($this, 'redirectToHomePage')
             ),
 
             array(
-                'deny',
+                'allow',
                 'actions' => array(
                     'index',
                     'logout'
                 ),
-                'users' => array('?'),
+                'users' => array('@'),
                 'deniedCallback' => array($this, 'redirectToLoginPage')
-            )
+            ),
+
+            array('deny',  // deny all users
+                'users' => array('*'),
+            ),
         );
     }
 

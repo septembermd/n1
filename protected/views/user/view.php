@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Users'=>array('index'),
-	$model->id,
+	sprintf("%s (%s)", $model->fullname, $model->role->title),
 );
 
 $this->menu=array(

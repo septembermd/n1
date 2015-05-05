@@ -130,21 +130,24 @@ class OrderController extends Controller
      * Lists all models.
      *
      * @param int $status
-     * @param int $deleted
+     * @param int $isDeleted
      */
-    public function actionIndex($status = 0, $deleted = 0)
+    public function actionIndex($status = Order::STATUS_HAULER_NEEDED, $deleted = Order::IS_ACTIVE)
     {
         $status = intval($status);
-        $deleted = intval($deleted);
+        $isDeleted = $deleted == Order::IS_DELETED;
 
         $criteria = new CDbCriteria();
-        $criteria->compare('is_deleted', $deleted);
-        if($status) {
+        if($isDeleted) {
+            $criteria->compare('is_deleted', Order::IS_DELETED);
+        } elseif($status) {
             $criteria->compare('status_id', $status);
         }
         $dataProvider = new CActiveDataProvider('Order', array('criteria' => $criteria));
         $this->render('index', array(
             'dataProvider' => $dataProvider,
+            'currentStatus' => $status,
+            'isDeleted' => $isDeleted
         ));
     }
 

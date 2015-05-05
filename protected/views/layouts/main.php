@@ -32,36 +32,7 @@
 <body>
     <header class="navbar navbar-static-top">
         <div class="container">
-            <?php $this->widget(
-                'booster.widgets.TbNavbar',
-                array(
-                    'brand' => 'Nr.1',
-                    'fixed' => false,
-                    'fluid' => true,
-                    'items' => array(
-                        array(
-                            'class' => 'booster.widgets.TbMenu',
-                            'type' => 'navbar',
-                            'items' => array(
-                                array('label' => Yii::t('main', 'Пользователи'), 'url' => array('user/index')),
-                                array('label' => Yii::t('main', 'Наряды'), 'url' => array('order/index')),
-                            )
-                        ),
-                        array(
-                            'class' => 'booster.widgets.TbMenu',
-                            'type' => 'navbar',
-                            'htmlOptions' => array('class'=>'pull-right'),
-                            'items' => array(
-                                array(
-                                    'label' => Yii::t('main', Yii::app()->user->isGuest ? 'Войти' : 'Выйти'),
-                                    'url' => array(Yii::app()->user->isGuest ? 'site/login' : 'site/logout'),
-                                    'htmlOptions'=>array('class' => 'pull-right')
-                                )
-                            )
-                        )
-                    )
-                )
-            );?>
+            <?php $this->widget('MainMenuWidget'); ?>
         </div>
     </header>
   
