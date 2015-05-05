@@ -92,8 +92,8 @@ class OrderController extends Controller
     {
         $model = $this->loadModel($id);
 
-// Uncomment the following line if AJAX validation is needed
-// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
         if (isset($_POST['Order'])) {
             $model->attributes = $_POST['Order'];
@@ -116,10 +116,10 @@ class OrderController extends Controller
     public function actionDelete($id)
     {
         if (Yii::app()->request->isPostRequest) {
-// we only allow deletion via POST request
+            // we only allow deletion via POST request
             $this->loadModel($id)->delete();
 
-// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
                 $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
         } else
@@ -128,10 +128,21 @@ class OrderController extends Controller
 
     /**
      * Lists all models.
+     *
+     * @param int $status
+     * @param int $deleted
      */
-    public function actionIndex()
+    public function actionIndex($status = 0, $deleted = 0)
     {
-        $dataProvider = new CActiveDataProvider('Order');
+        $status = intval($status);
+        $deleted = intval($deleted);
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('is_deleted', $deleted);
+        if($status) {
+            $criteria->compare('status_id', $status);
+        }
+        $dataProvider = new CActiveDataProvider('Order', array('criteria' => $criteria));
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));

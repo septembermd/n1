@@ -32,28 +32,47 @@
 <body>
     <header class="navbar navbar-static-top">
         <div class="container">
-            <nav class="navbar-collapse bs-navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">Nr.1</a>
-                    </li>
-                    <li><?php echo CHtml::link(Yii::t('main', 'Пользователи'), array('user/index'));?></li>
-                    <li><?php echo CHtml::link(Yii::t('main', 'Наряды'), array('order/index'));?></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                    <?php if(Yii::app()->user->isGuest): ?>
-                        <?php echo CHtml::link(Yii::t('main', 'Войти'), array('site/login')) ?>
-                    <?php else: ?>
-                        <?php echo CHtml::link(Yii::t('main', 'Выйти'), array('site/logout')) ?>
-                    <?php endif ?>
-                    </li>
-                </ul>
-            </nav>
+            <?php $this->widget(
+                'booster.widgets.TbNavbar',
+                array(
+                    'brand' => 'Nr.1',
+                    'fixed' => false,
+                    'fluid' => true,
+                    'items' => array(
+                        array(
+                            'class' => 'booster.widgets.TbMenu',
+                            'type' => 'navbar',
+                            'items' => array(
+                                array('label' => Yii::t('main', 'Пользователи'), 'url' => array('user/index')),
+                                array('label' => Yii::t('main', 'Наряды'), 'url' => array('order/index')),
+                            )
+                        ),
+                        array(
+                            'class' => 'booster.widgets.TbMenu',
+                            'type' => 'navbar',
+                            'htmlOptions' => array('class'=>'pull-right'),
+                            'items' => array(
+                                array(
+                                    'label' => Yii::t('main', Yii::app()->user->isGuest ? 'Войти' : 'Выйти'),
+                                    'url' => array(Yii::app()->user->isGuest ? 'site/login' : 'site/logout'),
+                                    'htmlOptions'=>array('class' => 'pull-right')
+                                )
+                            )
+                        )
+                    )
+                )
+            );?>
         </div>
     </header>
   
   <div class="container">
+      <?php $this->widget(
+          'booster.widgets.TbBreadcrumbs',
+          array(
+              'homeLink' => 'Nr.1',
+              'links' => $this->breadcrumbs
+          )
+      ); ?>
     <div class="row">
       <div class="col-md-12">        
         <?php echo $content;?>
@@ -61,7 +80,7 @@
     </div>
   </div>
 
-<footer>
+<footer style="margin-top: 35px;">
     <div class="container">
         <div class="copyright">
             <a href="#" class="pull-left">Developed by Cybtronix</a>

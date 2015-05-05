@@ -190,4 +190,9 @@ class Order extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function getBidsCount()
+    {
+        return count($this->orderBids);
+    }
 }
