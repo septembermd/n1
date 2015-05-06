@@ -38,8 +38,7 @@ class AccessControlList {
      */
     public function canAccessUsers()
     {
-        if ($this->user->isAdmin())
-        {
+        if ($this->user->isAdmin()) {
             return true;
         }
 

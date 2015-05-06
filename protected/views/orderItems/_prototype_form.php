@@ -1,17 +1,17 @@
 <div class="orderItem">
     <div class="row">
         <div class="col-md-5">
-            <div class="form-group">
+            <div class="form-group <?php echo $model->hasErrors('type') ? 'has-error' : ''; ?>">
                 <?php echo CHtml::activeLabelEx($model, '[' . $index . ']type', array('class'=>'control-label')); ?>
                 <?php echo CHtml::activeTextField($model, '[' . $index . ']type', array('class'=>'span5 form-control', 'maxlength' => 150)); ?>
-                <?php echo CHtml::error($model, '[' . $index . ']type'); ?>
+                <?php echo CHtml::error($model, '[' . $index . ']type', array('class'=>'help-block error')); ?>
             </div>
         </div>
         <div class="col-md-5">
-            <div class="form-group">
+            <div class="form-group <?php echo $model->hasErrors('amount') ? 'has-error' : ''; ?>">
                 <?php echo CHtml::activeLabelEx($model, '[' . $index . ']amount', array('class'=>'control-label')); ?>
                 <?php echo CHtml::activeTextField($model, '[' . $index . ']amount', array('class'=>'span5 form-control', 'maxlength' => 150)); ?>
-                <?php echo CHtml::error($model, '[' . $index . ']amount'); ?>
+                <?php echo CHtml::error($model, '[' . $index . ']amount', array('class'=>'help-block error')); ?>
             </div>
         </div>
         <?php if($index > 0 || $index === '__proto_name__') : ?>

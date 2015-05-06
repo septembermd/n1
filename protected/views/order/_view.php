@@ -14,11 +14,11 @@
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('loading_id')); ?>:</b>
-            <?php echo CHtml::encode($data->loading->address); ?>
+            <?php echo CHtml::encode($data->loading->country->title); ?>, <?php echo CHtml::encode($data->loading->address); ?>
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('delivery_id')); ?>:</b>
-            <?php echo CHtml::encode($data->delivery->address); ?>
+            <?php echo CHtml::encode($data->delivery->country->title); ?>, <?php echo CHtml::encode($data->delivery->address); ?>
         </div>
         <div class="col-md-2">
             <b><?php echo Yii::t('main', 'Number of Bids'); ?>:</b>

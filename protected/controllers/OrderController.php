@@ -70,10 +70,8 @@ class OrderController extends Controller
             $model->attributes = $_POST['Order'];
             $model->setAttribute('creator_id', Yii::app()->user->getId());
             $model->orderItems = $_POST['OrderItems'];
-            if($model->validate()) {
-                if ($model->saveWithRelated('orderItems')) {
-                    $this->redirect(array('view', 'id' => $model->id));
-                }
+            if ($model->saveWithRelated('orderItems')) {
+                $this->redirect(array('view', 'id' => $model->id));
             }
 
         }
