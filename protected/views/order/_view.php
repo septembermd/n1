@@ -5,8 +5,10 @@
             <?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id' => $data->id)); ?>
         </div>
         <div class="col-md-2">
-            <b><?php echo CHtml::encode($data->getAttributeLabel('creator_id')); ?>:</b>
-            <?php echo CHtml::encode($data->creator->fullname); ?>
+            <?php if ($this->acl->canViewCreator()) : ?>
+                <b><?php echo CHtml::encode($data->getAttributeLabel('creator_id')); ?>:</b>
+                <?php echo CHtml::encode($data->creator->fullname); ?>
+            <?php endif;?>
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('status_id')); ?>:</b>

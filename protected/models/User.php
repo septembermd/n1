@@ -11,11 +11,13 @@
  * @property string $phone
  * @property string $password
  * @property string $salt
- * @property integer $role_id
+ * @property string $role_id
  * @property string $created
  * @property string $is_active
  *
  * The followings are the available model relations:
+ * @property Order[] $orders
+ * @property Order[] $orders1
  * @property OrderBids[] $orderBids
  * @property StatusChanges[] $statusChanges
  * @property Company $company
@@ -123,9 +125,11 @@ class User extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'orderBids' => array(self::HAS_MANY, 'OrderBids', 'user_id'),
-			'statusChanges' => array(self::HAS_MANY, 'StatusChanges', 'user_id'),
-			'orders' => array(self::HAS_MANY, 'Orders', 'creator_id'),
+            'carrierOrders' => array(self::HAS_MANY, 'Order', 'carrier_id'),
+            'orders' => array(self::HAS_MANY, 'Orders', 'creator_id'),
+            'orderBids' => array(self::HAS_MANY, 'OrderBids', 'user_id'),
+            'statusChanges' => array(self::HAS_MANY, 'StatusChanges', 'user_id'),
+			'orderCarriers' => array(self::HAS_MANY, 'Orders', 'carrier_id'),
 			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
 		);
 	}
@@ -167,7 +171,7 @@ class User extends ActiveRecord
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('salt',$this->salt,true);
-		$criteria->compare('role_id',$this->role_id);
+        $criteria->compare('role_id',$this->role_id,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('is_active',$this->is_active,true);
 

@@ -70,4 +70,6 @@ array('label'=>'Manage Order','url'=>array('admin')),
         ),
     )
 );
+
+$this->widget('OrderControlsWidget', array('acl' => $this->acl, 'model' => $model));
 ?>

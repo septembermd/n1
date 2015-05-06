@@ -26,7 +26,7 @@ class Controller extends CController
     public $active_root;
     public $active_category;
 
-
+    /** @var AccessControlList */
     public $acl;
 
     public function init()

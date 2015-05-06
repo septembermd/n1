@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'order':
  * @property string $id
  * @property string $creator_id
+ * @property string $carrier_id
  * @property integer $currency_id
  * @property string $status_id
  * @property string $supplier_id
@@ -23,6 +24,8 @@
  * @property string $created
  *
  * The followings are the available model relations:
+ * @property User $creator
+ * @property User $carrier
  * @property Supplier $supplier
  * @property Remark $remark
  * @property SupplierAddresses $loading
@@ -30,6 +33,7 @@
  * @property Temperature $temperature
  * @property Currency $currency
  * @property OrderBids[] $orderBids
+ * @property OrderBids[] $orderBidsCount
  * @property OrderItems[] $orderItems
  */
 class Order extends CActiveRecord
@@ -87,12 +91,12 @@ class Order extends CActiveRecord
 		return array(
 			array('creator_id, currency_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required'),
 			array('currency_id, temperature_id, remark_id', 'numerical', 'integerOnly'=>true),
-			array('creator_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9),
+			array('creator_id, carrier_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9),
 			array('status_id, is_deleted', 'length', 'max'=>1),
-			array('created, remark_id, supplier_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'),
+			array('created, carrier_id, supplier_id, remark_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, creator_id, currency_id, status_id, supplier_id, loading_id, delivery_id, temperature_id, remark_id, valid_date, load_date, deliver_date, loaded_on_date, delivered_on_date, deleted_on_date, is_deleted, created', 'safe', 'on'=>'search'),
+			array('id, creator_id, carrier_id, currency_id, status_id, supplier_id, loading_id, delivery_id, temperature_id, remark_id, valid_date, load_date, deliver_date, loaded_on_date, delivered_on_date, deleted_on_date, is_deleted, created', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -104,15 +108,17 @@ class Order extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'creator' => array(self::BELONGS_TO, 'User', 'creator_id'),
-			'supplier' => array(self::BELONGS_TO, 'Supplier', 'supplier_id'),
-			'remark' => array(self::BELONGS_TO, 'Remark', 'remark_id'),
-			'loading' => array(self::BELONGS_TO, 'SupplierAddresses', 'loading_id'),
-			'delivery' => array(self::BELONGS_TO, 'DeliveryAddress', 'delivery_id'),
-			'temperature' => array(self::BELONGS_TO, 'Temperature', 'temperature_id'),
-			'currency' => array(self::BELONGS_TO, 'Currency', 'currency_id'),
-			'orderBids' => array(self::HAS_MANY, 'OrderBids', 'order_id'),
-			'orderItems' => array(self::HAS_MANY, 'OrderItems', 'order_id'),
+            'creator' => array(self::BELONGS_TO, 'User', 'creator_id'),
+            'carrier' => array(self::BELONGS_TO, 'User', 'carrier_id'),
+            'supplier' => array(self::BELONGS_TO, 'Supplier', 'supplier_id'),
+            'remark' => array(self::BELONGS_TO, 'Remark', 'remark_id'),
+            'loading' => array(self::BELONGS_TO, 'SupplierAddresses', 'loading_id'),
+            'delivery' => array(self::BELONGS_TO, 'DeliveryAddress', 'delivery_id'),
+            'temperature' => array(self::BELONGS_TO, 'Temperature', 'temperature_id'),
+            'currency' => array(self::BELONGS_TO, 'Currency', 'currency_id'),
+            'orderBids' => array(self::HAS_MANY, 'OrderBids', 'order_id'),
+            'orderBidsCount' => array(self::STAT, 'OrderBids', 'order_id'),
+            'orderItems' => array(self::HAS_MANY, 'OrderItems', 'order_id'),
 		);
 	}
 
@@ -124,6 +130,7 @@ class Order extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'creator_id' => 'Creator',
+            'carrier_id' => 'Carrier',
 			'currency_id' => 'Currency',
 			'status_id' => 'Status',
 			'supplier_id' => 'Supplier',
@@ -162,6 +169,7 @@ class Order extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('creator_id',$this->creator_id,true);
+        $criteria->compare('carrier_id',$this->carrier_id,true);
 		$criteria->compare('currency_id',$this->currency_id);
 		$criteria->compare('status_id',$this->status_id,true);
 		$criteria->compare('supplier_id',$this->supplier_id,true);
@@ -194,8 +202,55 @@ class Order extends CActiveRecord
 		return parent::model($className);
 	}
 
+    /**
+     * @return int
+     */
     public function getBidsCount()
     {
-        return count($this->orderBids);
+        return $this->orderBidsCount;
+    }
+
+    /**
+     * @param User $user
+     * @param integer $status
+     * @param bool $isDeleted
+     * @return CActiveDataProvider
+     */
+    public function getCActiveDataProviderByUserAndStatus(User $user, $status, $isDeleted)
+    {
+        $criteria = new CDbCriteria();
+        if ($isDeleted) {
+            $criteria->compare('is_deleted', self::IS_DELETED);
+            $criteria->compare('carrier_id', $user->id);
+        } elseif ($status) {
+            $criteria->compare('status_id', $status);
+        }
+
+        if ($user->isCarrier() && $status !== self::STATUS_HAULER_NEEDED) {
+            $criteria->compare('carrier_id', $user->id);
+        }
+
+        return new CActiveDataProvider(__CLASS__, array('criteria' => $criteria));
+    }
+
+    /**
+     * Check if carrier has been chosen
+     *
+     * @return bool
+     */
+    public function isCarrierChosen()
+    {
+        return $this->carrier_id !== null;
+    }
+
+    /**
+     * Check if user has offered transportation
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isTransportationOfferedByUser(User $user)
+    {
+        return ($this->orderBidsCount(array('condition'=>'user_id='.$user->id)) > 0);
     }
 }

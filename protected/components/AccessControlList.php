@@ -17,6 +17,11 @@ class AccessControlList {
         $this->user = $user;
     }
 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
     /**
      * @return bool
      */
