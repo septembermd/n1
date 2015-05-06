@@ -1,70 +1,32 @@
-<?php
-/* @var $this UserController */
-/* @var $model User */
-/* @var $form CActiveForm */
-?>
+<?php $form=$this->beginWidget('booster.widgets.TbActiveForm',array(
+    'id'=>'user-form',
+    'enableAjaxValidation'=>false,
+)); ?>
 
-<div class="form">
+<p class="help-block">Fields with <span class="required">*</span> are required.</p>
 
-    <?php $form=$this->beginWidget('CActiveForm', array(
-        'id'=>'user-form',
-        // Please note: When you enable ajax validation, make sure the corresponding
-        // controller action is handling ajax validation correctly.
-        // There is a call to performAjaxValidation() commented in generated controller code.
-        // See class documentation of CActiveForm for details on this.
-        'enableAjaxValidation'=>false,
+<?php echo $form->errorSummary($model); ?>
+
+<?php echo $form->dropDownListGroup($model,'role_id',array('widgetOptions'=>array('data'=>User::$roleMap,'htmlOptions'=>array('class'=>'span5')))); ?>
+
+<?php echo $form->dropDownListGroup($model,'company_id',array('widgetOptions'=>array('data'=>Company::getList(),'htmlOptions'=>array('class'=>'span5','maxlength'=>5)))); ?>
+
+<?php echo $form->textFieldGroup($model,'fullname',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>100)))); ?>
+
+<?php echo $form->textFieldGroup($model,'email',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>100)))); ?>
+
+<?php echo $form->textFieldGroup($model,'phone',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>20)))); ?>
+
+<?php echo $form->textFieldGroup($model,'new_password',array('widgetOptions'=>array('htmlOptions'=>array('placeholder'=>Yii::t('main', 'Leave blank if you don\'t wish to change'),'class'=>'span5','maxlength'=>255)))); ?>
+
+<?php echo $form->dropDownListGroup($model,'is_active', array('widgetOptions'=>array('data'=>User::$userStateList, 'htmlOptions'=>array('class'=>'input-large')))); ?>
+
+<div class="form-actions">
+    <?php $this->widget('booster.widgets.TbButton', array(
+        'buttonType'=>'submit',
+        'context'=>'primary',
+        'label'=>$model->isNewRecord ? 'Create' : 'Save',
     )); ?>
+</div>
 
-    <p class="note">Fields with <span class="required">*</span> are required.</p>
-
-    <?php echo $form->errorSummary($model); ?>
-
-    <div class="row">
-        <?php echo $form->labelEx($model,'company_id'); ?>
-        <?php echo $form->dropDownList($model,'company_id',Company::getList(), array()); ?>
-        <?php echo $form->error($model,'company_id'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model,'fullname'); ?>
-        <?php echo $form->textField($model,'fullname',array('size'=>60,'maxlength'=>100)); ?>
-        <?php echo $form->error($model,'fullname'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model,'email'); ?>
-        <?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>100)); ?>
-        <?php echo $form->error($model,'email'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model,'phone'); ?>
-        <?php echo $form->textField($model,'phone',array('size'=>20,'maxlength'=>20)); ?>
-        <?php echo $form->error($model,'phone'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model,'new password'); ?>
-        <?php echo $form->textField($model,'new_password',array('size'=>60,'maxlength'=>255,)); ?>
-        <?php echo $form->error($model,'new_password'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model,'role_id'); ?>
-        <?php echo $form->dropDownList($model,'role_id', Role::getList()); ?>
-        <?php echo $form->error($model,'role_id'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model,'is_active'); ?>
-        <?php echo $form->dropDownList($model,'is_active',User::$userStateList, array()); ?>
-        <?php echo $form->error($model,'is_active'); ?>
-    </div>
-
-    <div class="row buttons">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-    </div>
-
-    <?php $this->endWidget(); ?>
-
-</div><!-- form -->
+<?php $this->endWidget(); ?>

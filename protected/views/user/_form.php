@@ -1,70 +1,32 @@
-<?php
-/* @var $this UserController */
-/* @var $model User */
-/* @var $form CActiveForm */
-?>
-
-<div class="form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php $form=$this->beginWidget('booster.widgets.TbActiveForm',array(
 	'id'=>'user-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+<p class="help-block">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($model); ?>
+<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'company_id'); ?>
-		<?php echo $form->dropDownList($model,'company_id',Company::getList(), array()); ?>
-		<?php echo $form->error($model,'company_id'); ?>
-	</div>
+    <?php echo $form->dropDownListGroup($model,'role_id',array('widgetOptions'=>array('data'=>User::$roleMap,'htmlOptions'=>array('class'=>'span5')))); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'fullname'); ?>
-		<?php echo $form->textField($model,'fullname',array('size'=>60,'maxlength'=>100)); ?>
-		<?php echo $form->error($model,'fullname'); ?>
-	</div>
+	<?php echo $form->dropDownListGroup($model,'company_id',array('widgetOptions'=>array('data'=>Company::getList(),'htmlOptions'=>array('class'=>'span5','maxlength'=>5)))); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'email'); ?>
-		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>100)); ?>
-		<?php echo $form->error($model,'email'); ?>
-	</div>
+	<?php echo $form->textFieldGroup($model,'fullname',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>100)))); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'phone'); ?>
-		<?php echo $form->textField($model,'phone',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'phone'); ?>
-	</div>
+	<?php echo $form->textFieldGroup($model,'email',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>100)))); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->textField($model,'password',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'password'); ?>
-	</div>
+	<?php echo $form->textFieldGroup($model,'phone',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>20)))); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'role_id'); ?>
-		<?php echo $form->dropDownList($model,'role_id', Role::getList()); ?>
-		<?php echo $form->error($model,'role_id'); ?>
-	</div>
+	<?php echo $form->textFieldGroup($model,'password',array('widgetOptions'=>array('htmlOptions'=>array('class'=>'span5','maxlength'=>255)))); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'is_active'); ?>
-		<?php echo $form->dropDownList($model,'is_active',User::$userStateList, array()); ?>
-		<?php echo $form->error($model,'is_active'); ?>
-	</div>
+	<?php echo $form->dropDownListGroup($model,'is_active', array('widgetOptions'=>array('data'=>User::$userStateList, 'htmlOptions'=>array('class'=>'input-large')))); ?>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
+<div class="form-actions">
+	<?php $this->widget('booster.widgets.TbButton', array(
+			'buttonType'=>'submit',
+			'context'=>'primary',
+			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+		)); ?>
+</div>
 
 <?php $this->endWidget(); ?>
-
-</div><!-- form -->

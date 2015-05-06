@@ -13,12 +13,12 @@ $this->menu=array(
 
 $gridColumns = array(
     array('name'=>'id', 'header'=>'#', 'htmlOptions'=>array('style'=>'width: 60px')),
-    array('name'=>'company.title', 'header'=>Yii::t('main', 'Компания')),
+    array('name'=>'company_id', 'header'=>Yii::t('main', 'Компания'), 'value' => function($data){ return $data->company->title; }),
     array('name'=>'fullname', 'header'=>Yii::t('main', 'Имя')),
     array('name'=>'email', 'header'=>Yii::t('main', 'Email')),
     array('name'=>'phone', 'header'=>Yii::t('main', 'Телефон')),
-    array('name'=>'role.title', 'header'=>Yii::t('main', 'Роль')),
-    array('name'=>'is_active', 'header'=>Yii::t('main', 'Активен')),
+    array('name'=>'role_id', 'header'=>Yii::t('main', 'Роль'), 'value' => function($data){ return User::getRoleLabel($data->role_id); }),
+    array('name'=>'is_active', 'header'=>Yii::t('main', 'Активен'), 'value' => function($data){ return User::getUserStateLabel($data->is_active); }),
     array('name'=>'created', 'header'=>Yii::t('main', 'Создан')),
     array(
         'htmlOptions' => array('nowrap'=>'nowrap'),
@@ -35,8 +35,6 @@ $gridColumns = array(
     )
 );
 ?>
-
-<h1><?php echo Yii::t('main', 'Пользователи') ?></h1>
 
 <?php echo CHtml::link(Yii::t('main', 'Добавить Пользователя'), array('user/create'), array('class'=>'btn btn-info pull-right')) ?>
 

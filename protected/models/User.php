@@ -107,7 +107,7 @@ class User extends ActiveRecord
 			array('phone', 'length', 'max'=>20),
 			array('password, new_password, salt', 'length', 'max'=>255),
 			array('password, new_password', 'length', 'min'=>6),
-			array('is_active', 'length', 'max'=>1),
+			array('is_active, role_id', 'length', 'max'=>1),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('password', 'safe', 'on'=>'update'),
@@ -127,7 +127,6 @@ class User extends ActiveRecord
 			'statusChanges' => array(self::HAS_MANY, 'StatusChanges', 'user_id'),
 			'orders' => array(self::HAS_MANY, 'Orders', 'creator_id'),
 			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
-			'role' => array(self::BELONGS_TO, 'Role', 'role_id'),
 		);
 	}
 

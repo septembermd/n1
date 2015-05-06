@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Users'=>array('index'),
-	sprintf("%s (%s)", $model->fullname, $model->role->title),
+	sprintf("%s (%s)", $model->fullname, User::getRoleLabel($model->role_id)),
 );
 
 $this->menu=array(
@@ -31,7 +31,7 @@ $this->menu=array(
         ),
         array(
             'label' => Yii::t('main', 'Роль пользователя'),
-            'value' => $model->role->title
+            'value' => User::getRoleLabel($model->role_id)
         ),
         array(
             'label' => Yii::t('main', 'Email'),
