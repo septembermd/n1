@@ -3,11 +3,11 @@ $leftMenuItems = array();
 $rightMenuItems = array();
 if(!$currentUser->isGuest) {
     $leftMenuItems = array(
-        array('label' => Yii::t('main', 'Пользователи'), 'url' => array('user/index')),
-        array('label' => Yii::t('main', 'Наряды'), 'url' => array('order/index')),
+        array('label' => Yii::t('main', 'Users'), 'url' => array('user/index')),
+        array('label' => Yii::t('main', 'Orders'), 'url' => array('order/index')),
     );
     $rightMenuItems[] = array(
-        'label' => sprintf("%s (%s)", $currentUser->fullname, $currentUser->role),
+        'label' => sprintf("%s (%s)", $currentUser->fullname, User::getRoleLabel($currentUser->role_id)),
         'url' => array('user/view', 'id'=>$currentUser->id),
     );
 }

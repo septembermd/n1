@@ -26,21 +26,24 @@ class Controller extends CController
     public $active_root;
     public $active_category;
 
+
+    public $acl;
+
     public function init()
     {
-        /*if (!Yii::app()->user->isGuest) {
-            $user = User::model()->findByPk(Yii::app()->user->id);
-
-           
-            if (!$user->is_active) {
-                Yii::app()->user->logout();
-            } else {
+        if (!Yii::app()->user->isGuest) {
+            $user = User::model();
+            $currentUser = $user->findByPk(Yii::app()->user->id);
+            $this->acl = new AccessControlList($currentUser);
+            // Logout user if he was disabled or his role was changed by admin
+            if ($this->acl->canAuthenticate()) {
                 $user->flash_messages = false;
-                $user->last_login = new CDbExpression('NOW()');
+                //$user->last_login = new CDbExpression('NOW()');
                 //$user->save();
+            } else {
+                Yii::app()->user->logout();
             }
-        }*/
-
+        }
     }
 
     public function getAssetsUrl()

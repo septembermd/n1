@@ -41,7 +41,7 @@ class UserIdentity extends CUserIdentity
             $this->_fullname = $user->fullname;
             $this->_email = $user->email;
             $this->setState('fullname', $user->fullname);
-            $this->setState('role', $user->role->title);
+            $this->setState('role_id', $user->role_id);
             Yii::app()->user->setFlash('success', "You have sucessfully logged in!");
             $this->errorCode = self::ERROR_NONE;
         }

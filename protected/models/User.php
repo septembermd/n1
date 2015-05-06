@@ -26,11 +26,23 @@ class User extends ActiveRecord
     const STATE_INACTIVE = 0;
     const STATE_ACTIVE = 1;
 
+    const ROLE_CARRIER = 1;
+    const ROLE_MANAGER = 2;
+    const ROLE_SUPERVISOR = 3;
+    const ROLE_ADMIN = 4;
+
     public $new_password;
 
     public static $userStateList = array(
         self::STATE_ACTIVE => 'Active',
         self::STATE_INACTIVE => 'Inactive'
+    );
+
+    public static $roleMap = array(
+        self::ROLE_CARRIER => 'carrier',
+        self::ROLE_MANAGER => 'logistics manager',
+        self::ROLE_SUPERVISOR => 'supervisor',
+        self::ROLE_ADMIN => 'administrator'
     );
 
     /**
@@ -41,6 +53,18 @@ class User extends ActiveRecord
     {
         if(isset(self::$userStateList[$state])) {
             return self::$userStateList[$state];
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $role
+     * @return bool
+     */
+    public static function getRoleLabel($role) {
+        if(isset(self::$roleMap[$role])) {
+            return self::$roleMap[$role];
         }
 
         return false;
@@ -164,14 +188,53 @@ class User extends ActiveRecord
         return CPasswordHelper::verifyPassword($password, $this->password);
     }
 
+    /**
+     * @param $password
+     * @throws CException
+     */
+    public function setPassword($password)
+    {
+        $this->password = CPasswordHelper::hashPassword($password);
+        $this->salt = CPasswordHelper::generateSalt();
+    }
+
+    /**
+     * @return bool
+     */
     public function isActive()
     {
         return self::STATE_ACTIVE == $this->is_active;
     }
 
-    public function setPassword($password)
+    /**
+     * @return bool
+     */
+    public function isAdmin()
     {
-        $this->password = CPasswordHelper::hashPassword($password);
-        $this->salt = CPasswordHelper::generateSalt();
+        return $this->role_id == self::ROLE_ADMIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSupervisor()
+    {
+        return $this->role_id == self::ROLE_SUPERVISOR;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isManager()
+    {
+        return $this->role_id == self::ROLE_MANAGER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCarrier()
+    {
+        return $this->role_id == self::ROLE_CARRIER;
     }
 }
