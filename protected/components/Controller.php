@@ -36,14 +36,14 @@ class Controller extends CController
             $currentUser = $user->findByPk(Yii::app()->user->id);
             if ($currentUser instanceof User) {
                 $this->acl = new AccessControlList($currentUser);
-            }
-            // Logout user if he was disabled or his role was changed by admin
-            if ($this->acl->canAuthenticate()) {
-                $user->flash_messages = false;
-                //$user->last_login = new CDbExpression('NOW()');
-                //$user->save();
-            } else {
-                Yii::app()->user->logout();
+                // Logout user if he was disabled or his role was changed by admin
+                if ($this->acl->canAuthenticate()) {
+                    $user->flash_messages = false;
+                    //$user->last_login = new CDbExpression('NOW()');
+                    //$user->save();
+                } else {
+                    Yii::app()->user->logout();
+                }
             }
         }
     }
