@@ -19,18 +19,30 @@ class OrderController extends Controller
      */
     public function accessRules()
     {
+        $acl = $this->acl;
+
         return [
             ['allow',  // allow all users to perform 'index' and 'view' actions
                 'actions' => ['index', 'view'],
-                'users' => ['*'],
+                'users' => ['@'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => ['create', 'update', 'getLoadingAddressList'],
-                'users' => ['@'],
+                'expression' => function() use ($acl) {
+                    return $acl->canCreateOrder();
+                },
             ],
-            ['allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => ['admin', 'delete'],
-                'users' => ['admin'],
+            ['allow', // allow to perform 'delete' action
+                'actions' => ['delete'],
+                'expression' => function() use ($acl) {
+                    return $acl->canDeleteOrder();
+                },
+            ],
+            ['allow', // allow admin user to perform 'admin' action
+                'actions' => ['admin'],
+                'expression' => function() use ($acl) {
+                    return $acl->getUser()->isAdmin();
+                },
             ],
             ['deny',  // deny all users
                 'users' => ['*'],
@@ -125,12 +137,17 @@ class OrderController extends Controller
      *
      * @param int $status
      * @param int $deleted
+     * @throws CHttpException
      */
     public function actionIndex($status = Order::STATUS_HAULER_NEEDED, $deleted = Order::IS_ACTIVE)
     {
         $status = intval($status);
         $isDeleted = $deleted == Order::IS_DELETED;
         $currentUser = $this->acl->getUser();
+        // Filter access for deleted orders tab
+        if(!$this->acl->canViewDeletedOrders() && $isDeleted) {
+            throw new CHttpException(400, Yii::t('main', 'You are not allowed to view deleted orders.'));
+        }
         $dataProvider = Order::model()->getCActiveDataProviderByUserAndStatus($currentUser, $status, $deleted);
         $this->render('index', [
             'dataProvider' => $dataProvider,

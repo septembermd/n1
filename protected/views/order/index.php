@@ -20,10 +20,13 @@ foreach(Order::$statusMap as $statusId => $label) {
 }
 $statusNavigationItems[] = [
     'label' => 'Deleted',
-    'url' => ['order/index', 'deleted'=>Order::IS_DELETED]
+    'url' => ['order/index', 'deleted'=>Order::IS_DELETED],
+    'visible' => $this->acl->canViewDeletedOrders()
 ];
 
-echo CHtml::link(Yii::t('main', 'New Order'), ['order/create'], ['class'=>'btn btn-primary pull-right']);
+if($this->acl->canCreateOrder()) {
+    echo CHtml::link(Yii::t('main', 'New Order'), ['order/create'], ['class'=>'btn btn-primary pull-right']);
+}
 
 $this->widget(
     'booster.widgets.TbMenu',
