@@ -8,48 +8,33 @@ $this->breadcrumbs=array(
 	'Login',
 );
 ?>
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo Yii::t('main', 'Login'); ?></h1>
 
-<h1>Login</h1>
+        <p><?php echo Yii::t('main', 'Please fill out the following form with your login credentials'); ?>:</p>
 
-<p>Please fill out the following form with your login credentials:</p>
+        <div class="form">
+        <?php $form=$this->beginWidget('booster.widgets.TbActiveForm', array(
+            'id'=>'login-form',
+            'enableClientValidation'=>true,
+            'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+            ),
+        )); ?>
+            <?php echo $form->textFieldGroup($model,'username'); ?>
 
-<div class="form">
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'login-form',
-	'enableClientValidation'=>true,
-	'clientOptions'=>array(
-		'validateOnSubmit'=>true,
-	),
-)); ?>
+            <?php echo $form->passwordFieldGroup($model,'password'); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+            <?php echo CHtml::submitButton(Yii::t('main', 'Login'), array('class' => 'btn btn-primary btn-large')); ?>
 
-	<div class="row">
-        <div class="form-group">
-            <?php echo $form->labelEx($model,'username'); ?>
-            <?php echo $form->textField($model,'username'); ?>
-            <?php echo $form->error($model,'username'); ?>
-        </div>
+            <?php echo $form->checkBoxGroup($model,'rememberMe'); ?>
 
-	</div>
+            <p><?php echo CHtml::link(Yii::t('main', 'Запросить доступ'), array('site/accessRequest'));?></p>
+            <p><?php echo CHtml::link(Yii::t('main', 'Забыли пароль'), array('site/accessRestoreRequest'));?></p>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password'); ?>
-		<?php echo $form->error($model,'password'); ?>
-	</div>
+        <?php $this->endWidget(); ?>
+        </div><!-- form -->
 
-	<div class="row rememberMe">
-		<?php echo $form->checkBox($model,'rememberMe'); ?>
-		<?php echo $form->label($model,'rememberMe'); ?>
-		<?php echo $form->error($model,'rememberMe'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
-	</div>
-    <p><?php echo CHtml::link(Yii::t('main', 'Запросить доступ'), array('site/accessRequest'));?></p>
-    <p><?php echo CHtml::link(Yii::t('main', 'Забыли пароль'), array('site/accessRestoreRequest'));?></p>
-
-<?php $this->endWidget(); ?>
-</div><!-- form -->
+    </div>
+</div>
