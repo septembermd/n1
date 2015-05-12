@@ -44,7 +44,7 @@ class AccessControlList {
     /**
      * @return bool
      */
-    public function canAccessUsers()
+    public function canPerformUsersAdminActions()
     {
         if ($this->user->isAdmin()) {
             return true;

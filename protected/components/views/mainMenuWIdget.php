@@ -6,7 +6,7 @@ $leftMenuItems = [];
 $rightMenuItems = [];
 if(!$currentUser->isGuest) {
     $leftMenuItems = [
-        ['label' => Yii::t('main', 'Users'), 'url' => ['user/index'], 'visible' => $acl->canAccessUsers()],
+        ['label' => Yii::t('main', 'Users'), 'url' => ['user/index'], 'visible' => $acl->canPerformUsersAdminActions()],
         ['label' => Yii::t('main', 'Orders'), 'url' => ['order/index'], 'visible' => $acl->canAccessOrders()],
     ];
     $rightMenuItems[] = [

@@ -26,18 +26,18 @@ class UserController extends Controller
 	 */
 	public function accessRules()
 	{
+        $acl = $this->acl;
+
 		return [
-			['allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=> ['index','view'],
-				'users'=> ['*'],
-            ],
-			['allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=> ['create','update'],
+			['allow',  // allow authenticated user to perform 'view' action
+				'actions'=> ['view'],
 				'users'=> ['@'],
             ],
-			['allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=> ['admin','delete'],
-				'users'=> ['@'],
+			['allow', // allow admin users to perform actions
+				'actions'=> ['index', 'create', 'update', 'delete', 'admin'],
+				'expression'=> function() use ($acl) {
+                    return $acl->canPerformUsersAdminActions();
+                },
             ],
 			['deny',  // deny all users
 				'users'=> ['*'],
