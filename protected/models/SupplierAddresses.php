@@ -31,14 +31,14 @@ class SupplierAddresses extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('supplier_id, country_id, address', 'required'),
-			array('supplier_id, country_id', 'length', 'max'=>9),
-			array('address', 'length', 'max'=>255),
+		return [
+			['supplier_id, country_id, address', 'required'],
+			['supplier_id, country_id', 'length', 'max'=>9],
+			['address', 'length', 'max'=>255],
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, supplier_id, country_id, address', 'safe', 'on'=>'search'),
-		);
+			['id, supplier_id, country_id, address', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -48,11 +48,11 @@ class SupplierAddresses extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'orders' => array(self::HAS_MANY, 'Order', 'loading_id'),
-			'supplier' => array(self::BELONGS_TO, 'Supplier', 'supplier_id'),
-			'country' => array(self::BELONGS_TO, 'Country', 'country_id'),
-		);
+		return [
+			'orders' => [self::HAS_MANY, 'Order', 'loading_id'],
+			'supplier' => [self::BELONGS_TO, 'Supplier', 'supplier_id'],
+			'country' => [self::BELONGS_TO, 'Country', 'country_id'],
+        ];
 	}
 
 	/**
@@ -60,12 +60,12 @@ class SupplierAddresses extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'supplier_id' => 'Supplier',
 			'country_id' => 'Country',
 			'address' => 'Address',
-		);
+        ];
 	}
 
 	/**
@@ -91,9 +91,9 @@ class SupplierAddresses extends CActiveRecord
 		$criteria->compare('country_id',$this->country_id,true);
 		$criteria->compare('address',$this->address,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
 	/**

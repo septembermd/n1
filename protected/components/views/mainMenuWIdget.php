@@ -1,39 +1,42 @@
 <?php
-$leftMenuItems = array();
-$rightMenuItems = array();
+/** @var User $currentUser */
+/** @var AccessControlList $acl */
+
+$leftMenuItems = [];
+$rightMenuItems = [];
 if(!$currentUser->isGuest) {
-    $leftMenuItems = array(
-        array('label' => Yii::t('main', 'Users'), 'url' => array('user/index')),
-        array('label' => Yii::t('main', 'Orders'), 'url' => array('order/index')),
-    );
-    $rightMenuItems[] = array(
+    $leftMenuItems = [
+        ['label' => Yii::t('main', 'Users'), 'url' => ['user/index'], 'visible' => $acl->canAccessUsers()],
+        ['label' => Yii::t('main', 'Orders'), 'url' => ['order/index'], 'visible' => $acl->canAccessOrders()],
+    ];
+    $rightMenuItems[] = [
         'label' => sprintf("%s (%s)", $currentUser->fullname, User::getRoleLabel($currentUser->role_id)),
-        'url' => array('user/view', 'id'=>$currentUser->id),
-    );
+        'url' => ['user/view', 'id'=>$currentUser->id],
+    ];
 }
-$rightMenuItems[] = array(
+$rightMenuItems[] = [
     'label' => Yii::t('main', $currentUser->isGuest ? 'Войти' : 'Выйти'),
-    'url' => array($currentUser->isGuest ? 'site/login' : 'site/logout'),
-);
+    'url' => [$currentUser->isGuest ? 'site/login' : 'site/logout'],
+];
 
 $this->widget(
     'booster.widgets.TbNavbar',
-    array(
+    [
         'brand' => 'Nr.1',
         'fixed' => false,
         'fluid' => true,
-        'items' => array(
-            array(
+        'items' => [
+            [
                 'class' => 'booster.widgets.TbMenu',
                 'type' => 'navbar',
                 'items' => $leftMenuItems
-            ),
-            array(
+            ],
+            [
                 'class' => 'booster.widgets.TbMenu',
                 'type' => 'navbar',
-                'htmlOptions' => array('class'=>'pull-right'),
+                'htmlOptions' => ['class'=>'pull-right'],
                 'items' => $rightMenuItems
-            )
-        )
-    )
+            ]
+        ]
+    ]
 );

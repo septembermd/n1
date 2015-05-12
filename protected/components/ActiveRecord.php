@@ -77,9 +77,9 @@ class ActiveRecord extends CActiveRecord
         if ($this->flash_messages) {
             $name = get_class($this);
             if($this->hasAttribute('name')){
-                $id = CHtml::link($this->name,array('view','id'=>$this->id));
+                $id = CHtml::link($this->name, ['view','id'=>$this->id]);
             }else{
-                $id = CHtml::link($this->id,array('view','id'=>$this->id));
+                $id = CHtml::link($this->id, ['view','id'=>$this->id]);
             }
             switch ($this->scenario) {
                 case "newcustomer":
@@ -148,9 +148,9 @@ class ActiveRecord extends CActiveRecord
     {
         $name = get_class($this);
         if($this->hasAttribute('name')){
-            $id = CHtml::link($this->name,array('view','id'=>$this->id));
+            $id = CHtml::link($this->name, ['view','id'=>$this->id]);
         }else{
-            $id = CHtml::link($this->id,array('view','id'=>$this->id));
+            $id = CHtml::link($this->id, ['view','id'=>$this->id]);
         }
         Yii::log("$name $id was successfully deleted.", "profile", "backend");
         Yii::app()->user->setFlash('success', "$name was successfully deleted.");

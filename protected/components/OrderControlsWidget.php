@@ -10,9 +10,9 @@ class OrderControlsWidget extends CWidget
 
     public function run()
     {
-        $this->render('orderControlsWidget', array(
+        $this->render('orderControlsWidget', [
             'acl' => $this->acl,
             'model' => $this->model
-        ));
+        ]);
     }
 }

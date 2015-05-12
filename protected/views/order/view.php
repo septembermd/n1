@@ -1,50 +1,50 @@
 <?php
-$this->breadcrumbs=array(
-	'Orders'=>array('index'),
+$this->breadcrumbs= [
+	'Orders'=> ['index'],
 	$model->id,
-);
+];
 
-$this->menu=array(
-array('label'=>'List Order','url'=>array('index')),
-array('label'=>'Create Order','url'=>array('create')),
-array('label'=>'Update Order','url'=>array('update','id'=>$model->id)),
-array('label'=>'Delete Order','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>'Manage Order','url'=>array('admin')),
-);
+$this->menu= [
+['label'=>'List Order','url'=> ['index']],
+['label'=>'Create Order','url'=> ['create']],
+['label'=>'Update Order','url'=> ['update','id'=>$model->id]],
+['label'=>'Delete Order','url'=>'#','linkOptions'=> ['submit'=> ['delete','id'=>$model->id],'confirm'=>'Are you sure you want to delete this item?']],
+['label'=>'Manage Order','url'=> ['admin']],
+];
 ?>
 
 <h1>View Order #<?php echo $model->id; ?></h1>
 
-<?php $this->widget('booster.widgets.TbDetailView',array(
+<?php $this->widget('booster.widgets.TbDetailView', [
 'data'=>$model,
-'attributes'=>array(
+'attributes'=> [
 		'id',
-        array(
+        [
             'name'=>'creator.fullname',
             'label' => 'Creator'
-        ),
-		array(
+        ],
+		[
             'name' => 'status_id',
             'label' => 'Status',
             'value' => Order::getStatusLabel($model->status_id)
-        ),
-        array(
+        ],
+        [
             'name'=>'currency.title',
             'label' => 'Currency'
-        ),
+        ],
         'supplier_id',
-        array(
+        [
             'name'=>'loading.address',
             'label' => 'Loading Address'
-        ),
-        array(
+        ],
+        [
             'name'=>'delivery.address',
             'label' => 'Delivery Address'
-        ),
-        array(
+        ],
+        [
             'name'=>'temperature.title',
             'label' => 'Temperature'
-        ),
+        ],
 //		'remark_id',
 		'valid_date',
 		'load_date',
@@ -54,22 +54,22 @@ array('label'=>'Manage Order','url'=>array('admin')),
 //		'deleted_on_date',
 //		'is_deleted',
 		'created',
-),
-)); ?>
+],
+]); ?>
 
 <h3><?php echo Yii::t('main', 'Order Items');?>:</h3>
 
 <?php $this->widget(
     'booster.widgets.TbGridView',
-    array(
+    [
         'dataProvider' => new CArrayDataProvider($model->orderItems),
         'template' => "{items}",
-        'columns' => array(
-            array('name'=>'type', 'header'=>'Type'),
-            array('name'=>'amount', 'header'=>'Amount'),
-        ),
-    )
+        'columns' => [
+            ['name'=>'type', 'header'=>'Type'],
+            ['name'=>'amount', 'header'=>'Amount'],
+        ],
+    ]
 );
 
-$this->widget('OrderControlsWidget', array('acl' => $this->acl, 'model' => $model));
+$this->widget('OrderControlsWidget', ['acl' => $this->acl, 'model' => $model]);
 ?>

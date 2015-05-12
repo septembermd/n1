@@ -35,17 +35,17 @@ class User extends ActiveRecord
 
     public $new_password;
 
-    public static $userStateList = array(
+    public static $userStateList = [
         self::STATE_ACTIVE => 'Active',
         self::STATE_INACTIVE => 'Inactive'
-    );
+    ];
 
-    public static $roleMap = array(
+    public static $roleMap = [
         self::ROLE_CARRIER => 'carrier',
         self::ROLE_MANAGER => 'logistics manager',
         self::ROLE_SUPERVISOR => 'supervisor',
         self::ROLE_ADMIN => 'administrator'
-    );
+    ];
 
     /**
      * @param $state
@@ -97,24 +97,24 @@ class User extends ActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('company_id, fullname, email, password, phone, role_id, created', 'required', 'on'=>'create'),
-			array('company_id, fullname, email, phone, role_id, created', 'required', 'on'=>'update'),
-			array('email', 'email'),
-            array('email', 'filter', 'filter'=>'trim'),
-            array('email', 'unique'),
-			array('role_id', 'numerical', 'integerOnly'=>true),
-			array('company_id', 'length', 'max'=>5),
-			array('fullname, email', 'length', 'max'=>100),
-			array('phone', 'length', 'max'=>20),
-			array('password, new_password, salt', 'length', 'max'=>255),
-			array('password, new_password', 'length', 'min'=>6),
-			array('is_active, role_id', 'length', 'max'=>1),
+		return [
+			['company_id, fullname, email, password, phone, role_id, created', 'required', 'on'=>'create'],
+			['company_id, fullname, email, phone, role_id, created', 'required', 'on'=>'update'],
+			['email', 'email'],
+            ['email', 'filter', 'filter'=>'trim'],
+            ['email', 'unique'],
+			['role_id', 'numerical', 'integerOnly'=>true],
+			['company_id', 'length', 'max'=>5],
+			['fullname, email', 'length', 'max'=>100],
+			['phone', 'length', 'max'=>20],
+			['password, new_password, salt', 'length', 'max'=>255],
+			['password, new_password', 'length', 'min'=>6],
+			['is_active, role_id', 'length', 'max'=>1],
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('password', 'safe', 'on'=>'update'),
-			array('id, company_id, fullname, email, phone, password, salt, role_id, created, is_active', 'safe', 'on'=>'search'),
-		);
+			['password', 'safe', 'on'=>'update'],
+			['id, company_id, fullname, email, phone, password, salt, role_id, created, is_active', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -124,14 +124,14 @@ class User extends ActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-            'carrierOrders' => array(self::HAS_MANY, 'Order', 'carrier_id'),
-            'orders' => array(self::HAS_MANY, 'Orders', 'creator_id'),
-            'orderBids' => array(self::HAS_MANY, 'OrderBids', 'user_id'),
-            'statusChanges' => array(self::HAS_MANY, 'StatusChanges', 'user_id'),
-			'orderCarriers' => array(self::HAS_MANY, 'Orders', 'carrier_id'),
-			'company' => array(self::BELONGS_TO, 'Company', 'company_id'),
-		);
+		return [
+            'carrierOrders' => [self::HAS_MANY, 'Order', 'carrier_id'],
+            'orders' => [self::HAS_MANY, 'Orders', 'creator_id'],
+            'orderBids' => [self::HAS_MANY, 'OrderBids', 'user_id'],
+            'statusChanges' => [self::HAS_MANY, 'StatusChanges', 'user_id'],
+			'orderCarriers' => [self::HAS_MANY, 'Orders', 'carrier_id'],
+			'company' => [self::BELONGS_TO, 'Company', 'company_id'],
+        ];
 	}
 
 	/**
@@ -139,7 +139,7 @@ class User extends ActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'company_id' => 'Company',
 			'fullname' => 'Fullname',
@@ -150,7 +150,7 @@ class User extends ActiveRecord
 			'role_id' => 'Role',
 			'created' => 'Created',
 			'is_active' => 'Is Active',
-		);
+        ];
 	}
 
 	/**
@@ -175,9 +175,9 @@ class User extends ActiveRecord
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('is_active',$this->is_active,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
     /**
@@ -239,5 +239,13 @@ class User extends ActiveRecord
     public function isCarrier()
     {
         return $this->role_id == self::ROLE_CARRIER;
+    }
+
+    /**
+     * @param Order $order
+     * @return bool
+     */
+    public function hasOrderBids(Order $order) {
+        return count($this->orderBids) > 0;
     }
 }

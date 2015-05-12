@@ -40,14 +40,14 @@ class StatusChanges extends ActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('status_id, user_id, created', 'required'),
-			array('status_id', 'numerical', 'integerOnly'=>true),
-			array('user_id', 'length', 'max'=>9),
+		return [
+			['status_id, user_id, created', 'required'],
+			['status_id', 'numerical', 'integerOnly'=>true],
+			['user_id', 'length', 'max'=>9],
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, status_id, user_id, created', 'safe', 'on'=>'search'),
-		);
+			['id, status_id, user_id, created', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -57,10 +57,10 @@ class StatusChanges extends ActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-			'status' => array(self::BELONGS_TO, 'OrderStatus', 'status_id'),
-		);
+		return [
+			'user' => [self::BELONGS_TO, 'User', 'user_id'],
+			'status' => [self::BELONGS_TO, 'OrderStatus', 'status_id'],
+        ];
 	}
 
 	/**
@@ -68,12 +68,12 @@ class StatusChanges extends ActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'status_id' => 'Status',
 			'user_id' => 'User',
 			'created' => 'Created',
-		);
+        ];
 	}
 
 	/**
@@ -92,8 +92,8 @@ class StatusChanges extends ActiveRecord
 		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('created',$this->created,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 }

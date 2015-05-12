@@ -13,20 +13,13 @@
  * @property string $is_deleted
  *
  * The followings are the available model relations:
- * @property Order $order
  * @property User $user
+ * @property Order $order
  */
-class OrderBids extends ActiveRecord
+class OrderBids extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return OrderBids the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    const STATE_ACTIVE = 0;
+    const STATE_DELETED = 1;
 
 	/**
 	 * @return string the associated database table name
@@ -43,15 +36,15 @@ class OrderBids extends ActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('id, user_id, order_id, cost, created', 'required'),
-			array('id, user_id, order_id', 'length', 'max'=>9),
-			array('cost', 'length', 'max'=>7),
-			array('is_winner, is_deleted', 'length', 'max'=>1),
+		return [
+			['user_id, order_id, cost', 'required'],
+			['user_id, order_id', 'length', 'max'=>9],
+			['cost', 'length', 'max'=>7],
+			['is_winner, is_deleted', 'length', 'max'=>1],
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, user_id, order_id, cost, created, is_winner, is_deleted', 'safe', 'on'=>'search'),
-		);
+			// @todo Please remove those attributes that should not be searched.
+			['id, user_id, order_id, cost, created, is_winner, is_deleted', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -61,10 +54,10 @@ class OrderBids extends ActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-		);
+		return [
+			'user' => [self::BELONGS_TO, 'User', 'user_id'],
+			'order' => [self::BELONGS_TO, 'Order', 'order_id'],
+        ];
 	}
 
 	/**
@@ -72,7 +65,7 @@ class OrderBids extends ActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'user_id' => 'User',
 			'order_id' => 'Order',
@@ -80,17 +73,24 @@ class OrderBids extends ActiveRecord
 			'created' => 'Created',
 			'is_winner' => 'Is Winner',
 			'is_deleted' => 'Is Deleted',
-		);
+        ];
 	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -102,8 +102,30 @@ class OrderBids extends ActiveRecord
 		$criteria->compare('is_winner',$this->is_winner,true);
 		$criteria->compare('is_deleted',$this->is_deleted,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return OrderBids the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+
+    /**
+     * Check if order is withdrawn
+     *
+     * @return bool
+     */
+    public function isWithdrawn()
+    {
+        return $this->is_deleted == self::STATE_DELETED;
+    }
 }

@@ -29,15 +29,15 @@ class OrderItems extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('order_id, type, amount', 'required'),
-			array('order_id', 'length', 'max'=>9),
-			array('type', 'length', 'max'=>150),
-			array('amount', 'length', 'max'=>20),
+		return [
+			['order_id, type, amount', 'required'],
+			['order_id', 'length', 'max'=>9],
+			['type', 'length', 'max'=>150],
+			['amount', 'length', 'max'=>20],
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order_id, type, amount', 'safe', 'on'=>'search'),
-		);
+			['id, order_id, type, amount', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -47,9 +47,9 @@ class OrderItems extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
-		);
+		return [
+			'order' => [self::BELONGS_TO, 'Order', 'order_id'],
+        ];
 	}
 
 	/**
@@ -57,12 +57,12 @@ class OrderItems extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'order_id' => 'Order',
 			'type' => 'Type',
 			'amount' => 'Amount',
-		);
+        ];
 	}
 
 	/**
@@ -88,9 +88,9 @@ class OrderItems extends CActiveRecord
 		$criteria->compare('type',$this->type,true);
 		$criteria->compare('amount',$this->amount,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
 	/**

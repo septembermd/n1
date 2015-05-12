@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-            <?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id' => $data->id)); ?>
+            <?php echo CHtml::link(CHtml::encode($data->id), ['view', 'id' => $data->id]); ?>
         </div>
         <div class="col-md-2">
             <?php if ($this->acl->canViewCreator()) : ?>
@@ -49,7 +49,7 @@
             <?php echo CHtml::encode($data->deliver_date); ?>
         </div>
         <div class="col-md-2">
-            <?php echo CHtml::link(Yii::t('main', 'Order Details'), array('order/view', 'id'=>$data->id), array('class'=>'btn btn-sm btn-info'));?>
+            <?php echo CHtml::link(Yii::t('main', 'Order Details'), ['order/view', 'id'=>$data->id], ['class'=>'btn btn-sm btn-info']);?>
         </div>
     </div>
 

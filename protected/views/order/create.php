@@ -1,15 +1,15 @@
 <?php
-$this->breadcrumbs=array(
-	'Orders'=>array('index'),
+$this->breadcrumbs= [
+	'Orders'=> ['index'],
 	'Create',
-);
+];
 
-$this->menu=array(
-array('label'=>'List Order','url'=>array('index')),
-array('label'=>'Manage Order','url'=>array('admin')),
-);
+$this->menu= [
+['label'=>'List Order','url'=> ['index']],
+['label'=>'Manage Order','url'=> ['admin']],
+];
 ?>
 
 <h1>Create Order</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', ['model'=>$model]); ?>

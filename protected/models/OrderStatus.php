@@ -38,13 +38,13 @@ class OrderStatus extends ActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('title', 'required'),
-			array('title', 'length', 'max'=>50),
+		return [
+			['title', 'required'],
+			['title', 'length', 'max'=>50],
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title', 'safe', 'on'=>'search'),
-		);
+			['id, title', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -54,10 +54,10 @@ class OrderStatus extends ActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'orders' => array(self::HAS_MANY, 'Order', 'status_id'),
-			'statusChanges' => array(self::HAS_MANY, 'StatusChanges', 'status_id'),
-		);
+		return [
+			'orders' => [self::HAS_MANY, 'Order', 'status_id'],
+			'statusChanges' => [self::HAS_MANY, 'StatusChanges', 'status_id'],
+        ];
 	}
 
 	/**
@@ -65,10 +65,10 @@ class OrderStatus extends ActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'title' => 'Title',
-		);
+        ];
 	}
 
 	/**
@@ -85,9 +85,9 @@ class OrderStatus extends ActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('title',$this->title,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
     public static function getList()

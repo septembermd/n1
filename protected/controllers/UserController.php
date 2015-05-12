@@ -13,10 +13,10 @@ class UserController extends Controller
 	 */
 	public function filters()
 	{
-		return array(
+		return [
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
-		);
+        ];
 	}
 
 	/**
@@ -26,23 +26,23 @@ class UserController extends Controller
 	 */
 	public function accessRules()
 	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('@'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
+		return [
+			['allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=> ['index','view'],
+				'users'=> ['*'],
+            ],
+			['allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=> ['create','update'],
+				'users'=> ['@'],
+            ],
+			['allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=> ['admin','delete'],
+				'users'=> ['@'],
+            ],
+			['deny',  // deny all users
+				'users'=> ['*'],
+            ],
+        ];
 	}
 
 	/**
@@ -51,9 +51,9 @@ class UserController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
+		$this->render('view', [
 			'model'=>$this->loadModel($id),
-		));
+        ]);
 	}
 
 	/**
@@ -74,14 +74,14 @@ class UserController extends Controller
             if($model->validate()) {
                 $model->setPassword($model->password);
                 if($model->save()) {
-                    $this->redirect(array('view', 'id' => $model->id));
+                    $this->redirect(['view', 'id' => $model->id]);
                 }
             }
 		}
 
-		$this->render('create',array(
+		$this->render('create', [
 			'model'=>$model,
-		));
+        ]);
 	}
 
 	/**
@@ -105,14 +105,14 @@ class UserController extends Controller
                 }
                 $model->setScenario('update');
                 if($model->save()) {
-                    $this->redirect(array('view','id'=>$model->id));
+                    $this->redirect(['view','id'=>$model->id]);
                 }
             }
 		}
 
-		$this->render('update',array(
+		$this->render('update', [
 			'model'=>$model,
-		));
+        ]);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class UserController extends Controller
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
 	}
 
 	/**
@@ -135,9 +135,9 @@ class UserController extends Controller
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('User');
-		$this->render('index',array(
+		$this->render('index', [
 			'dataProvider'=>$dataProvider,
-		));
+        ]);
 	}
 
 	/**
@@ -150,9 +150,9 @@ class UserController extends Controller
 		if(isset($_GET['User']))
 			$model->attributes=$_GET['User'];
 
-		$this->render('admin',array(
+		$this->render('admin', [
 			'model'=>$model,
-		));
+        ]);
 	}
 
 	/**

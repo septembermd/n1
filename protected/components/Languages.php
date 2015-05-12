@@ -13,11 +13,11 @@ class Languages extends CApplicationComponent
     /**
      * @var array allowed languages.
      */
-    public $languages=array('ru','ro', 'en');
+    public $languages= ['ru','ro', 'en'];
     /**
      * @var array languages titles for link.
      */
-    public $languagesTitles=array('ru'=>'Russian','ro'=>'Romana','en'=>'English' );
+    public $languagesTitles= ['ru'=>'Russian','ro'=>'Romana','en'=>'English'];
     /**
      * @var string default language.
      */

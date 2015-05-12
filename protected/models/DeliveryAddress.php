@@ -29,14 +29,14 @@ class DeliveryAddress extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('country_id, address', 'required'),
-			array('country_id', 'length', 'max'=>9),
-			array('address', 'length', 'max'=>255),
+		return [
+			['country_id, address', 'required'],
+			['country_id', 'length', 'max'=>9],
+			['address', 'length', 'max'=>255],
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, country_id, address', 'safe', 'on'=>'search'),
-		);
+			['id, country_id, address', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -46,10 +46,10 @@ class DeliveryAddress extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'country' => array(self::BELONGS_TO, 'Country', 'country_id'),
-			'orders' => array(self::HAS_MANY, 'Order', 'delivery_id'),
-		);
+		return [
+			'country' => [self::BELONGS_TO, 'Country', 'country_id'],
+			'orders' => [self::HAS_MANY, 'Order', 'delivery_id'],
+        ];
 	}
 
 	/**
@@ -57,11 +57,11 @@ class DeliveryAddress extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'country_id' => 'Country',
 			'address' => 'Address',
-		);
+        ];
 	}
 
 	/**
@@ -86,9 +86,9 @@ class DeliveryAddress extends CActiveRecord
 		$criteria->compare('country_id',$this->country_id,true);
 		$criteria->compare('address',$this->address,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
 	/**

@@ -21,10 +21,10 @@
     
     <!-- END head -->
     <?php
-        Yii::app()->clientScript->scriptMap=array(
+        Yii::app()->clientScript->scriptMap= [
             'jquery.js'=>false,
             'jquery.min.js'=>false,
-        );
+        ];
     ?>
     <title>Delivery Nr.1</title>    
 </head>
@@ -32,17 +32,17 @@
 <body>
     <header class="navbar navbar-static-top">
         <div class="container">
-            <?php $this->widget('MainMenuWidget'); ?>
+            <?php $this->widget('MainMenuWidget', ['acl' => $this->acl]); ?>
         </div>
     </header>
   
   <div class="container">
       <?php $this->widget(
           'booster.widgets.TbBreadcrumbs',
-          array(
+          [
               'homeLink' => 'Nr.1',
               'links' => $this->breadcrumbs
-          )
+          ]
       ); ?>
     <div class="row">
       <div class="col-md-12">        

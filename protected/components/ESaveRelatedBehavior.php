@@ -194,14 +194,14 @@ class ESaveRelatedBehavior extends CActiveRecordBehavior
 		    $result = false;
 		}
 		foreach ((array)$relations as $key => $relationName) { // loop through all relations that should be saved
-		    $config = array();
+		    $config = [];
 		    if(!is_numeric($key)) {
 		        $config = $relationName;
 		        $relationName = $key;
 		    }
       	    $relation = $this->owner->getActiveRelation($relationName); // get relation information
             $data = $this->owner->$relationName; // get the data that was set for this relation, if no data was set, $data will contain the current related records
-            $data = is_object($data) ? array($data) : (array)$data; // make sure data is an array
+            $data = is_object($data) ? [$data] : (array)$data; // make sure data is an array
             $commandBuilder = $this->owner->getCommandBuilder();
 
             // Handle many_many relations, this check has to be done first, since CManyManyRelation extends CHasManyRelation
@@ -211,18 +211,18 @@ class ESaveRelatedBehavior extends CActiveRecordBehavior
         			    '/^\s*\{{0,2}\s*(.+?)\s*\}{0,2}\s*\(\s*(.+)\s*,\s*(.+)\s*\)\s*$/s',
         			    $relation->foreignKey, $matches
         			)) {
-        			    $info = array(
+        			    $info = [
         			        'mnTable' => $matches[1],
         			        'mnFk1' => $matches[2],
         			        'mnFk2' => $matches[3]
-        			    );
+                        ];
         			} else {
         			    throw new CException("Unable to get table and foreign key information from MANY_MANY relation definition (".$relation->foreignKey.")");
         			}
                     $model = new $relation->className;
-                    $possibleModels = $model->findAll(new CDbCriteria(array( // find all models, that can be related (used to make sure only existing records are linked)
+                    $possibleModels = $model->findAll(new CDbCriteria([ // find all models, that can be related (used to make sure only existing records are linked)
                         'index' => $model->getMetaData()->tableSchema->primaryKey
-                    )));
+                    ]));
                     if (!@$config['append']) {
                         $criteria = new CDbCriteria;
                         $criteria->compare($info['mnFk1'], $this->owner->primaryKey);
@@ -236,20 +236,20 @@ class ESaveRelatedBehavior extends CActiveRecordBehavior
                         if (array_key_exists($id, $possibleModels)) { // only add if related model exists
                             if ($hasMnTableClass) { // use class for inserting records into mn linking table if it exists
                                 $obj = new $info['mnTable'];
-                                $obj->attributes = array(
+                                $obj->attributes = [
                                     $info['mnFk1'] => $this->owner->primaryKey,
                                     $info['mnFk2'] => $id
-                                );
+                                ];
                                 if (!$obj->save()) {
                                     $result = false;
                                 }
                             } else { // otherwise make and execute insert command
                 			    $commandBuilder->createInsertCommand(
                 			        $info['mnTable'],
-                			        array(
+                			        [
                 			            $info['mnFk1'] => $this->owner->primaryKey,
                 			            $info['mnFk2'] => $id
-                			        )
+                                    ]
                 			    )->execute();
                             }
                             unset($possibleModels[$id]); // this makes sure that id will not be inserted twice if submitted data attempts to do so.
@@ -262,11 +262,11 @@ class ESaveRelatedBehavior extends CActiveRecordBehavior
             } elseif ($relation instanceof CHasManyRelation) { // Handle has_many relations
     		    if (!@$config['append']) {
     		        $class = new $relation->className;
-    		        $class->deleteAllByAttributes(array(  // delete current related models
+    		        $class->deleteAllByAttributes([  // delete current related models
     		            $relation->foreignKey => $this->owner->primaryKey
-    		        ));
+                    ]);
     		    }
-                $dataProcessed = array();
+                $dataProcessed = [];
                 $counter = 0;
                 $itemCount = count($data);
     			foreach ($data as $key => $value) {

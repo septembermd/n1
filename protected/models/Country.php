@@ -27,13 +27,13 @@ class Country extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('title', 'required'),
-			array('title', 'length', 'max'=>255),
+		return [
+			['title', 'required'],
+			['title', 'length', 'max'=>255],
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title', 'safe', 'on'=>'search'),
-		);
+			['id, title', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -43,9 +43,9 @@ class Country extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'supplierAddresses' => array(self::HAS_MANY, 'SupplierAddresses', 'country_id'),
-		);
+		return [
+			'supplierAddresses' => [self::HAS_MANY, 'SupplierAddresses', 'country_id'],
+        ];
 	}
 
 	/**
@@ -53,10 +53,10 @@ class Country extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'title' => 'Title',
-		);
+        ];
 	}
 
 	/**
@@ -80,9 +80,9 @@ class Country extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('title',$this->title,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
 	/**

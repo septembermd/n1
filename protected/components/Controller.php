@@ -15,13 +15,13 @@ class Controller extends CController
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
      */
-    public $menu=array();
+    public $menu= [];
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
      * for more details on how to specify this property.
      */
-    public $breadcrumbs=array();
+    public $breadcrumbs= [];
     public $current = "home";
     public $active_root;
     public $active_category;
@@ -62,6 +62,6 @@ class Controller extends CController
 
     public function redirectToLoginPage()
     {
-        $this->redirect(array('site/login'));
+        $this->redirect(['site/login']);
     }
 }

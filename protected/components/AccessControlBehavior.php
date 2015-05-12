@@ -11,9 +11,9 @@ class ApplicationBehavior extends CBehavior {
 
     public function events()
     {
-        return array(
+        return [
             'onBeginRequest' => 'handleBeginRequest'
-        );
+        ];
     }
 
     public function handleBeginRequest()
@@ -21,7 +21,7 @@ class ApplicationBehavior extends CBehavior {
         $owner = $this->getOwner();
 
         if($owner->user->isGuest) {
-            $owner->catchAllRequest = array("site/login");
+            $owner->catchAllRequest = ["site/login"];
         }
     }
 }

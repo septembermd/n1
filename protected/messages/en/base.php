@@ -16,7 +16,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  */
-return array (
+return [
   '[полный текст]' => '[full text]',
   'Адрес для ответа' => 'Feed back adress',
   'Выгоды' => 'Benefits',
@@ -39,4 +39,4 @@ return array (
   'КОНТАКТЫ' => 'CONTACTS',
   'Качество' => 'Quality',
   'Выгоды' => 'Benefits',
-);
+];

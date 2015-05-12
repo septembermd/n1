@@ -16,7 +16,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  */
-return array (
+return [
   'Home' => '',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => '',
-);
+];

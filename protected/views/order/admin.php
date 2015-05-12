@@ -1,13 +1,13 @@
 <?php
-$this->breadcrumbs=array(
-	'Orders'=>array('index'),
+$this->breadcrumbs= [
+	'Orders'=> ['index'],
 	'Manage',
-);
+];
 
-$this->menu=array(
-array('label'=>'List Order','url'=>array('index')),
-array('label'=>'Create Order','url'=>array('create')),
-);
+$this->menu= [
+['label'=>'List Order','url'=> ['index']],
+['label'=>'Create Order','url'=> ['create']],
+];
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -31,18 +31,18 @@ return false;
 	or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
 </p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
+<?php echo CHtml::link('Advanced Search','#', ['class'=>'search-button btn']); ?>
 <div class="search-form" style="display:none">
-	<?php $this->renderPartial('_search',array(
+	<?php $this->renderPartial('_search', [
 	'model'=>$model,
-)); ?>
+    ]); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('booster.widgets.TbGridView',array(
+<?php $this->widget('booster.widgets.TbGridView', [
 'id'=>'order-grid',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
-'columns'=>array(
+'columns'=> [
 		'id',
 		'creator_id',
 		'currency_id',
@@ -62,8 +62,8 @@ return false;
 		'is_deleted',
 		'created',
 		*/
-array(
+[
 'class'=>'booster.widgets.TbButtonColumn',
-),
-),
-)); ?>
+],
+],
+]); ?>

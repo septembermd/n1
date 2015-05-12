@@ -35,15 +35,15 @@ class Settings extends ActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('name, value', 'required', 'on' => 'nonfile'),
-			array('name', 'length', 'max'=>255),
-            array('name', 'required', 'on' => 'file'),
-            array('value', 'file', 'types'=>'jpg, gif, png','allowEmpty' => true, 'on' => 'file'),
+		return [
+			['name, value', 'required', 'on' => 'nonfile'],
+			['name', 'length', 'max'=>255],
+            ['name', 'required', 'on' => 'file'],
+            ['value', 'file', 'types'=>'jpg, gif, png','allowEmpty' => true, 'on' => 'file'],
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, value', 'safe', 'on'=>'search'),
-		);
+			['id, name, value', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -53,8 +53,8 @@ class Settings extends ActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return [
+        ];
 	}
 
 	/**
@@ -62,11 +62,11 @@ class Settings extends ActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'name' => 'Name',
 			'value' => 'Value',
-		);
+        ];
 	}
 
 	/**
@@ -84,9 +84,9 @@ class Settings extends ActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('value',$this->value,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
     public function tt ($index)

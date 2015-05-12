@@ -48,35 +48,35 @@ class Superuser extends ActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-            array('username, name, surname, email, phone, address, password, password_repeat', 'required',
-                'on' => 'insert'),
-            array('username', 'unique',
-                'on' => 'insert'),
-            array('password, password_repeat', 'required', 'on' => 'updatepassword'),
-            array('email, name, password, password_repeat', 'required', 'on' => 'register'),
-            array('type_name, cod_fisc','required','on'=>'scenario1'),
-            array('username, name, surname, email, is_active', 'required', 'on' => 'update'),
-            array('is_active, type, phone ', 'numerical', 'integerOnly' => true),
-            array('password', 'length', 'min' => 5),
-            array('username, name, password', 'length', 'max' => 512),
-            array('salt', 'length', 'max' => 255),
-            array('email', 'email', 'message' => 'Email is not valid.'),
-            array('email', 'unique'),
-            array('password', 'compare', 'on' => 'insert, updatepassword, register'),
-            array('password_repeat', 'safe'),
-            array('last_login, date_joined, is_staff', 'safe'),
+		return [
+            ['username, name, surname, email, phone, address, password, password_repeat', 'required',
+                'on' => 'insert'],
+            ['username', 'unique',
+                'on' => 'insert'],
+            ['password, password_repeat', 'required', 'on' => 'updatepassword'],
+            ['email, name, password, password_repeat', 'required', 'on' => 'register'],
+            ['type_name, cod_fisc','required','on'=>'scenario1'],
+            ['username, name, surname, email, is_active', 'required', 'on' => 'update'],
+            ['is_active, type, phone ', 'numerical', 'integerOnly' => true],
+            ['password', 'length', 'min' => 5],
+            ['username, name, password', 'length', 'max' => 512],
+            ['salt', 'length', 'max' => 255],
+            ['email', 'email', 'message' => 'Email is not valid.'],
+            ['email', 'unique'],
+            ['password', 'compare', 'on' => 'insert, updatepassword, register'],
+            ['password_repeat', 'safe'],
+            ['last_login, date_joined, is_staff', 'safe'],
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-            array('id, username, name,  email, password, salt, is_active, is_staff, last_login, date_joined', 'safe', 'on' => 'search'),
-            array('is_active', 'default',
+            ['id, username, name,  email, password, salt, is_active, is_staff, last_login, date_joined', 'safe', 'on' => 'search'],
+            ['is_active', 'default',
                 'value' => 1,
-                'setOnEmpty' => false, 'on' => 'insert, register'),
-            array('date_joined', 'default',
+                'setOnEmpty' => false, 'on' => 'insert, register'],
+            ['date_joined', 'default',
                 'value' => new CDbExpression('NOW()'),
-                'setOnEmpty' => false, 'on' => 'insert, register')
+                'setOnEmpty' => false, 'on' => 'insert, register']
 
-		);
+        ];
 	}
 
 	/**
@@ -86,8 +86,8 @@ class Superuser extends ActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return [
+        ];
 	}
 
     public function validatePassword($password)
@@ -120,7 +120,7 @@ class Superuser extends ActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
             'username' => 'Логин',
             'name' => 'Имя',
@@ -133,7 +133,7 @@ class Superuser extends ActiveRecord
             'password_repeat' => 'Повторите пароль',
             'type_name' => 'Название предприятия',
             'cod_fisc'  => 'Фискальный код',
-		);
+        ];
 	}
 
 	/**
@@ -170,9 +170,9 @@ class Superuser extends ActiveRecord
         $criteria->compare('last_login', $this->last_login, true);
         $criteria->compare('date_joined', $this->date_joined, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     public function beforeSave()
@@ -192,7 +192,7 @@ class Superuser extends ActiveRecord
         $day_ago = date("Y-m-d H:i:s", mktime(date("H"), date("i"), date("s"), date("m"), date("d") - 1, date("Y")));
         $crt->select = '*, UNIX_TIMESTAMP(date_joined) as date_joined';
         $crt->condition = 'date_joined > :param';
-        $crt->params = array(':param' => $day_ago);
+        $crt->params = [':param' => $day_ago];
         return User::model()->findAll($crt);
 }
 }
