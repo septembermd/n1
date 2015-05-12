@@ -89,7 +89,7 @@ class Order extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return [
-			['creator_id, currency_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required'],
+			['creator_id, currency_id, supplier_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required'],
 			['currency_id, temperature_id, remark_id', 'numerical', 'integerOnly'=>true],
 			['creator_id, carrier_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9],
 			['status_id, is_deleted', 'length', 'max'=>1],

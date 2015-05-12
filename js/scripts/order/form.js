@@ -10,7 +10,13 @@
         });
 
     var $form = $('#order-form'),
-        $addOrderItemBtn = $('.add-order-item');
+        $addOrderItemBtn = $('.add-order-item'),
+        $supplierInput = $('#Order_supplier_id', $form);
+
+    // Trigger populating of dependent dropdowns
+    $(window).load(function(){
+        $supplierInput.trigger('change');
+    });
 
     $addOrderItemBtn.on('click', function(e){
         e.preventDefault();

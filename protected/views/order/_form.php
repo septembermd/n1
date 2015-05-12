@@ -19,7 +19,18 @@
 
 <?php echo $form->errorSummary($model); ?>
 
-	<?php echo $form->dropDownListGroup($model,'loading_id', ['widgetOptions'=> ['data'=>Supplier::getList(),'htmlOptions'=> ['class'=>'span5','maxlength'=>9]]]); ?>
+	<?php echo $form->dropDownListGroup($model,'supplier_id', ['widgetOptions'=> ['data'=>Supplier::getList(),'htmlOptions'=> [
+        'class'=>'span5',
+        'maxlength'=>9,
+        'ajax' => [
+            'type' => 'POST',
+            'url' => ['getLoadingAddressList'],
+            'update' => '#Order_loading_id',
+        ]
+    ]]]); ?>
+    <div id="beer"></div>
+
+    <?php echo $form->dropDownListGroup($model,'loading_id', ['widgetOptions'=> ['data'=>[],'htmlOptions'=> ['class'=>'span5','maxlength'=>9]]]); ?>
 
 	<?php echo $form->dropDownListGroup($model,'delivery_id', ['widgetOptions'=> ['data'=>DeliveryAddress::getList(),'htmlOptions'=> ['class'=>'span5','maxlength'=>9]]]); ?>
 

@@ -107,8 +107,21 @@ class SupplierAddresses extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function getList()
+    /**
+     * @return string
+     */
+    public function getCountryAndAddress(){
+        return $this->country->title.', '.$this->address;
+    }
+
+    /**
+     * Get list of supplier addresses for a supplier by id
+     *
+     * @param $supplierId
+     * @return array
+     */
+    public static function getListBySupplierId($supplierId)
     {
-        return CHtml::listData(self::model()->findAll(),'id','address');
+        return CHtml::listData(self::model()->findAll('supplier_id='.$supplierId), 'id', 'countryAndAddress');
     }
 }

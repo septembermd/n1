@@ -102,6 +102,9 @@ class DeliveryAddress extends CActiveRecord
 		return parent::model($className);
 	}
 
+    /**
+     * @return string
+     */
     public function getCountryAndAddress(){
         return $this->country->title.', '.$this->address;
     }

@@ -3,12 +3,6 @@
 class OrderController extends Controller
 {
     /**
-     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-     * using two-column layout. See 'protected/views/layouts/column2.php'.
-     */
-//    public $layout = '//layouts/column2';
-
-    /**
      * @return array action filters
      */
     public function filters()
@@ -31,7 +25,7 @@ class OrderController extends Controller
                 'users' => ['*'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'update'],
+                'actions' => ['create', 'update', 'getLoadingAddressList'],
                 'users' => ['@'],
             ],
             ['allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -110,6 +104,7 @@ class OrderController extends Controller
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
+     * @throws CHttpException
      */
     public function actionDelete($id)
     {
@@ -120,8 +115,9 @@ class OrderController extends Controller
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
                 $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
-        } else
+        } else {
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+        }
     }
 
     /**
@@ -159,21 +155,44 @@ class OrderController extends Controller
     }
 
     /**
+     * @param $supplierId
+     * @throws CHttpException
+     */
+    public function actionGetLoadingAddressList()
+    {
+        if (Yii::app()->request->isPostRequest) {
+            $order = new Order();
+            $order->setAttributes($_POST['Order']);
+            $supplierAddressesList = SupplierAddresses::getListBySupplierId($order->supplier_id);
+            foreach ($supplierAddressesList as $value => $name) {
+                echo CHtml::tag('option', ['value' => $value], CHtml::encode($name));
+            }
+        } else {
+            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+        }
+        Yii::app()->end();
+    }
+
+    /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param integer $id the ID of the model to be loaded
+     * @return static
+     * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = Order::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
+
         return $model;
     }
 
     /**
      * Performs the AJAX validation.
-     * @param CModel the model to be validated
+     * @param CModel $model the model to be validated
      */
     protected function performAjaxValidation($model)
     {
