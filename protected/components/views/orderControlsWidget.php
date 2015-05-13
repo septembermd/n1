@@ -93,7 +93,16 @@ $user = $acl->getUser();
     <div class="row">
         <div class="col-md-12 text-center" style="margin-top:50px;">
             <?php if ($model->isDeleted()) : ?>
-
+                <?php $this->widget(
+                    'booster.widgets.TbButton',
+                    [
+                        'label' => Yii::t('main', 'Restore'),
+                        'context' => 'primary',
+                        'buttonType' =>'link',
+                        'url' => ['order/restore', 'id' => $model->id],
+                        'size' => 'large'
+                    ]
+                ); ?>
 
             <?php elseif ($model->isHaulerNeeded()): ?>
                 <?php $this->widget(
@@ -116,6 +125,7 @@ $user = $acl->getUser();
                         'size' => 'large'
                     ]
                 ); ?>
+
             <?php elseif ($model->isInTransit()) : ?>
                 <?php $this->widget(
                     'booster.widgets.TbButton',
@@ -127,6 +137,7 @@ $user = $acl->getUser();
                         'size' => 'large'
                     ]
                 ); ?>
+
             <?php elseif ($model->isDelivered()) : ?>
                 <?php $this->widget(
                     'booster.widgets.TbButton',

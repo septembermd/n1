@@ -244,7 +244,6 @@ class Order extends CActiveRecord
         $criteria = new CDbCriteria();
         if ($isDeleted) {
             $criteria->compare('is_deleted', self::IS_DELETED);
-            $criteria->compare('carrier_id', $user->id);
         } elseif ($status) {
             $criteria->compare('status_id', $status);
         }

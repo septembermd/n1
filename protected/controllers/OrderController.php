@@ -39,6 +39,12 @@ class OrderController extends Controller
                 },
             ],
             ['allow', // allow to perform 'accomplish' action
+                'actions' => ['restore'],
+                'expression' => function() use ($acl) {
+                    return $acl->canRestoreOrder();
+                },
+            ],
+            ['allow', // allow to perform 'accomplish' action
                 'actions' => ['accomplish'],
                 'expression' => function() use ($acl) {
                     return $acl->canAccomplishOrder();
@@ -154,6 +160,27 @@ class OrderController extends Controller
         $order->setAttribute('status_id', Order::STATUS_WITHDRAWN);
         if ($order->save()) {
             $this->redirect(['order/index', 'status' => Order::STATUS_WITHDRAWN]);
+        }
+    }
+
+    /**
+     * Restore order
+     *
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionRestore($id)
+    {
+        /** @var Order $order */
+        $order = $this->loadModel($id);
+        if ($order->isDeleted()) {
+            $order->setAttribute('is_deleted', Order::IS_ACTIVE);
+            if ($order->save()) {
+                // todo: send email notification to carrier, manager, supervisor
+                $this->redirect(['order/view', 'id' => $order->id]);
+            }
+        } else {
+            throw new CHttpException(400, Yii::t('main', 'Order is not deleted.'));
         }
     }
 

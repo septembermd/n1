@@ -157,6 +157,26 @@ class AccessControlList {
     /**
      * @return bool
      */
+    public function canRestoreOrder()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        if ($this->user->isManager()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
     public function canAccomplishOrder()
     {
         if ($this->user->isAdmin()) {
