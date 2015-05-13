@@ -31,7 +31,7 @@
     <div class="row">
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('supplier_id')); ?>:</b>
-            <?php echo CHtml::encode($data->supplier_id); ?>
+            <?php echo $data->supplier instanceof Supplier ? CHtml::encode($data->supplier->title) : ''; ?>
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('currency_id')); ?>:</b>

@@ -28,6 +28,18 @@ class OrderBidsController extends Controller
                     return $acl->canCreateOrderBids();
                 }
             ],
+            ['allow',
+                'actions' => ['index'],
+                'expression' => function() use ($acl) {
+                    return $acl->canViewOrderBids();
+                }
+            ],
+            ['allow',
+                'actions' => ['accept'],
+                'expression' => function() use ($acl) {
+                    return $acl->canAcceptOrderBids();
+                }
+            ],
             ['allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => ['delete', 'withdraw'],
                 'users' => ['@']
@@ -36,6 +48,19 @@ class OrderBidsController extends Controller
                 'users' => ['*'],
             ],
         ];
+    }
+
+    /**
+     * Lists all models.
+     *
+     * @param $orderId
+     */
+    public function actionIndex($orderId)
+    {
+        $dataProvider = OrderBids::model()->getCActiveDataProviderByOrderId($orderId);
+        $this->render('index',array(
+            'dataProvider'=>$dataProvider,
+        ));
     }
 
     /**
@@ -75,6 +100,34 @@ class OrderBidsController extends Controller
         $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Accept transportation offer
+     *
+     * @param $orderBidId
+     * @throws CHttpException
+     */
+    public function actionAccept($orderBidId)
+    {
+        $orderBid = $this->loadModel($orderBidId);
+        // Set flag which shows that this bid won
+        $orderBid->setAttribute('is_winner', OrderBids::IS_WINNER);
+        // Set carrier id to order
+        $orderBid->order->setAttribute('carrier_id', $orderBid->user_id);
+        // Set order status 'In transit'
+        $orderBid->order->setAttribute('status_id', Order::STATUS_IN_TRANSIT);
+
+        if($orderBid->hasErrors() || $orderBid->order->hasErrors()) {
+            throw new CHttpException(400, 'Validation error.');
+        }
+
+        if ($orderBid->save() && $orderBid->order->save()) {
+            // todo: send email notification to selected carrier
+            $this->redirect(['order/view', 'id' => $orderBid->order_id]);
+        } else {
+            throw new CHttpException(400, 'Validation error.');
+        }
     }
 
     /**
@@ -126,7 +179,7 @@ class OrderBidsController extends Controller
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param $id
-     * @return static
+     * @return OrderBids
      * @throws CHttpException
      * @internal param the $integer ID of the model to be loaded
      */

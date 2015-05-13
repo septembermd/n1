@@ -41,6 +41,6 @@ $gridColumns = [
 <?php $this->widget('booster.widgets.TbGridView', [
     'type' => 'striped',
 	'dataProvider' => $dataProvider,
-    'template' => "{items}",
+    'template' => '{items}{pager}',
     'columns' => $gridColumns,
 ]); ?>

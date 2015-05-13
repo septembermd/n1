@@ -100,6 +100,73 @@ class AccessControlList {
     /**
      * @return bool
      */
+    public function canAccomplishOrder()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        if ($this->user->isManager()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canReopenOrder()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        if ($this->user->isManager()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canAccessLoadCargo()
+    {
+        if ($this->user->isCarrier())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Order $order
+     * @return bool
+     */
+    public function canLoadCargo(Order $order)
+    {
+        // Carrier can load cargo only if he is selected for the order
+        if ($this->user->isCarrier() && $order->carrier_id === $this->user->id) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
     public function canDeleteOrder()
     {
         if ($this->user->isAdmin()) {
@@ -155,6 +222,42 @@ class AccessControlList {
     public function canCreateOrderBids()
     {
         if ($this->user->isCarrier()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canViewOrderBids()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canAcceptOrderBids()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        if ($this->user->isManager()) {
             return true;
         }
 

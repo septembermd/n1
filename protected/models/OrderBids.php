@@ -21,6 +21,9 @@ class OrderBids extends CActiveRecord
     const STATE_ACTIVE = 0;
     const STATE_DELETED = 1;
 
+    const IS_WINNER = 1;
+    const IS_COMPETITOR = 0;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -28,6 +31,19 @@ class OrderBids extends CActiveRecord
 	{
 		return 'order_bids';
 	}
+
+    /**
+     * Model behaviors
+     *
+     * @return array
+     */
+    public function behaviors(){
+        return [
+            'ESaveRelatedBehavior' => [
+                'class' => 'application.components.ESaveRelatedBehavior'
+            ]
+        ];
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -118,6 +134,18 @@ class OrderBids extends CActiveRecord
 		return parent::model($className);
 	}
 
+    /**
+     * @param $orderId
+     * @return CActiveDataProvider
+     */
+    public function getCActiveDataProviderByOrderId($orderId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('order_id', $orderId);
+        $dataProvider =  new CActiveDataProvider(__CLASS__, ['criteria' => $criteria]);
+
+        return $dataProvider;
+    }
 
     /**
      * Check if order is withdrawn
@@ -127,5 +155,19 @@ class OrderBids extends CActiveRecord
     public function isWithdrawn()
     {
         return $this->is_deleted == self::STATE_DELETED;
+    }
+
+    /**
+     * Get best offer
+     *
+     * @param Order $order
+     * @return OrderBids[]
+     */
+    public function getBestOfferByOrder(Order $order)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('order_id', $order->id);
+
+        return self::model()->find($criteria);
     }
 }

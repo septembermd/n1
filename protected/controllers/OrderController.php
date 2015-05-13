@@ -32,6 +32,24 @@ class OrderController extends Controller
                     return $acl->canCreateOrder();
                 },
             ],
+            ['allow', // allow to perform 'accomplish' action
+                'actions' => ['accomplish'],
+                'expression' => function() use ($acl) {
+                    return $acl->canAccomplishOrder();
+                },
+            ],
+            ['allow', // allow to perform 'accomplish' action
+                'actions' => ['reopen'],
+                'expression' => function() use ($acl) {
+                    return $acl->canReopenOrder();
+                },
+            ],
+            ['allow', // allow to perform 'loadCargo' action
+                'actions' => ['loadCargo'],
+                'expression' => function() use ($acl) {
+                    return $acl->canAccessLoadCargo();
+                },
+            ],
             ['allow', // allow to perform 'delete' action
                 'actions' => ['delete'],
                 'expression' => function() use ($acl) {
@@ -133,6 +151,81 @@ class OrderController extends Controller
     }
 
     /**
+     * Accomplish order action.
+     *
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionAccomplish($id)
+    {
+        /** @var Order $order */
+        $order = $this->loadModel($id);
+
+        if (isset($_POST['Order'])) {
+            $order->setAttributes($_POST['Order']);
+            // Set order status to 'Delivered'
+            $order->setAttribute('status_id', Order::STATUS_DELIVERED);
+            $order->setAttribute('delivered_on_date', new CDbExpression('NOW()'));
+            // todo: send email notification to carrier, manager, supervisor
+            if ($order->save()) {
+                $this->redirect(['order/index', 'status' => Order::STATUS_DELIVERED]);
+            }
+        }
+
+        $this->render('accomplish', ['model' => $order]);
+    }
+
+    /**
+     * Reopen order action.
+     *
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionReopen($id)
+    {
+        /** @var Order $order */
+        $order = $this->loadModel($id);
+
+        // Reset status id to 'In transit'
+        $order->setAttribute('status_id', Order::STATUS_IN_TRANSIT);
+        // Clear remark and loaded cargo date
+        $CDbNull = new CDbExpression('NULL');
+        $order->setAttribute('remark_id', $CDbNull);
+        $order->setAttribute('loaded_on_date', $CDbNull);
+        $order->setAttribute('delivered_on_date', $CDbNull);
+
+        if ($order->save()) {
+            // todo: send email notification to supervisor, manager, carrier
+            $this->redirect(['order/view', 'id' => $order->id]);
+        } else var_dump($order->getErrors());
+    }
+
+    /**
+     * Load cargo action
+     *
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionLoadCargo($id)
+    {
+        /** @var Order $order */
+        $order = $this->loadModel($id);
+        // Check if user can load cargo on this order
+        if (!$this->acl->canLoadCargo($order)) {
+            throw new CHttpException(403, Yii::t('main', 'You are not allowed to load cargo for this order.'));
+        }
+        // Allow to load only cargo in transit
+        if (!$order->isInTransit()) {
+            throw new CHttpException(400, Yii::t('main', 'You are not allowed to load cargo which is not in transit.'));
+        }
+        $order->setAttribute('loaded_on_date', new CDbExpression('NOW()'));
+        if ($order->save()) {
+            // todo: send email notification to carrier, manager ... ?
+            $this->redirect(['order/view', 'id' => $order->id]);
+        }
+    }
+
+    /**
      * Lists all models.
      *
      * @param int $status
@@ -146,7 +239,7 @@ class OrderController extends Controller
         $currentUser = $this->acl->getUser();
         // Filter access for deleted orders tab
         if(!$this->acl->canViewDeletedOrders() && $isDeleted) {
-            throw new CHttpException(400, Yii::t('main', 'You are not allowed to view deleted orders.'));
+            throw new CHttpException(403, Yii::t('main', 'You are not allowed to view deleted orders.'));
         }
         $dataProvider = Order::model()->getCActiveDataProviderByUserAndStatus($currentUser, $status, $deleted);
         $this->render('index', [
@@ -172,7 +265,8 @@ class OrderController extends Controller
     }
 
     /**
-     * @param $supplierId
+     * Ajax action. Get list of Supplier Addresses.
+     *
      * @throws CHttpException
      */
     public function actionGetLoadingAddressList()

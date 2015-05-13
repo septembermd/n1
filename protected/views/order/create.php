@@ -10,6 +10,6 @@ $this->menu= [
 ];
 ?>
 
-<h1>Create Order</h1>
+<h1><?php echo Yii::t('main', 'Create Order'); ?></h1>
 
 <?php echo $this->renderPartial('_form', ['model'=>$model]); ?>

@@ -3,7 +3,7 @@
 /* @var $model User */
 
 $this->breadcrumbs= [
-	'Users'=> ['index'],
+	'Users' => $this->acl->canPerformUsersAdminActions() ? ['index'] : false,
 	sprintf("%s (%s)", $model->fullname, User::getRoleLabel($model->role_id)),
 ];
 

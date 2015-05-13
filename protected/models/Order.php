@@ -71,6 +71,7 @@ class Order extends CActiveRecord
 
     /**
      * Model behaviors
+     *
      * @return array
      */
     public function behaviors(){
@@ -90,7 +91,7 @@ class Order extends CActiveRecord
 		// will receive user inputs.
 		return [
 			['creator_id, currency_id, supplier_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required'],
-			['currency_id, temperature_id, remark_id', 'numerical', 'integerOnly'=>true],
+			['currency_id, temperature_id', 'numerical', 'integerOnly'=>true],
 			['creator_id, carrier_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9],
 			['status_id, is_deleted', 'length', 'max'=>1],
 			['created, carrier_id, supplier_id, remark_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'],
@@ -252,17 +253,9 @@ class Order extends CActiveRecord
             $criteria->compare('carrier_id', $user->id);
         }
 
-        return new CActiveDataProvider(__CLASS__, ['criteria' => $criteria]);
-    }
+        $criteria->order = "id DESC";
 
-    /**
-     * Check if carrier has been chosen
-     *
-     * @return bool
-     */
-    public function isCarrierChosen()
-    {
-        return $this->carrier_id !== null;
+        return new CActiveDataProvider(__CLASS__, ['criteria' => $criteria]);
     }
 
     /**
@@ -279,5 +272,65 @@ class Order extends CActiveRecord
         ]);
 
         return ($orderBidsCount > 0);
+    }
+
+    /**
+     * Check if carrier has been chosen
+     *
+     * @return bool
+     */
+    public function isCarrierChosen()
+    {
+        return $this->carrier_id !== null;
+    }
+
+    /**
+     * Check if cargo is loaded
+     *
+     * @return bool
+     */
+    public function isCargoLoaded()
+    {
+        return $this->loaded_on_date != null;
+    }
+
+    /**
+     * Check if order status is 'Hauler needed'
+     *
+     * @return bool
+     */
+    public function isHaulerNeeded()
+    {
+        return $this->status_id == self::STATUS_HAULER_NEEDED;
+    }
+
+    /**
+     * Check if order is in transit
+     *
+     * @return bool
+     */
+    public function isInTransit()
+    {
+        return $this->status_id == self::STATUS_IN_TRANSIT;
+    }
+
+    /**
+     * Check if order status is 'Delivered'
+     *
+     * @return bool
+     */
+    public function isDelivered()
+    {
+        return $this->status_id == self::STATUS_DELIVERED;
+    }
+
+    /**
+     * Check if order is deleted
+     *
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->is_deleted == self::IS_DELETED;
     }
 }

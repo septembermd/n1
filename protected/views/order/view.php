@@ -32,7 +32,10 @@ $this->menu= [
             'name'=>'currency.title',
             'label' => 'Currency'
         ],
-        'supplier_id',
+        [
+            'name'=>'supplier.title',
+            'label' => 'Supplier'
+        ],
         [
             'name'=>'loading.address',
             'label' => 'Loading Address'
@@ -45,12 +48,16 @@ $this->menu= [
             'name'=>'temperature.title',
             'label' => 'Temperature'
         ],
+        [
+            'name'=>'carrier.company.title',
+            'label' => 'Carrier'
+        ],
 //		'remark_id',
 		'valid_date',
 		'load_date',
 		'deliver_date',
-//		'loaded_on_date',
-//		'delivered_on_date',
+		'loaded_on_date',
+		'delivered_on_date',
 //		'deleted_on_date',
 //		'is_deleted',
 		'created',
