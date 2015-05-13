@@ -1,7 +1,8 @@
 <?php
 $this->breadcrumbs= [
-	'Order Bids',
-	'Create',
+	'Order' => ['order/index', 'status' => $model->order->status_id],
+    "#$model->order_id" => ['order/view', 'id'=>$model->order_id],
+	'Bid for order',
 ];
 
 $this->menu= [
@@ -10,6 +11,6 @@ $this->menu= [
 ];
 ?>
 
-<h1>Create OrderBids</h1>
+<h1><?php echo Yii::t('main', 'Bid for order #{orderId}', ['{orderId}'=>$model->order_id]); ?></h1>
 
 <?php echo $this->renderPartial('_form', ['model'=>$model]); ?>
