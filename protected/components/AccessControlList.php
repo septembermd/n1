@@ -78,9 +78,66 @@ class AccessControlList {
     }
 
     /**
+     * @param Order $order
+     * @return bool
+     */
+    public function canViewOrder(Order $order)
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        if ($this->user->isManager()) {
+            return true;
+        }
+
+        if ($this->user->isCarrier()) {
+            // Carrier cannot view deleted orders
+            if ($order->isDeleted()) {
+                return false;
+            }
+            // Carrier can view order only if he is selected for the order
+            if ($order->carrier_id === $this->user->id) {
+                return true;
+            }
+
+            if ($order->isHaulerNeeded()) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    /**
      * @return bool
      */
     public function canCreateOrder()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        if ($this->user->isManager()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canWithdrawOrder()
     {
         if ($this->user->isAdmin()) {
             return true;
@@ -274,11 +331,6 @@ class AccessControlList {
             return true;
         }
 
-        // Carrier can delete only self created bids
-        if ($this->user->isCarrier() && $orderBids->user_id === $this->user->id) {
-            return true;
-        }
-
         return false;
     }
 
@@ -296,6 +348,11 @@ class AccessControlList {
         }
 
         if ($this->user->isManager()) {
+            return true;
+        }
+
+        // Carrier can withdraw only self created bids
+        if ($this->user->isCarrier() && $orderBids->user_id === $this->user->id) {
             return true;
         }
 

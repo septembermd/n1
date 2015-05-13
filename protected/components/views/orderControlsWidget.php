@@ -92,14 +92,17 @@ $user = $acl->getUser();
 <?php elseif ($user->isSupervisor() || $user->isAdmin()) : // Supervisor and Admin view ?>
     <div class="row">
         <div class="col-md-12 text-center" style="margin-top:50px;">
-            <?php if ($model->isHaulerNeeded()): ?>
+            <?php if ($model->isDeleted()) : ?>
+
+
+            <?php elseif ($model->isHaulerNeeded()): ?>
                 <?php $this->widget(
                     'booster.widgets.TbButton',
                     [
                         'label' => Yii::t('main', 'Withdraw'),
                         'context' => 'primary',
                         'buttonType' =>'link',
-                        'url' => ['orderBids/withdraw', 'id' => $model->id],
+                        'url' => ['order/withdraw', 'id' => $model->id],
                         'size' => 'large'
                     ]
                 ); ?>

@@ -1,3 +1,6 @@
+<?php
+/** @var Order $data */
+?>
 <div class="view" style="margin-bottom:35px;">
     <div class="row">
         <div class="col-md-2">
@@ -38,7 +41,10 @@
             <?php echo CHtml::encode($data->currency->title); ?>
         </div>
         <div class="col-md-2">
-
+            <?php if ($data->isInTransit() || $data->isDelivered()) : ?>
+                <b><?php echo CHtml::encode($data->getAttributeLabel('carrier_id')); ?>:</b>
+                <?php echo CHtml::encode($data->carrier->company->title); ?>
+            <?php endif; ?>
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('created')); ?>:</b>

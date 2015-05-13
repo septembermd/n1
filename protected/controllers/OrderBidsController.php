@@ -158,18 +158,16 @@ class OrderBidsController extends Controller
 
     public function actionWithdraw($id) {
 //        if (Yii::app()->request->isPostRequest) {
-            /** @var OrderBids $model */
-            $model = $this->loadModel($id);
-            if ($this->acl->canWithdrawOrderBid($model)) {
-                $model->setAttribute('is_deleted', OrderBids::STATE_DELETED);
-                if ($model->save()) {
-                    $this->redirect(['order/view', 'id' => $model->order_id]);
-                } else {
-                    var_dump($model->getErrors());
-                }
-            } else {
-                throw new CHttpException(400, Yii::t('main', 'You are not allowed to withdraw this bid.'));
-            }
+        /** @var OrderBids $model */
+        $model = $this->loadModel($id);
+        // Check if user can withdraw this offer
+        if (!$this->acl->canWithdrawOrderBid($model)) {
+            throw new CHttpException(400, Yii::t('main', 'You are not allowed to withdraw this bid.'));
+        }
+        $model->setAttribute('is_deleted', OrderBids::STATE_DELETED);
+        if ($model->save()) {
+            $this->redirect(['order/view', 'id' => $model->order_id]);
+        }
 //        } else {
 //            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
 //        }

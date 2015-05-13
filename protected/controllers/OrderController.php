@@ -33,6 +33,12 @@ class OrderController extends Controller
                 },
             ],
             ['allow', // allow to perform 'accomplish' action
+                'actions' => ['withdraw'],
+                'expression' => function() use ($acl) {
+                    return $acl->canWithdrawOrder();
+                },
+            ],
+            ['allow', // allow to perform 'accomplish' action
                 'actions' => ['accomplish'],
                 'expression' => function() use ($acl) {
                     return $acl->canAccomplishOrder();
@@ -71,11 +77,16 @@ class OrderController extends Controller
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
+     * @throws CHttpException
      */
     public function actionView($id)
     {
+        $order = $this->loadModel($id);
+        if (!$this->acl->canViewOrder($order)) {
+            throw new CHttpException(403, Yii::t('main', 'You cannot view this order'));
+        }
         $this->render('view', [
-            'model' => $this->loadModel($id),
+            'model' => $order,
         ]);
     }
 
@@ -128,6 +139,22 @@ class OrderController extends Controller
         $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Withdraw order
+     *
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionWithdraw($id)
+    {
+        /** @var Order $order */
+        $order = $this->loadModel($id);
+        $order->setAttribute('status_id', Order::STATUS_WITHDRAWN);
+        if ($order->save()) {
+            $this->redirect(['order/index', 'status' => Order::STATUS_WITHDRAWN]);
+        }
     }
 
     /**
