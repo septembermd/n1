@@ -15,6 +15,6 @@ $this->menu= [
 
 <h1>Create User</h1>
 
-<?php echo CHtml::link(Yii::t('main', 'Назад'), ['user/index'], ['class'=>'btn btn-info pull-right']) ?>
+<?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class'=>'btn btn-info pull-right']) ?>
 
 <?php $this->renderPartial('_form', ['model'=>$model]); ?>

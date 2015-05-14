@@ -16,21 +16,21 @@ $this->menu= [
 ];
 ?>
 
-<?php echo CHtml::link(Yii::t('main', 'Назад'), ['user/index'], ['class'=>'btn btn-info pull-right']) ?>
+<?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class'=>'btn btn-info pull-right']) ?>
 
 <?php $this->widget('zii.widgets.CDetailView', [
 	'data'=>$model,
 	'attributes'=> [
         [
-            'label' => Yii::t('main', 'Компания'),
+            'label' => Yii::t('main', 'Company'),
             'value' => $model->company->title
         ],
         [
-            'label' => Yii::t('main', 'Имя пользователя'),
+            'label' => Yii::t('main', 'User Name'),
             'value' => $model->fullname
         ],
         [
-            'label' => Yii::t('main', 'Роль пользователя'),
+            'label' => Yii::t('main', 'User Role'),
             'value' => User::getRoleLabel($model->role_id)
         ],
         [
@@ -38,7 +38,7 @@ $this->menu= [
             'value' => $model->email
         ],
         [
-            'label' => Yii::t('main', 'Телефон'),
+            'label' => Yii::t('main', 'Phone'),
             'value' => $model->phone
         ],
     ],

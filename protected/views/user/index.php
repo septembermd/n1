@@ -3,7 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs= [
-	Yii::t('main', 'Пользователи'),
+	Yii::t('main', 'Users'),
 ];
 
 $this->menu= [
@@ -13,13 +13,13 @@ $this->menu= [
 
 $gridColumns = [
     ['name'=>'id', 'header'=>'#', 'htmlOptions'=> ['style'=>'width: 60px']],
-    ['name'=>'company_id', 'header'=>Yii::t('main', 'Компания'), 'value' => function($data){ return $data->company->title; }],
-    ['name'=>'fullname', 'header'=>Yii::t('main', 'Имя')],
+    ['name'=>'company_id', 'header'=>Yii::t('main', 'Company'), 'value' => function($data){ return $data->company->title; }],
+    ['name'=>'fullname', 'header'=>Yii::t('main', 'Name')],
     ['name'=>'email', 'header'=>Yii::t('main', 'Email')],
-    ['name'=>'phone', 'header'=>Yii::t('main', 'Телефон')],
-    ['name'=>'role_id', 'header'=>Yii::t('main', 'Роль'), 'value' => function($data){ return User::getRoleLabel($data->role_id); }],
-    ['name'=>'is_active', 'header'=>Yii::t('main', 'Активен'), 'value' => function($data){ return User::getUserStateLabel($data->is_active); }],
-    ['name'=>'created', 'header'=>Yii::t('main', 'Создан')],
+    ['name'=>'phone', 'header'=>Yii::t('main', 'Phone')],
+    ['name'=>'role_id', 'header'=>Yii::t('main', 'Role'), 'value' => function($data){ return User::getRoleLabel($data->role_id); }],
+    ['name'=>'is_active', 'header'=>Yii::t('main', 'Active'), 'value' => function($data){ return User::getUserStateLabel($data->is_active); }],
+    ['name'=>'created', 'header'=>Yii::t('main', 'Created')],
     [
         'htmlOptions' => ['nowrap'=>'nowrap'],
         'class'=>'booster.widgets.TbButtonColumn',
@@ -36,7 +36,7 @@ $gridColumns = [
 ];
 ?>
 
-<?php echo CHtml::link(Yii::t('main', 'Добавить Пользователя'), ['user/create'], ['class'=>'btn btn-info pull-right']) ?>
+<?php echo CHtml::link(Yii::t('main', 'Create User'), ['user/create'], ['class'=>'btn btn-info pull-right']) ?>
 
 <?php $this->widget('booster.widgets.TbGridView', [
     'type' => 'striped',

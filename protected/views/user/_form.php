@@ -25,7 +25,7 @@
 	<?php $this->widget('booster.widgets.TbButton', [
 			'buttonType'=>'submit',
 			'context'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+			'label'=> Yii::t('main', $model->isNewRecord ? 'Create' : 'Save'),
     ]); ?>
 </div>
 

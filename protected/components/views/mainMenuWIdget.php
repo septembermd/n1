@@ -15,7 +15,7 @@ if(!$currentUser->isGuest) {
     ];
 }
 $rightMenuItems[] = [
-    'label' => Yii::t('main', $currentUser->isGuest ? 'Войти' : 'Выйти'),
+    'label' => Yii::t('main', $currentUser->isGuest ? 'Login' : 'Logout'),
     'url' => [$currentUser->isGuest ? 'site/login' : 'site/logout'],
     'active' => false
 ];
