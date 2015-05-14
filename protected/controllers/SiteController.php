@@ -10,8 +10,7 @@ class SiteController extends Controller
     public function accessRules()
     {
         return [
-            [
-                'allow',
+            ['allow',
                 'actions' => [
                     'login',
                     'accessRequest',
@@ -20,15 +19,18 @@ class SiteController extends Controller
                 'users' => ['?'],
                 'deniedCallback' => [$this, 'redirectToHomePage']
             ],
-
-            [
-                'allow',
+            ['allow',
                 'actions' => [
                     'index',
                     'logout'
                 ],
                 'users' => ['@'],
                 'deniedCallback' => [$this, 'redirectToLoginPage']
+            ],
+            ['allow',
+                'actions' => ['error'],
+                'users' => ['*']
+
             ],
 
             ['deny',  // deny all users
@@ -72,12 +74,13 @@ class SiteController extends Controller
 	 */
 	public function actionError()
 	{
-		if($error=Yii::app()->errorHandler->error)
-		{
-			if(Yii::app()->request->isAjaxRequest)
-				echo $error['message'];
-			else
+        $error = Yii::app()->errorHandler->error;
+		if ($error) {
+			if (Yii::app()->request->isAjaxRequest) {
+                echo $error['message'];
+            } else {
 				$this->render('error', $error);
+            }
 		}
 	}
 
