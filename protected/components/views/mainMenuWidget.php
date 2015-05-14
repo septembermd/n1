@@ -19,7 +19,7 @@ $rightMenuItems[] = [
     'url' => [$currentUser->isGuest ? 'site/login' : 'site/logout'],
     'active' => false
 ];
- 
+
 $this->widget(
     'booster.widgets.TbNavbar',
     [
