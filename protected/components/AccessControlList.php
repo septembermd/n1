@@ -137,6 +137,18 @@ class AccessControlList {
     /**
      * @return bool
      */
+    public function canUpdateOrder()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
     public function canWithdrawOrder()
     {
         if ($this->user->isAdmin()) {
@@ -334,6 +346,18 @@ class AccessControlList {
             return true;
         }
 
+        if ($this->user->isManager()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canAcceptBestOrderBids()
+    {
         if ($this->user->isManager()) {
             return true;
         }

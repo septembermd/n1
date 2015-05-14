@@ -27,9 +27,15 @@ class OrderController extends Controller
                 'users' => ['@'],
             ],
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'update', 'getLoadingAddressList'],
+                'actions' => ['create', 'getLoadingAddressList'],
                 'expression' => function() use ($acl) {
                     return $acl->canCreateOrder();
+                },
+            ],
+            ['allow', // allow to perform 'accomplish' action
+                'actions' => ['update'],
+                'expression' => function() use ($acl) {
+                    return $acl->canUpdateOrder();
                 },
             ],
             ['allow', // allow to perform 'accomplish' action

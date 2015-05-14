@@ -46,6 +46,8 @@ class Order extends CActiveRecord
     const IS_ACTIVE = 0;
     const IS_DELETED = 1;
 
+    const REMARK_SUCCESS = 1;
+
     public static $statusMap = [
         self::STATUS_HAULER_NEEDED => "Hauler needed",
         self::STATUS_IN_TRANSIT => "In transit",
@@ -331,5 +333,48 @@ class Order extends CActiveRecord
     public function isDeleted()
     {
         return $this->is_deleted == self::IS_DELETED;
+    }
+
+    /**
+     * Get orders with issues criteria
+     *
+     * @param User $user
+     * @return CDbCriteria
+     */
+    public function getOrdersWithIssuesCriteriaByUser(User $user)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('carrier_id', $user->id);
+        $criteria->compare('status_id', self::STATUS_DELIVERED);
+        $criteria->addCondition("remark_id != :remark");
+        $criteria->params[':remark'] = self::REMARK_SUCCESS;
+
+        return $criteria;
+    }
+
+    /**
+     * Get orders with issues
+     *
+     * @param User $user
+     * @return Order[]
+     */
+    public function getOrdersWithIssuesByUser(User $user)
+    {
+        $criteria = $this->getOrdersWithIssuesCriteriaByUser($user);
+
+        return self::model()->findAll($criteria);
+    }
+
+    /**
+     * Get orders with issues count
+     *
+     * @param User $user
+     * @return string
+     */
+    public function getOrdersWithIssuesCountByUser(User $user)
+    {
+        $criteria = $this->getOrdersWithIssuesCriteriaByUser($user);
+
+        return self::model()->count($criteria);
     }
 }

@@ -5,11 +5,11 @@
 /** @var User $user */
 $user = $acl->getUser();
 ?>
+<div class="row">
+    <div class="col-md-12 text-center" style="margin-top:50px;">
+        <?php if ($user->isCarrier()) : // Carrier view ?>
 
-<?php if ($user->isCarrier()) : // Carrier view ?>
-    <div class="row">
-        <div class="col-md-12 text-center" style="margin-top:50px;">
-            <?php if ($model->isHaulerNeeded()) : ?>
+            <?php if ($model->isHaulerNeeded()) : // Status: Hauler nedded ?>
                 <?php if ($model->isTransportationOfferedByUser($user)) : ?>
                     <?php
                     /** @var OrderBids $userBid */
@@ -42,7 +42,8 @@ $user = $acl->getUser();
                         ]
                     ); ?>
                 <?php endif; ?>
-            <?php elseif ($model->isInTransit()) : ?>
+
+            <?php elseif ($model->isInTransit()) : // Status: In transit ?>
                 <?php if (!$model->isCargoLoaded()) : ?>
                     <?php $this->widget(
                         'booster.widgets.TbButton',
@@ -59,40 +60,10 @@ $user = $acl->getUser();
                     ); ?>
                 <?php endif; ?>
             <?php endif; ?>
-        </div>
-    </div>
 
+        <?php elseif ($user->isSupervisor() || $user->isManager() || $user->isAdmin()) : // Supervisor, Manager and Admin view ?>
 
-<?php elseif ($user->isManager()) : // Manager view ?>
-    <div class="row">
-        <div class="col-md-12 text-center" style="margin-top:50px;">
-            <?php if ($model->isHaulerNeeded()): ?>
-                <?php $this->widget(
-                    'booster.widgets.TbButton',
-                    [
-                        'label' => Yii::t('main', 'Withdraw'),
-                        'context' => 'primary',
-                        'url' => ['order/index'],
-                        'size' => 'large'
-                    ]
-                ); ?>
-                <?php $this->widget(
-                    'booster.widgets.TbButton',
-                    [
-                        'label' => Yii::t('main', 'Best Offer'),
-                        'context' => 'primary',
-                        'url' => ['orderBids/bestOffer', 'orderId' => $model->id],
-                        'size' => 'large'
-                    ]
-                ); ?>
-            <?php endif; ?>
-        </div>
-    </div>
-
-<?php elseif ($user->isSupervisor() || $user->isAdmin()) : // Supervisor and Admin view ?>
-    <div class="row">
-        <div class="col-md-12 text-center" style="margin-top:50px;">
-            <?php if ($model->isDeleted()) : ?>
+            <?php if ($model->isDeleted()) : // Status: Deleted ?>
                 <?php $this->widget(
                     'booster.widgets.TbButton',
                     [
@@ -104,7 +75,7 @@ $user = $acl->getUser();
                     ]
                 ); ?>
 
-            <?php elseif ($model->isHaulerNeeded()): ?>
+            <?php elseif ($model->isHaulerNeeded()) : // Status: Hauler nedded?>
                 <?php $this->widget(
                     'booster.widgets.TbButton',
                     [
@@ -115,18 +86,31 @@ $user = $acl->getUser();
                         'size' => 'large'
                     ]
                 ); ?>
-                <?php $this->widget(
-                    'booster.widgets.TbButton',
-                    [
-                        'label' => sprintf("%s (%s)", Yii::t('main', 'Check offers'), $model->getBidsCount()),
-                        'context' => 'primary',
-                        'buttonType' =>'link',
-                        'url' => ['orderBids/index', 'orderId' => $model->id],
-                        'size' => 'large'
-                    ]
-                ); ?>
+                <?php if ($user->isManager()) : // Manager can see only best offer ?>
+                    <?php $this->widget(
+                        'booster.widgets.TbButton',
+                        [
+                            'label' => Yii::t('main', 'Best Offer'),
+                            'context' => 'primary',
+                            'buttonType' =>'link',
+                            'url' => ['orderBids/bestOffer', 'orderId' => $model->id],
+                            'size' => 'large'
+                        ]
+                    ); ?>
+                <?php else : ?>
+                    <?php $this->widget(
+                        'booster.widgets.TbButton',
+                        [
+                            'label' => sprintf("%s (%s)", Yii::t('main', 'Check offers'), $model->getBidsCount()),
+                            'context' => 'primary',
+                            'buttonType' =>'link',
+                            'url' => ['orderBids/index', 'orderId' => $model->id],
+                            'size' => 'large'
+                        ]
+                    ); ?>
+                <?php endif; ?>
 
-            <?php elseif ($model->isInTransit()) : ?>
+            <?php elseif ($model->isInTransit()) : // Status: In transit ?>
                 <?php $this->widget(
                     'booster.widgets.TbButton',
                     [
@@ -138,7 +122,7 @@ $user = $acl->getUser();
                     ]
                 ); ?>
 
-            <?php elseif ($model->isDelivered()) : ?>
+            <?php elseif ($model->isDelivered()) : // Status: Delivered ?>
                 <?php $this->widget(
                     'booster.widgets.TbButton',
                     [
@@ -153,7 +137,7 @@ $user = $acl->getUser();
                     ]
                 ); ?>
             <?php endif; ?>
-        </div>
-    </div>
 
-<?php endif; ?>
+        <?php endif; ?>
+    </div>
+</div>

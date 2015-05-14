@@ -158,15 +158,43 @@ class OrderBids extends CActiveRecord
     }
 
     /**
-     * Get best offer
+     * Get criteria for best offer query
      *
      * @param Order $order
-     * @return OrderBids[]
+     * @return CDbCriteria
      */
-    public function getBestOfferByOrder(Order $order)
-    {
+    public function getBestOfferCriteriaByOrder(Order $order) {
         $criteria = new CDbCriteria();
         $criteria->compare('order_id', $order->id);
+        $criteria->compare('is_deleted', self::STATE_ACTIVE);
+        $criteria->order = "cost ASC";
+
+        return $criteria;
+    }
+
+    /**
+     * Get best offer by Order
+     *
+     * @param Order $order
+     * @return OrderBids
+     */
+    public function findBestOfferByOrder(Order $order)
+    {
+        $criteria = $this->getBestOfferCriteriaByOrder($order);
+
+        return self::model()->find($criteria);
+    }
+
+    /**
+     * Get best offers count by Order
+     *
+     * @param Order $order
+     * @return static
+     */
+    public function getAllBestOfferCountByOrder(Order $order)
+    {
+        $criteria = $this->getBestOfferCriteriaByOrder($order);
+        $criteria->select = 'COUNT(id) as count';
 
         return self::model()->find($criteria);
     }

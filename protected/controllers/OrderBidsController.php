@@ -40,6 +40,12 @@ class OrderBidsController extends Controller
                     return $acl->canAcceptOrderBids();
                 }
             ],
+            ['allow',
+                'actions' => ['bestOffer'],
+                'expression' => function() use ($acl) {
+                    return $acl->canAcceptBestOrderBids();
+                }
+            ],
             ['allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => ['delete', 'withdraw'],
                 'users' => ['@']
@@ -61,6 +67,31 @@ class OrderBidsController extends Controller
         $this->render('index',array(
             'dataProvider'=>$dataProvider,
         ));
+    }
+
+    /**
+     * Show best order offer
+     *
+     * @param $orderId
+     * @throws CHttpException
+     */
+    public function actionBestOffer($orderId)
+    {
+        $orderModel = Order::model();
+        $order = $orderModel->findByPk($orderId);
+        if ($order === null) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        $orderBid = OrderBids::model()->findBestOfferByOrder($order);
+        if ($orderBid === null) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        $ordersWithIssuesCount = $orderModel->getOrdersWithIssuesCountByUser($orderBid->user);
+
+        $this->render('bestOffer', [
+            'model' => $orderBid,
+            'ordersWithIssuesCount' => $ordersWithIssuesCount
+        ]);
     }
 
     /**
