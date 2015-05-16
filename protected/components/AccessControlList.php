@@ -375,6 +375,11 @@ class AccessControlList {
             return true;
         }
 
+        // Carrier can delete only self created bids
+        if ($this->user->isCarrier() && $orderBids->user_id === $this->user->id) {
+            return true;
+        }
+
         return false;
     }
 
@@ -392,12 +397,11 @@ class AccessControlList {
         }
 
         if ($this->user->isManager()) {
-            return true;
-        }
-
-        // Carrier can withdraw only self created bids
-        if ($this->user->isCarrier() && $orderBids->user_id === $this->user->id) {
-            return true;
+            // Manager can withdraw only best offer
+            $bestOrderBids = OrderBids::model()->findBestOfferByOrder($orderBids->order);
+            if ($bestOrderBids->id === $orderBids->id) {
+                return true;
+            }
         }
 
         return false;

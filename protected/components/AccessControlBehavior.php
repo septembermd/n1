@@ -20,7 +20,7 @@ class ApplicationBehavior extends CBehavior {
     {
         $owner = $this->getOwner();
 
-        if($owner->user->isGuest) {
+        if ($owner->user->isGuest) {
             $owner->catchAllRequest = ["site/login"];
         }
     }

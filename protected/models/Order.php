@@ -236,6 +236,16 @@ class Order extends CActiveRecord
     }
 
     /**
+     * Check if order has bids
+     *
+     * @return bool
+     */
+    public function hasOrderBids()
+    {
+        return $this->getBidsCount() > 0;
+    }
+
+    /**
      * @param User $user
      * @param integer $status
      * @param bool $isDeleted

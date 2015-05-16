@@ -21,6 +21,7 @@ class OrderBidsController extends Controller
     {
         $acl = $this->acl;
 
+
         return [
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => ['create'],
@@ -46,8 +47,8 @@ class OrderBidsController extends Controller
                     return $acl->canAcceptBestOrderBids();
                 }
             ],
-            ['allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => ['delete', 'withdraw'],
+            ['allow', // allow admin user to perform 'delete' action
+                'actions' => ['delete', 'withdraw', 'withdrawBid'],
                 'users' => ['@']
             ],
             ['deny',  // deny all users
@@ -80,11 +81,11 @@ class OrderBidsController extends Controller
         $orderModel = Order::model();
         $order = $orderModel->findByPk($orderId);
         if ($order === null) {
-            throw new CHttpException(404, 'The requested page does not exist.');
+            throw new CHttpException(404, Yii::t('main', 'The requested page does not exist.'));
         }
         $orderBid = OrderBids::model()->findBestOfferByOrder($order);
         if ($orderBid === null) {
-            throw new CHttpException(404, 'The requested page does not exist.');
+            throw new CHttpException(404, Yii::t('main', 'The requested page does not exist.'));
         }
         $ordersWithIssuesCount = $orderModel->getOrdersWithIssuesCountByUser($orderBid->user);
 
@@ -92,6 +93,32 @@ class OrderBidsController extends Controller
             'model' => $orderBid,
             'ordersWithIssuesCount' => $ordersWithIssuesCount
         ]);
+    }
+
+    /**
+     * Withdraw order bid offered by actionBestOffer
+     *
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionWithdrawBid($id)
+    {
+        /** @var OrderBids $orderBid */
+        $orderBid = $this->loadModel($id);
+        if (!$this->acl->canWithdrawOrderBid($orderBid)) {
+            throw new CHttpException('403', Yii::t('main', 'You are not allowed to withdraw this order bid.'));
+        }
+        $model = new OrderBidWithdrawForm();
+        $model->orderBid = $orderBid;
+        if (isset($_POST['OrderBidWithdrawForm'])) {
+            $model->attributes = $_POST['OrderBidWithdrawForm'];
+            // todo: send email notification to supervisor, carrier
+            $orderBid->is_deleted = OrderBids::STATE_DELETED;
+            if ($orderBid->save()) {
+                $this->redirect(['order/view', 'id' => $orderBid->order_id]);
+            }
+        }
+        $this->render('withdrawBid', ['model' => $model]);
     }
 
     /**

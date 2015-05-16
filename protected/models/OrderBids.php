@@ -37,7 +37,8 @@ class OrderBids extends CActiveRecord
      *
      * @return array
      */
-    public function behaviors(){
+    public function behaviors()
+    {
         return [
             'ESaveRelatedBehavior' => [
                 'class' => 'application.components.ESaveRelatedBehavior'
@@ -163,7 +164,8 @@ class OrderBids extends CActiveRecord
      * @param Order $order
      * @return CDbCriteria
      */
-    public function getBestOfferCriteriaByOrder(Order $order) {
+    public function getBestOfferCriteriaByOrder(Order $order)
+    {
         $criteria = new CDbCriteria();
         $criteria->compare('order_id', $order->id);
         $criteria->compare('is_deleted', self::STATE_ACTIVE);

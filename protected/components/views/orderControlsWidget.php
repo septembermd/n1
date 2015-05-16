@@ -94,7 +94,8 @@ $user = $acl->getUser();
                             'context' => 'primary',
                             'buttonType' =>'link',
                             'url' => ['orderBids/bestOffer', 'orderId' => $model->id],
-                            'size' => 'large'
+                            'size' => 'large',
+                            'disabled' => !$model->hasOrderBids()
                         ]
                     ); ?>
                 <?php else : ?>
