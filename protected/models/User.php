@@ -100,6 +100,7 @@ class User extends ActiveRecord
 		return [
 			['company_id, fullname, email, password, phone, role_id, created', 'required', 'on'=>'create'],
 			['company_id, fullname, email, phone, role_id, created', 'required', 'on'=>'update'],
+            ['fullname', 'match', 'not' => true, 'pattern' => '/[^a-zA-Z- ]/', 'message' => 'Invalid characters in username.',],
 			['email', 'email'],
             ['email', 'filter', 'filter'=>'trim'],
             ['email', 'unique'],
