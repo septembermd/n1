@@ -54,6 +54,20 @@ class AccessControlList {
     }
 
     /**
+     * @param User $user
+     * @return bool
+     */
+    public function canViewUser(User $user)
+    {
+        // Only administrator can view admin profile
+        if (!$this->user->isAdmin() && $user->isAdmin()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @return bool
      */
     public function canAccessOrders()
