@@ -17,7 +17,7 @@
 
 	<?php echo $form->textFieldGroup($model,'phone', ['widgetOptions'=> ['htmlOptions'=> ['class'=>'span5','maxlength'=>20]]]); ?>
 
-	<?php echo $form->textFieldGroup($model,'password', ['widgetOptions'=> ['htmlOptions'=> ['class'=>'span5','maxlength'=>255]]]); ?>
+	<?php echo $form->textFieldGroup($model,'password', ['widgetOptions'=> ['htmlOptions'=> ['class'=>'span5','maxlength'=>255, 'autocomplete'=>'off']]]); ?>
 
 	<?php echo $form->dropDownListGroup($model,'is_active', ['widgetOptions'=> ['data'=>User::$userStateList, 'htmlOptions'=> ['class'=>'input-large']]]); ?>
 
