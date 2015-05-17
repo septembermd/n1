@@ -54,6 +54,18 @@ class AccessControlList {
     }
 
     /**
+     * @return bool
+     */
+    public function canPerformSuppliersAdminActions()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param User $user
      * @return bool
      */

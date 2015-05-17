@@ -65,9 +65,9 @@ class OrderBidsController extends Controller
     public function actionIndex($orderId)
     {
         $dataProvider = OrderBids::model()->getCActiveDataProviderByOrderId($orderId);
-        $this->render('index',array(
+        $this->render('index', [
             'dataProvider'=>$dataProvider,
-        ));
+        ]);
     }
 
     /**
