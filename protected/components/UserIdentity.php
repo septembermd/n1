@@ -8,6 +8,8 @@
  */
 class UserIdentity extends CUserIdentity
 {
+    const ERROR_USER_NOT_ACTIVE = 3;
+
     public $_id;
     public $email;
     public $_email;
@@ -21,10 +23,7 @@ class UserIdentity extends CUserIdentity
 
     /**
      * Authenticates a user.
-     * The example implementation makes sure if the email and password
-     * are both 'demo'.
-     * In practical applications, this should be changed to authenticate
-     * against some persistent user identity storage (e.g. database).
+     *
      * @return boolean whether authentication succeeds.
      */
     public function authenticate()
@@ -34,33 +33,60 @@ class UserIdentity extends CUserIdentity
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         else if (!$user->validatePassword($this->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        }
-        else
-        {
+        } else if (!$user->isActive()) {
+            $this->errorCode = self::ERROR_USER_NOT_ACTIVE;
+        } else {
             $this->_id = $user->id;
             $this->_fullname = $user->fullname;
             $this->_email = $user->email;
             $this->setState('fullname', $user->fullname);
             $this->setState('role_id', $user->role_id);
-            Yii::app()->user->setFlash('success', "You have sucessfully logged in!");
+            Yii::app()->user->setFlash('success', Yii::t('main', 'You have sucessfully logged in!'));
             $this->errorCode = self::ERROR_NONE;
         }
+
         return $this->errorCode == self::ERROR_NONE;
     }
 
-
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->_id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->_email;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUserfullname()
     {
         return $this->_fullname;
+    }
+
+    /**
+     * Get validation errors
+     *
+     * @return array
+     */
+    public function getErrors() {
+        $errors = [];
+
+        if ($this->errorCode === self::ERROR_USERNAME_INVALID || $this->errorCode === self::ERROR_PASSWORD_INVALID) {
+            $errors['password'] = [Yii::t('main', 'Incorrect username or password.')];
+        }
+        if ($this->errorCode == self::ERROR_USER_NOT_ACTIVE) {
+            $errors['username'] = [Yii::t('main', 'Your account is disabled.')];
+        }
+
+        return $errors;
     }
 }
