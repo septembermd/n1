@@ -48,8 +48,9 @@ class SupplierController extends Controller
 
         if (isset($_POST['Supplier'])) {
             $model->attributes = $_POST['Supplier'];
-            if ($model->save())
-                $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save()) {
+                $this->redirect(['admin']);
+            }
         }
 
         $this->render('create', [
@@ -65,6 +66,7 @@ class SupplierController extends Controller
      */
     public function actionUpdate($id)
     {
+        /** @var Supplier $model */
         $model = $this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
@@ -72,8 +74,9 @@ class SupplierController extends Controller
 
         if (isset($_POST['Supplier'])) {
             $model->attributes = $_POST['Supplier'];
-            if ($model->save())
-                $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save()) {
+                $this->redirect(['admin']);
+            }
         }
 
         $this->render('update', [
@@ -92,7 +95,10 @@ class SupplierController extends Controller
     {
         if (Yii::app()->request->isPostRequest) {
             // we only allow deletion via POST request
-            $this->loadModel($id)->delete();
+
+            /** @var Supplier $model */
+            $model = $this->loadModel($id);
+            $model->delete();
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax'])) {
@@ -110,9 +116,9 @@ class SupplierController extends Controller
     {
         $model = new Supplier('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Supplier']))
+        if (isset($_GET['Supplier'])) {
             $model->attributes = $_GET['Supplier'];
-
+        }
         $this->render('admin', [
             'model' => $model,
         ]);
@@ -129,8 +135,10 @@ class SupplierController extends Controller
     public function loadModel($id)
     {
         $model = Supplier::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        
         return $model;
     }
 
