@@ -205,6 +205,17 @@ class User extends ActiveRecord
     }
 
     /**
+     * Check if given model is the same model
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isSelf(User $user)
+    {
+        return $this->id === $user->id;
+    }
+
+    /**
      * @return bool
      */
     public function isActive()
