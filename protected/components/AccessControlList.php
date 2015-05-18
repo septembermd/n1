@@ -2,6 +2,8 @@
 
 /**
  * Class AccessControlList
+ *
+ * This class contains business rules to check user access rights
  */
 class AccessControlList {
     /**
@@ -73,6 +75,11 @@ class AccessControlList {
     {
         // Only administrator can view admin profile
         if (!$this->user->isAdmin() && $user->isAdmin()) {
+            return false;
+        }
+        // Carrier can view only his profile
+        if ($this->user->isCarrier() && $this->user->id !== $user->id)
+        {
             return false;
         }
 
