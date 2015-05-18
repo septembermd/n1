@@ -421,6 +421,9 @@ class Order extends CActiveRecord
 
         $criteria = new CDbCriteria();
         $criteria->addNotInCondition('id', $orderUserViewIds);
+        if ($user->isCarrier() && $status != Order::STATUS_HAULER_NEEDED) {
+            $criteria->compare('carrier_id', $user->id);
+        }
         if ($status) {
             $criteria->compare('status_id', $status);
         }
