@@ -21,7 +21,6 @@
  * @property OrderBids[] $orderBids
  * @property StatusChanges[] $statusChanges
  * @property Company $company
- * @property Role $role
  */
 class User extends ActiveRecord
 {

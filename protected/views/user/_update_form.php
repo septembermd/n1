@@ -9,7 +9,28 @@
 
 <?php echo $form->dropDownListGroup($model,'role_id', ['widgetOptions'=> ['data'=>User::$roleMap,'htmlOptions'=> ['class'=>'span5']]]); ?>
 
-<?php echo $form->dropDownListGroup($model,'company_id', ['widgetOptions'=> ['data'=>Company::getList(),'htmlOptions'=> ['class'=>'span5','maxlength'=>5]]]); ?>
+<?php echo $form->select2Group($model, 'company_id', [
+    'widgetOptions' => [
+        'options' => [
+            'tags' => Company::getSelect2List(),
+            'createSearchChoice' => 'js:function(term, data) {
+                var filter = function() {
+                   return this.text.localeCompare(term) === 0;
+                };
+                if ( $(data).filter(filter).length === 0 ) {
+                    return {id:term, text:term};
+                }
+            }',
+
+            'tokenSeparators' => [','],
+            'maximumSelectionSize' => 1
+        ],
+
+        'asDropDownList' => false,
+        'data' => Company::getList(),
+        'htmlOptions' => ['class' => 'span5', 'maxlength' => 5]
+    ]
+]); ?>
 
 <?php echo $form->textFieldGroup($model,'fullname', ['widgetOptions'=> ['htmlOptions'=> ['class'=>'span5','maxlength'=>100]]]); ?>
 

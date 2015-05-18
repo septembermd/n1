@@ -88,8 +88,34 @@ class Company extends ActiveRecord
         ]);
 	}
 
+    /**
+     * Get list for dropdown
+     *
+     * @return array
+     */
     public static function getList()
     {
         return CHtml::listData(self::model()->findAll(),'id','title');
     }
+
+
+    /**
+     * Get select2 list
+     *
+     * @return array
+     */
+    public static function getSelect2List()
+    {
+        $values = self::getList();
+        $results = [];
+        foreach ($values as $key => $value) {
+            $results[] = [
+                'id' => $key,
+                'text' => $value
+            ];
+        }
+
+        return $results;
+    }
+
 }
