@@ -11,19 +11,12 @@ class SiteController extends Controller
     {
         return [
             ['allow',
-                'actions' => [
-                    'login',
-                    'accessRequest',
-                    'accessRestoreRequest'
-                ],
+                'actions' => ['login', 'accessRequest', 'accessRestoreRequest'],
                 'users' => ['?'],
                 'deniedCallback' => [$this, 'redirectToHomePage']
             ],
             ['allow',
-                'actions' => [
-                    'index',
-                    'logout'
-                ],
+                'actions' => ['index', 'logout'],
                 'users' => ['@'],
                 'deniedCallback' => [$this, 'redirectToLoginPage']
             ],
@@ -32,9 +25,9 @@ class SiteController extends Controller
                 'users' => ['*']
 
             ],
-
             ['deny',  // deny all users
                 'users' => ['*'],
+                'message' => Yii::t('main', 'This page can be accessed by unauthorized users only.'),
             ],
         ];
     }
