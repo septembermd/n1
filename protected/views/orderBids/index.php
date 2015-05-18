@@ -1,12 +1,12 @@
 <?php
-$this->breadcrumbs=array(
-	'Order Bids',
-);
+$this->breadcrumbs = [
+    'Order Bids',
+];
 
-$this->menu=array(
-['label'=>'Create OrderBids','url'=>array('create')],
-['label'=>'Manage OrderBids','url'=>array('admin')],
-);
+$this->menu = [
+    ['label' => 'Create OrderBids', 'url' => ['create']],
+    ['label' => 'Manage OrderBids', 'url' => ['admin']],
+];
 ?>
 
 <h3>Order Bids <span class="badge alert-info"><?php echo $dataProvider->getItemCount(); ?></span></h3>
@@ -20,7 +20,7 @@ $this->menu=array(
 </div>
 
 <?php $this->widget('booster.widgets.TbListView', [
-    'dataProvider'=>$dataProvider,
+    'dataProvider' => $dataProvider,
     'template' => '{items}{pager}',
-    'itemView'=>'_view',
+    'itemView' => '_view',
 ]); ?>

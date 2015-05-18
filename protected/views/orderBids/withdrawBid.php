@@ -1,9 +1,9 @@
 <div class="form">
-    <?php $form=$this->beginWidget('booster.widgets.TbActiveForm', [
-        'id'=>'login-form',
-        'enableClientValidation'=>true,
-        'clientOptions'=> [
-            'validateOnSubmit'=>true,
+    <?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
+        'id' => 'login-form',
+        'enableClientValidation' => true,
+        'clientOptions' => [
+            'validateOnSubmit' => true,
         ],
     ]); ?>
 
@@ -14,7 +14,7 @@
         [
             'label' => Yii::t('main', 'Cancel'),
             'context' => 'primary',
-            'buttonType' =>'link',
+            'buttonType' => 'link',
             'url' => ['orderBids/bestOffer', 'orderId' => $model->orderBid->order_id],
         ]
     ); ?>

@@ -167,9 +167,18 @@ class OrderBids extends CActiveRecord
     public function getBestOfferCriteriaByOrder(Order $order)
     {
         $criteria = new CDbCriteria();
-        $criteria->compare('order_id', $order->id);
-        $criteria->compare('is_deleted', self::STATE_ACTIVE);
-        $criteria->order = "cost ASC";
+        $criteria->select = "t.*, COUNT(t.id) as issueCount";
+        $criteria->join = "
+            JOIN (  SELECT ord.*
+                    FROM `user` `usr`
+                    JOIN `order` `ord` ON usr.id=ord.carrier_id
+                    WHERE (ord.remark_id!=".Order::REMARK_SUCCESS.") AND (ord.status_id='".Order::STATUS_DELIVERED."')
+            ) AS s ON s.carrier_id=t.user_id
+		";
+        $criteria->compare('t.order_id', $order->id);
+        $criteria->compare('t.is_deleted', self::STATE_ACTIVE);
+        $criteria->group = "t.id";
+        $criteria->order = "t.cost ASC, issueCount ASC";
 
         return $criteria;
     }
