@@ -1,11 +1,11 @@
 <?php
 $this->breadcrumbs = [
-    'Suppliers' => ['index'],
+    'Suppliers',
     'Manage',
 ];
 
 $this->menu = [
-    ['label' => 'List Supplier', 'url' => ['index']],
+    ['label' => 'List Supplier', 'url' => ['admin']],
     ['label' => 'Create Supplier', 'url' => ['create']],
 ];
 
