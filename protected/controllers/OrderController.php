@@ -93,10 +93,13 @@ class OrderController extends Controller
      */
     public function actionView($id)
     {
+        /** @var Order $order */
         $order = $this->loadModel($id);
         if (!$this->acl->canViewOrder($order)) {
             throw new CHttpException(403, Yii::t('main', 'You cannot view this order'));
         }
+        $currentUser = $this->acl->getUser();
+        $this->setView($order, $currentUser);
         $this->render('view', [
             'model' => $order,
         ]);
@@ -305,7 +308,8 @@ class OrderController extends Controller
         $this->render('index', [
             'dataProvider' => $dataProvider,
             'currentStatus' => $status,
-            'isDeleted' => $isDeleted
+            'isDeleted' => $isDeleted,
+            'order' => Order::model()
         ]);
     }
 
@@ -371,5 +375,27 @@ class OrderController extends Controller
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    /**
+     * Set view counter
+     *
+     * @param Order $order
+     * @param User $user
+     * @return bool
+     */
+    protected function setView(Order $order, User $user)
+    {
+        if (!$order->isViewedByUser($user)) {
+            $orderUserView = new OrderUserView();
+            $orderUserView->setAttributes([
+                'order_id' => $order->id,
+                'user_id' => $user->id
+            ]);
+
+            return $orderUserView->save();
+        }
+
+        return false;
     }
 }

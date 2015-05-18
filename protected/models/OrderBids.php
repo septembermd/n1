@@ -205,8 +205,7 @@ class OrderBids extends CActiveRecord
     public function getAllBestOfferCountByOrder(Order $order)
     {
         $criteria = $this->getBestOfferCriteriaByOrder($order);
-        $criteria->select = 'COUNT(id) as count';
 
-        return self::model()->find($criteria);
+        return self::model()->count($criteria);
     }
 }

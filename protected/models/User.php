@@ -132,6 +132,7 @@ class User extends ActiveRecord
             'orderBids' => [self::HAS_MANY, 'OrderBids', 'user_id'],
             'statusChanges' => [self::HAS_MANY, 'StatusChanges', 'user_id'],
 			'orderCarriers' => [self::HAS_MANY, 'Orders', 'carrier_id'],
+			'orderUserViews' => [self::HAS_MANY, 'OrderUserView', 'user_id'],
 			'company' => [self::BELONGS_TO, 'Company', 'company_id'],
         ];
 	}

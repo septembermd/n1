@@ -35,6 +35,7 @@
  * @property OrderBids[] $orderBids
  * @property OrderBids[] $orderBidsCount
  * @property OrderItems[] $orderItems
+ * @property orderUserView[] $orderUserViews
  */
 class Order extends CActiveRecord
 {
@@ -122,6 +123,7 @@ class Order extends CActiveRecord
             'orderBids' => [self::HAS_MANY, 'OrderBids', 'order_id'],
             'orderBidsCount' => [self::STAT, 'OrderBids', 'order_id'],
             'orderItems' => [self::HAS_MANY, 'OrderItems', 'order_id'],
+            'orderUserViews' => [self::HAS_MANY, 'OrderItems', 'order_id'],
         ];
 	}
 
@@ -387,4 +389,43 @@ class Order extends CActiveRecord
 
         return self::model()->count($criteria);
     }
+
+    /**
+     * Check if user has already viewed this order
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isViewedByUser(User $user)
+    {
+        $orderUserViewModel = OrderUserView::model();
+        $criteria = new CDbCriteria();
+        $criteria->compare('user_id', $user->id);
+        $criteria->compare('order_id', $this->id);
+
+        return $orderUserViewModel->count($criteria) > 0;
+    }
+
+    /**
+     * Get count of orders which were not viewed by user
+     *
+     * @param User $user
+     * @param null $status
+     * @return int
+     */
+    public function getUnviewedOrderCountByUserAndStatus(User $user, $status = null)
+    {
+        $orderUserView = OrderUserView::model()->getOrderUserViewByUser($user);
+        $orderUserViewList = CHtml::listData($orderUserView,'order_id','user_id');
+        $orderUserViewIds = array_keys($orderUserViewList);
+
+        $criteria = new CDbCriteria();
+        $criteria->addNotInCondition('id', $orderUserViewIds);
+        if ($status) {
+            $criteria->compare('status_id', $status);
+        }
+
+        return self::model()->count($criteria);
+    }
+
 }
