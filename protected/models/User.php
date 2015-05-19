@@ -118,7 +118,7 @@ class User extends ActiveRecord
 //            ['phone', 'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9-+ ]/', 'message' => 'Invalid characters in phone number.',],
             ['phone_numbers', 'validPhone'],
             ['role_id', 'numerical', 'integerOnly' => true],
-            ['company_id', 'length', 'max' => 5],
+//            ['company_id', 'length', 'max' => 5],
             ['fullname, email', 'length', 'max' => 100],
             ['phone', 'length', 'max' => 255, 'message' => 'Too many phone numbers.'],
             ['password, new_password, salt', 'length', 'max' => 255],
