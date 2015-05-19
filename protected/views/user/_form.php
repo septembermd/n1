@@ -1,8 +1,23 @@
 <?php
+Yii::app()->clientScript->registerScriptFile("/js/scripts/user/form.js", CClientScript::POS_END);
+/** @var User $model */
+
 /** @var TbActiveForm $form */
 $form = $this->beginWidget('booster.widgets.TbActiveForm', [
     'id' => 'user-form',
     'enableAjaxValidation' => false,
+    'htmlOptions' => [
+        'data-phone-prototype' => $this->renderPartial(
+            '/user/_prototype_phone',
+            [
+                'model' => $model,
+                'index' => '__proto_name__',
+                'value' => '',
+                'display' => 'block',
+            ],
+            true
+        )
+    ]
 ]); ?>
 
 <p class="help-block">Fields with <span class="required">*</span> are required.</p>
@@ -38,9 +53,37 @@ $form = $this->beginWidget('booster.widgets.TbActiveForm', [
 
 <?php echo $form->textFieldGroup($model, 'email', ['widgetOptions' => ['htmlOptions' => ['class' => 'span5', 'maxlength' => 100]]]); ?>
 
-<?php echo $form->textFieldGroup($model, 'phone', ['widgetOptions' => ['htmlOptions' => ['class' => 'span5', 'maxlength' => 20]]]); ?>
+<h5><strong><?php echo Yii::t('main', 'Phone Numbers'); ?>:</strong></h5>
 
-<?php echo $form->textFieldGroup($model, 'password', ['widgetOptions' => ['htmlOptions' => ['class' => 'span5', 'maxlength' => 255, 'autocomplete' => 'off']]]); ?>
+<?php
+if(empty($model->phone_numbers)) {
+    $this->renderPartial('/user/_prototype_phone', [
+        'model' => $model,
+        'index' => 0,
+        'value' => '',
+        'display' => 'block'
+    ]);
+} else {
+    foreach ($model->phone_numbers as $index => $phone) {
+        $this->renderPartial('/user/_prototype_phone', [
+            'model' => $model,
+            'value' => $phone,
+            'index' => $index,
+            'display' => 'block'
+        ]);
+    }
+}
+?>
+
+<div class="form-group clearfix">
+    <?php echo CHtml::link(Yii::t('main', 'Add'), '#', ['class'=>'pull-right glyphicon glyphicon-plus btn btn-sm btn-default add-user-phone']); ?>
+</div>
+
+<?php if ($model->isNewRecord) : ?>
+    <?php echo $form->textFieldGroup($model, 'password', ['widgetOptions' => ['htmlOptions' => ['class' => 'span5', 'maxlength' => 255, 'autocomplete' => 'off']]]); ?>
+<?php else : ?>
+    <?php echo $form->textFieldGroup($model,'new_password', ['widgetOptions'=> ['htmlOptions'=> ['placeholder'=>Yii::t('main', 'Leave blank if you don\'t wish to change'),'class'=>'span5','maxlength'=>255]]]); ?>
+<?php endif; ?>
 
 <?php echo $form->dropDownListGroup($model, 'is_active', ['widgetOptions' => ['data' => User::$userStateList, 'htmlOptions' => ['class' => 'input-large']]]); ?>
 

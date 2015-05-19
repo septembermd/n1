@@ -20,4 +20,4 @@ $this->menu= [
 
 <?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class'=>'btn btn-info pull-right']) ?>
 
-<?php $this->renderPartial('_update_form', ['model'=>$model]); ?>
+<?php $this->renderPartial('_form', ['model'=>$model]); ?>
