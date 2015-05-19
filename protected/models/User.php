@@ -183,6 +183,65 @@ class User extends ActiveRecord
 	}
 
     /**
+     * After find
+     */
+    public function afterFind()
+    {
+        // Decode phone JSON string
+        if ($this->hasAttribute('phone')) {
+            $this->phone = CJSON::decode($this->phone);
+        }
+
+        // This method doesn't return any value
+        parent::afterFind();
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeSave()
+    {
+        // Save phone as JSON string
+        if ($this->hasAttribute('phone')) {
+            $this->phone = CJSON::encode($this->phone);
+        }
+
+        // Save new company, if id is not numeric then user added a custom value
+        $company = Company::model()->countByAttributes(['id' => $this->company_id]);
+        if ($company == 0) {
+            $company = new Company();
+            $company->setAttribute('title', $this->company_id);
+            if (!$company->validate()) {
+                $this->addErrors($company->getErrors());
+            } else {
+                if ($company->save()) {
+                    $this->company_id = $company->id;
+                } else {
+                    $this->addError('company_id', [Yii::t('main', 'Error saving new company.')]);
+                }
+            }
+        }
+
+        // If model is updating
+        if (!$this->isNewRecord) {
+            $this->beforeUpdate();
+        }
+
+        return parent::beforeSave();
+    }
+
+    /**
+     * Actions to perform when updating model
+     */
+    public function beforeUpdate()
+    {
+        // Save new password if user filled in the field
+        if (!empty($this->password)) {
+            $this->setPassword($this->new_password);
+        }
+    }
+
+    /**
      * Validate user password
      *
      * @param $password

@@ -68,24 +68,10 @@ class UserController extends Controller
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
-            $model->created = date('Y-m-d H:i:s');
-            // Save new company, if id is not numeric then user added a custom value
-            if (!is_numeric($model->company_id)) {
-                $company = new Company();
-                $company->setAttribute('title', $model->company_id);
-                if (!$company->validate()) {
-                    $model->addErrors($company->getErrors());
-                } else {
-                    if ($company->save()) {
-                        $model->company_id = $company->id;
-                    } else {
-                        $model->addError('company_id', [Yii::t('main', 'Error saving new company.')]);
-                    }
-                }
+            $model->setAttributes($_POST['User']);
+            $model->setAttribute('created', date('Y-m-d H:i:s'));
 
-            }
-            if ($model->validate()) {
+            if ($model->validate(null, false)) {
                 $model->setPassword($model->password);
                 if ($model->save()) {
                     $this->redirect(['view', 'id' => $model->id]);
@@ -119,25 +105,7 @@ class UserController extends Controller
             if (!$model->isActive() && $model->isSelf($this->acl->getUser())) {
                 $model->addError('is_active', Yii::t('main', 'You cannon disable your own profile.'));
             }
-            // Save new password if user filled in the field
-            if (!empty($model->new_password)) {
-                $model->setPassword($model->new_password);
-            }
-            // Save new company, if id is not numeric then user added a custom value
-            if (!is_numeric($model->company_id)) {
-                $company = new Company();
-                $company->setAttribute('title', $model->company_id);
-                if (!$company->validate()) {
-                    $model->addErrors($company->getErrors());
-                } else {
-                    if ($company->save()) {
-                        $model->company_id = $company->id;
-                    } else {
-                        $model->addError('company_id', [Yii::t('main', 'Error saving new company.')]);
-                    }
-                }
 
-            }
             if ($model->validate(null, false)) {
                 if ($model->save()) {
                     $this->redirect(['view', 'id' => $model->id]);
