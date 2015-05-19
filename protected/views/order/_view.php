@@ -11,7 +11,7 @@
             <?php if ($this->acl->canViewCreator()) : ?>
                 <b><?php echo CHtml::encode($data->getAttributeLabel('creator_id')); ?>:</b>
                 <?php echo CHtml::encode($data->creator->fullname); ?>
-            <?php endif;?>
+            <?php endif; ?>
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('status_id')); ?>:</b>
@@ -19,11 +19,13 @@
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('loading_id')); ?>:</b>
-            <?php echo CHtml::encode($data->loading->country->title); ?>, <?php echo CHtml::encode($data->loading->address); ?>
+            <?php echo CHtml::encode($data->loading->country->title); ?>
+            , <?php echo CHtml::encode($data->loading->address); ?>
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('delivery_id')); ?>:</b>
-            <?php echo CHtml::encode($data->delivery->country->title); ?>, <?php echo CHtml::encode($data->delivery->address); ?>
+            <?php echo CHtml::encode($data->delivery->country->title); ?>
+            , <?php echo CHtml::encode($data->delivery->address); ?>
         </div>
         <div class="col-md-2">
             <b><?php echo Yii::t('main', 'Number of Bids'); ?>:</b>
@@ -55,7 +57,7 @@
             <?php echo CHtml::encode($data->deliver_date); ?>
         </div>
         <div class="col-md-2">
-            <?php echo CHtml::link(Yii::t('main', 'Order Details'), ['order/view', 'id'=>$data->id], ['class'=>'btn btn-sm btn-info']);?>
+            <?php echo CHtml::link(Yii::t('main', 'Order Details'), ['order/view', 'id' => $data->id], ['class' => 'btn btn-sm btn-info']); ?>
         </div>
     </div>
 

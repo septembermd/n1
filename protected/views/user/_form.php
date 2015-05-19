@@ -7,6 +7,7 @@ $form = $this->beginWidget('booster.widgets.TbActiveForm', [
     'id' => 'user-form',
     'enableAjaxValidation' => false,
     'htmlOptions' => [
+        'class' => 'form form-horizontal',
         'data-phone-prototype' => $this->renderPartial(
             '/user/_prototype_phone',
             [
@@ -19,8 +20,6 @@ $form = $this->beginWidget('booster.widgets.TbActiveForm', [
         )
     ]
 ]); ?>
-
-<p class="help-block">Fields with <span class="required">*</span> are required.</p>
 
 <?php echo $form->errorSummary($model); ?>
 
@@ -82,7 +81,7 @@ if(empty($model->phone_numbers)) {
 <?php if ($model->isNewRecord) : ?>
     <?php echo $form->textFieldGroup($model, 'password', ['widgetOptions' => ['htmlOptions' => ['class' => 'span5', 'maxlength' => 255, 'autocomplete' => 'off']]]); ?>
 <?php else : ?>
-    <?php echo $form->textFieldGroup($model,'new_password', ['widgetOptions'=> ['htmlOptions'=> ['placeholder'=>Yii::t('main', 'Leave blank if you don\'t wish to change'),'class'=>'span5','maxlength'=>255]]]); ?>
+    <?php echo $form->textFieldGroup($model,'new_password', ['widgetOptions'=> ['htmlOptions'=> ['placeholder'=>Yii::t('main', 'If you don\'t wish to change the password leave this field blank.'),'class'=>'span5','maxlength'=>255]]]); ?>
 <?php endif; ?>
 
 <?php echo $form->dropDownListGroup($model, 'is_active', ['widgetOptions' => ['data' => User::$userStateList, 'htmlOptions' => ['class' => 'input-large']]]); ?>

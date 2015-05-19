@@ -1,7 +1,7 @@
 <?php
 /** @var CModel $model */
 ?>
-<div class="user-phone" style="padding-left: 15px;">
+<div class="user-phone" style="padding-left: 10px;">
     <div class="row">
         <div class="col-md-9">
 
@@ -11,7 +11,7 @@
                 <?php echo CHtml::error($model, 'phone_numbers[' . $index . ']', ['class'=>'help-block error']); ?>
             </div>
         </div>
-        <?php if($index > 0 || $index === '__proto_name__' || !$model->isNewRecord) : ?>
+        <?php if($index > 0 || $index === '__proto_name__') : ?>
             <div class="col-md-2">
                 <?php echo CHtml::link(Yii::t('main', ''), '#', ['class'=>'glyphicon glyphicon-minus btn btn-sm btn-default remove-user-phone','style'=>'margin-top:30px']); ?>
             </div>

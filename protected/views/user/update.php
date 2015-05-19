@@ -2,22 +2,24 @@
 /* @var $this UserController */
 /* @var $model User */
 
-$this->breadcrumbs= [
-	'Users'=> ['index'],
-	$model->id=> ['view','id'=>$model->id],
-	'Update',
+$this->breadcrumbs = [
+    'Users' => ['index'],
+    $model->id => ['view', 'id' => $model->id],
+    'Update',
 ];
 
-$this->menu= [
-	['label'=>'List User', 'url'=> ['index']],
-	['label'=>'Create User', 'url'=> ['create']],
-	['label'=>'View User', 'url'=> ['view', 'id'=>$model->id]],
-	['label'=>'Manage User', 'url'=> ['admin']],
+$this->menu = [
+    ['label' => Yii::t('main', 'Create User'), 'url' => ['create']],
+    ['label' => Yii::t('main', 'Manage Users'), 'url' => ['index']],
 ];
 ?>
 
-<h1>Update User <?php echo $model->fullname; ?></h1>
-
-<?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class'=>'btn btn-info pull-right']) ?>
-
-<?php $this->renderPartial('_form', ['model'=>$model]); ?>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"><?php echo Yii::t('main', 'Update User'); ?></h3>
+        <?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class' => 'btn btn-info pull-right']) ?>
+    </div>
+    <div class="panel-body">
+        <?php $this->renderPartial('_form', ['model' => $model]); ?>
+    </div>
+</div>

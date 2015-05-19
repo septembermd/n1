@@ -2,19 +2,23 @@
 /* @var $this UserController */
 /* @var $model User */
 
-$this->breadcrumbs= [
-	'Users'=> ['index'],
-	'Create',
+$this->breadcrumbs = [
+    'Users' => ['index'],
+    'Create',
 ];
 
-$this->menu= [
-	['label'=>'List User', 'url'=> ['index']],
-	['label'=>'Manage User', 'url'=> ['admin']],
+$this->menu = [
+    ['label' => Yii::t('main', 'Create User'), 'url' => ['create']],
+    ['label' => Yii::t('main', 'Manage Users'), 'url' => ['index']],
 ];
 ?>
 
-<h1>Create User</h1>
-
-<?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class'=>'btn btn-info pull-right']) ?>
-
-<?php $this->renderPartial('_form', ['model'=>$model]); ?>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"><?php echo Yii::t('main', 'Create User'); ?></h3>
+        <?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class' => 'btn btn-info pull-right']) ?>
+    </div>
+    <div class="panel-body">
+        <?php $this->renderPartial('_form', ['model' => $model]); ?>
+    </div>
+</div>

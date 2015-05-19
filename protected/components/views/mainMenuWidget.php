@@ -5,14 +5,34 @@
 $leftMenuItems = [];
 $rightMenuItems = [];
 if(!$currentUser->isGuest) {
+
+    $profileLabel = '<div class="profile">
+                            <div class="profile-data">
+                                <div class="profile-data-name">%s</div>
+                                <div class="profile-data-title">%s</div>
+                            </div>
+                        </div>';
+
     $leftMenuItems = [
-        ['label' => Yii::t('main', 'Orders'), 'url' => ['order/index'], 'visible' => $acl->canAccessOrders()],
-        ['label' => Yii::t('main', 'Users'), 'url' => ['user/index'], 'visible' => $acl->canPerformUsersAdminActions()],
-        ['label' => Yii::t('main', 'Suppliers'), 'url' => ['supplier/admin'], 'visible' => $acl->canPerformSuppliersAdminActions()],
-    ];
-    $rightMenuItems[] = [
-        'label' => sprintf("%s (%s)", $currentUser->fullname, User::getRoleLabel($currentUser->role_id)),
-        'url' => ['user/view', 'id'=>$currentUser->id],
+        [
+            'label' => sprintf($profileLabel, $currentUser->fullname, User::getRoleLabel($currentUser->role_id)),
+            'url' => ['user/view', 'id'=>$currentUser->id],
+        ],
+        [
+            'label' => sprintf('<span class="fa fa-paperclip"></span> <span class="xn-text">%s</span>', Yii::t('main', 'Orders')),
+            'url' => ['order/index'],
+            'visible' => $acl->canAccessOrders()
+        ],
+        [
+            'label' => sprintf('<span class="fa fa-user"></span> <span class="xn-text">%s</span>', Yii::t('main', 'Users')),
+            'url' => ['user/index'],
+            'visible' => $acl->canPerformUsersAdminActions()
+        ],
+        [
+            'label' => sprintf('<span class="fa fa-truck"></span> <span class="xn-text">%s</span>', Yii::t('main', 'Suppliers')),
+            'url' => ['supplier/admin'],
+            'visible' => $acl->canPerformSuppliersAdminActions()
+        ],
     ];
 }
 $rightMenuItems[] = [
@@ -20,25 +40,20 @@ $rightMenuItems[] = [
     'url' => [$currentUser->isGuest ? 'site/login' : 'site/logout'],
     'active' => false
 ];
+?>
 
-$this->widget(
-    'booster.widgets.TbNavbar',
-    [
-        'brand' => 'Nr.1',
-        'fixed' => false,
-        'fluid' => true,
-        'items' => [
-            [
-                'class' => 'booster.widgets.TbMenu',
-                'type' => 'navbar',
-                'items' => $leftMenuItems
+<div class="page-sidebar">
+
+    <?php $this->widget(
+        'zii.widgets.CMenu',
+        [
+            'encodeLabel' => false,
+            'htmlOptions' => [
+                'class' => 'x-navigation'
             ],
-            [
-                'class' => 'booster.widgets.TbMenu',
-                'type' => 'navbar',
-                'htmlOptions' => ['class'=>'pull-right'],
-                'items' => $rightMenuItems
-            ]
+            'itemCssClass' => '',
+            'items' => $leftMenuItems
         ]
-    ]
-);
+    );?>
+</div>
+

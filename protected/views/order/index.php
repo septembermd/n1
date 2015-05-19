@@ -5,12 +5,12 @@
 /** @var CActiveDataProvider $dataProvider */
 
 $this->breadcrumbs = [
-    'Orders',
+    Yii::t('main', 'Orders'),
 ];
 
 $this->menu = [
-    ['label' => 'Create Order', 'url' => ['create']],
-    ['label' => 'Manage Order', 'url' => ['admin']],
+    ['label' => Yii::t('main', 'Create Order'), 'url' => ['create']],
+    ['label' => Yii::t('main', 'Manage Order'), 'url' => ['admin']],
 ];
 ?>
 
@@ -32,26 +32,31 @@ $statusNavigationItems[] = [
     'url' => ['order/index', 'deleted' => Order::IS_DELETED],
     'visible' => $this->acl->canViewDeletedOrders()
 ];
-
-if ($this->acl->canCreateOrder()) {
-    echo CHtml::link(Yii::t('main', 'New Order'), ['order/create'], ['class' => 'btn btn-primary pull-right']);
-}
-
-$this->widget(
-    'booster.widgets.TbMenu',
-    [
-        'type' => 'pills',
-        'encodeLabel' => false,
-        'items' => $statusNavigationItems,
-    ]
-);
 ?>
 
+<?php if ($this->acl->canCreateOrder()) : ?>
+    <?php echo CHtml::link(Yii::t('main', 'New Order'), ['order/create'], ['class' => 'btn btn-primary pull-right']); ?>
+<?php endif; ?>
+
 <?php $this->widget(
-    'booster.widgets.TbListView',
+    'booster.widgets.TbMenu',
     [
-        'dataProvider' => $dataProvider,
-        'itemView' => '_view',
-        'template' => '{items}{pager}'
+        'type' => 'tabs',
+        'encodeLabel' => false,
+        'htmlOptions' => ['style' => 'margin-top: 0;'],
+        'items' => $statusNavigationItems,
     ]
 ); ?>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <?php $this->widget(
+            'booster.widgets.TbListView',
+            [
+                'dataProvider' => $dataProvider,
+                'itemView' => '_view',
+                'template' => '{items}{pager}'
+            ]
+        ); ?>
+    </div>
+</div>

@@ -2,9 +2,9 @@
 /* @var $this SiteController */
 /* @var $error array */
 
-$this->pageTitle=Yii::app()->name . ' - Error';
-$this->breadcrumbs= [
-	'Error',
+$this->pageTitle = Yii::app()->name . ' - Error';
+$this->breadcrumbs = [
+    'Error',
 ];
 ?>
 
@@ -12,5 +12,6 @@ $this->breadcrumbs= [
 
 <div class="error">
     <p><?php echo CHtml::encode($message); ?></p>
-    <p><?php echo CHtml::link('Return to Home page', ['site/index']);?></p>
+
+    <p><?php echo CHtml::link('Return to Home page', ['site/index']); ?></p>
 </div>

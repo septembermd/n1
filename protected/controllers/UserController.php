@@ -28,7 +28,7 @@ class UserController extends Controller
                 'users' => ['@'],
             ],
             ['allow', // allow admin users to perform actions
-                'actions' => ['index', 'create', 'update', 'delete', 'admin'],
+                'actions' => ['index', 'create', 'update', 'delete'],
                 'expression' => function () use ($acl) {
                     return $acl->canPerformUsersAdminActions();
                 },
@@ -140,21 +140,6 @@ class UserController extends Controller
         $dataProvider = new CActiveDataProvider('User');
         $this->render('index', [
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new User('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['User']))
-            $model->attributes = $_GET['User'];
-
-        $this->render('admin', [
-            'model' => $model,
         ]);
     }
 
