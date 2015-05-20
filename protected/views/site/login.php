@@ -1,7 +1,7 @@
 <?php
 /* @var $this SiteController */
 /* @var $model LoginForm */
-/* @var $form CActiveForm */
+/* @var $form TbActiveForm */
 
 $this->pageTitle = Yii::app()->name . ' - Login';
 
@@ -10,33 +10,31 @@ $this->breadcrumbs = [
 ];
 ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <h1><?php echo Yii::t('main', 'Login'); ?></h1>
+<div class="login-title"><strong><?php echo Yii::t('main', 'Log In'); ?></strong> to your account</div>
 
-        <p><?php echo Yii::t('main', 'Please fill out the following form with your login credentials'); ?>:</p>
+<?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
+    'id' => 'login-form',
+    'enableClientValidation' => true,
+    'clientOptions' => [
+        'validateOnSubmit' => true,
+    ],
+]); ?>
+<?php echo $form->textFieldGroup($model, 'username', ['label' => false]); ?>
 
-        <div class="form">
-            <?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
-                'id' => 'login-form',
-                'enableClientValidation' => true,
-                'clientOptions' => [
-                    'validateOnSubmit' => true,
-                ],
-            ]); ?>
-            <?php echo $form->textFieldGroup($model, 'username'); ?>
+<?php echo $form->passwordFieldGroup($model, 'password', ['label' => false]); ?>
 
-            <?php echo $form->passwordFieldGroup($model, 'password'); ?>
-
-            <?php echo CHtml::submitButton(Yii::t('main', 'Login'), ['class' => 'btn btn-primary btn-large']); ?>
-
-            <?php echo $form->checkBoxGroup($model, 'rememberMe'); ?>
-
-            <p><?php echo CHtml::link(Yii::t('main', 'Запросить доступ'), ['site/accessRequest']); ?></p>
-
-            <p><?php echo CHtml::link(Yii::t('main', 'Забыли пароль'), ['site/accessRestoreRequest']); ?></p>
-
-            <?php $this->endWidget(); ?>
-        </div>
+<div class="form-group">
+    <div class="col-md-6">
+        <?php echo CHtml::link(Yii::t('main', 'Forgot your password?'), ['site/accessRestoreRequest'], ['class' => 'btn btn-link btn-block']); ?>
     </div>
+    <div class="col-md-6">
+        <?php echo CHtml::submitButton(Yii::t('main', 'Login'), ['class' => 'btn btn-info btn-block']); ?>
+    </div>
+</div>
+
+<?php $this->endWidget(); ?>
+
+<div class="login-subtitle clearfix">
+    <br/>
+    <?php echo CHtml::link(Yii::t('main', 'Request an account'), ['site/accessRequest']); ?>
 </div>

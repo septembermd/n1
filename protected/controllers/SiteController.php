@@ -108,6 +108,8 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
+        $this->layout = 'login';
+
 		$model=new LoginForm;
 
 		// if it is ajax validation request
@@ -144,6 +146,7 @@ class SiteController extends Controller
      */
     public function actionAccessRequest()
     {
+        $this->layout = 'login';
         $this->render('accessRequest');
     }
 
@@ -152,6 +155,7 @@ class SiteController extends Controller
      */
     public function actionAccessRestoreRequest()
     {
+        $this->layout = 'login';
         $this->render('accessRestoreRequest');
     }
 }

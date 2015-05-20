@@ -25,7 +25,7 @@
     <?php Yii::app()->clientScript->registerScriptFile("/static/js/scripts.js", CClientScript::POS_END); ?>
 
     <!-- END head -->
-    <title>Delivery Nr.1</title>    
+    <title>Delivery Nr.1</title>
 </head>
 <!-- BEGIN body -->
 <body>
@@ -87,8 +87,6 @@
     </div>
 
 </div>
-
-
 
 </body>
 <!-- END html -->
