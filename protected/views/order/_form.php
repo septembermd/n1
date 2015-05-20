@@ -1,4 +1,8 @@
-<?php Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClientScript::POS_END); ?>
+<?php
+/** @var TbActiveForm $form */
+
+Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClientScript::POS_END);
+?>
 <?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
     'id' => 'order-form',
     'enableAjaxValidation' => false,
@@ -30,7 +34,12 @@
 
 <?php echo $form->dropDownListGroup($model, 'loading_id', ['widgetOptions' => ['data' => [], 'htmlOptions' => ['class' => 'span5', 'maxlength' => 9]]]); ?>
 
-<?php echo $form->dropDownListGroup($model, 'delivery_id', ['widgetOptions' => ['data' => DeliveryAddress::getList(), 'htmlOptions' => ['class' => 'span5', 'maxlength' => 9]]]); ?>
+<?php echo $form->dropDownListGroup($model, 'delivery_id', [
+    'widgetOptions' => [
+        'data' => DeliveryAddress::getList(),
+        'htmlOptions' => ['class' => 'span5', 'maxlength' => 9]
+    ]
+]); ?>
 
 <?php echo $form->dropDownListGroup($model, 'currency_id', ['widgetOptions' => ['data' => Currency::getList(), 'htmlOptions' => ['class' => 'span5']]]); ?>
 

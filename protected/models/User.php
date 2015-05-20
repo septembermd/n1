@@ -17,7 +17,7 @@
  *
  * The followings are the available model relations:
  * @property Order[] $orders
- * @property Order[] $orders1
+ * @property integer $carrierOrdersCount
  * @property OrderBids[] $orderBids
  * @property StatusChanges[] $statusChanges
  * @property Company $company
@@ -161,6 +161,7 @@ class User extends ActiveRecord
         return [
             'carrierOrders' => [self::HAS_MANY, 'Order', 'carrier_id'],
             'orders' => [self::HAS_MANY, 'Orders', 'creator_id'],
+            'carrierOrdersCount' => [self::STAT, 'Order', 'carrier_id'],
             'orderBids' => [self::HAS_MANY, 'OrderBids', 'user_id'],
             'statusChanges' => [self::HAS_MANY, 'StatusChanges', 'user_id'],
             'orderCarriers' => [self::HAS_MANY, 'Orders', 'carrier_id'],
@@ -176,15 +177,15 @@ class User extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'company_id' => 'Company',
-            'fullname' => 'Fullname',
-            'email' => 'Email',
-            'phone' => 'Phone',
-            'password' => 'Password',
-            'salt' => 'Salt',
-            'role_id' => 'Role',
-            'created' => 'Created',
-            'is_active' => 'Is Active',
+            'company_id' => Yii::t('main', 'Company'),
+            'fullname' => Yii::t('main', 'Fullname'),
+            'email' => Yii::t('main', 'Email'),
+            'phone' => Yii::t('main', 'Phone'),
+            'password' => Yii::t('main', 'Password'),
+            'salt' => Yii::t('main', 'Salt'),
+            'role_id' => Yii::t('main', 'Role'),
+            'created' => Yii::t('main', 'Created'),
+            'is_active' => Yii::t('main', 'Is Active'),
         ];
     }
 
@@ -360,5 +361,19 @@ class User extends ActiveRecord
     public function hasOrderBids(Order $order)
     {
         return count($this->orderBids) > 0;
+    }
+
+    /**
+     * Get delivered orders with issues count
+     *
+     * @return string
+     */
+    public function getRecentIssuesCount()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = "remark_id!=".Order::REMARK_SUCCESS;
+        $criteria->compare('status_id', Order::STATUS_DELIVERED);
+
+        return $this->carrierOrdersCount($criteria);
     }
 }

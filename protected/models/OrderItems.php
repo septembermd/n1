@@ -60,8 +60,8 @@ class OrderItems extends CActiveRecord
 		return [
 			'id' => 'ID',
 			'order_id' => 'Order',
-			'type' => 'Type',
-			'amount' => 'Amount',
+			'type' => 'Cargo Type',
+			'amount' => 'Cargo Amount',
         ];
 	}
 

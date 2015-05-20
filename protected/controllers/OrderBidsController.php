@@ -104,21 +104,21 @@ class OrderBidsController extends Controller
     public function actionWithdrawBid($id)
     {
         /** @var OrderBids $orderBid */
-        $orderBid = $this->loadModel($id);
-        if (!$this->acl->canWithdrawOrderBid($orderBid)) {
+        $model = $this->loadModel($id);
+        if (!$this->acl->canWithdrawOrderBid($model)) {
             throw new CHttpException('403', Yii::t('main', 'You are not allowed to withdraw this order bid.'));
         }
-        $model = new OrderBidWithdrawForm();
-        $model->orderBid = $orderBid;
+        $orderBidWithdrawForm = new OrderBidWithdrawForm();
+        $orderBidWithdrawForm->orderBid = $model;
         if (isset($_POST['OrderBidWithdrawForm'])) {
-            $model->attributes = $_POST['OrderBidWithdrawForm'];
+            $orderBidWithdrawForm->attributes = $_POST['OrderBidWithdrawForm'];
             // todo: send email notification to supervisor, carrier
-            $orderBid->is_deleted = OrderBids::STATE_DELETED;
-            if ($orderBid->save()) {
-                $this->redirect(['order/view', 'id' => $orderBid->order_id]);
+            $model->is_deleted = OrderBids::STATE_DELETED;
+            if ($model->save()) {
+                $this->redirect(['order/view', 'id' => $model->order_id]);
             }
         }
-        $this->render('withdrawBid', ['model' => $model]);
+        $this->render('withdrawBid', ['model' => $model, 'orderBidWithdrawForm' => $orderBidWithdrawForm]);
     }
 
     /**

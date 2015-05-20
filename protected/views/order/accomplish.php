@@ -10,33 +10,39 @@ $this->menu = [
 ];
 ?>
 
-<h1><?php echo Yii::t('main', 'Accomplish Order'); ?></h1>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <?php echo Yii::t('main', 'Accomplish Order'); ?>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <p><?php echo Yii::t('main', 'Please, add your remark to quality of transportation'); ?></p>
 
-<p><?php echo Yii::t('main', 'Please, add your remark to quality of transportation'); ?></p>
+        <?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
+            'id' => 'order-bids-form',
+            'enableAjaxValidation' => false,
+        ]); ?>
 
-<?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
-    'id' => 'order-bids-form',
-    'enableAjaxValidation' => false,
-]); ?>
+        <?php echo $form->hiddenField($model, 'id'); ?>
 
-<p class="help-block">Fields with <span class="required">*</span> are required.</p>
+        <?php echo $form->dropDownListGroup($model, 'remark_id', ['widgetOptions' => ['data' => Remark::getList(), 'htmlOptions' => ['class' => 'span5', 'maxlength' => 7]]]); ?>
 
-<?php echo $form->hiddenField($model, 'id'); ?>
+        <div class="form-actions">
+            <?php $this->widget('booster.widgets.TbButton', [
+                'buttonType' => 'link',
+                'url' => ['order/view', 'id' => $model->id],
+                'context' => 'danger',
+                'label' => Yii::t('main', 'Cancel'),
+            ]); ?>
+            <?php $this->widget('booster.widgets.TbButton', [
+                'buttonType' => 'submit',
+                'context' => 'primary',
+                'label' => Yii::t('main', $model->isNewRecord ? 'Send Request' : 'Update'),
+            ]); ?>
+        </div>
 
-<?php echo $form->dropDownListGroup($model, 'remark_id', ['widgetOptions' => ['data' => Remark::getList(), 'htmlOptions' => ['class' => 'span5', 'maxlength' => 7]]]); ?>
+        <?php $this->endWidget(); ?>
 
-<div class="form-actions">
-    <?php $this->widget('booster.widgets.TbButton', [
-        'buttonType' => 'link',
-        'url' => ['order/view', 'id' => $model->id],
-        'context' => 'danger',
-        'label' => Yii::t('main', 'Cancel'),
-    ]); ?>
-    <?php $this->widget('booster.widgets.TbButton', [
-        'buttonType' => 'submit',
-        'context' => 'primary',
-        'label' => Yii::t('main', $model->isNewRecord ? 'Send Request' : 'Update'),
-    ]); ?>
+    </div>
 </div>
-
-<?php $this->endWidget(); ?>

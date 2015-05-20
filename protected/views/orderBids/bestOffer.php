@@ -1,14 +1,28 @@
 <?php
 /** @var OrderBidsController $this */
 /** @var $model OrderBids */
+
+$this->breadcrumbs = [
+    Yii::t('main', 'Orders') => ['index'],
+    $model->order->id => ['order/view', 'id' => $model->order->id],
+    Yii::t('main', 'Best Offer'),
+];
 ?>
-<div class="row">
-    <div class="col-md-12 text-center" style="margin-top:50px;">
-        <p><?php echo Yii::t('main', 'Please, assign order to hauler offering best price.'); ?></p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <?php echo Yii::t('main', 'Best Offer'); ?>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="text-center">
+            <p><?php echo Yii::t('main', 'Please, assign order to hauler offering best price.'); ?></p>
+            <p><?php echo Yii::t('main', 'Delivery cost'); ?>: <?php echo $model->cost; ?> <?php echo $model->order->currency->title; ?></p>
+            <p><?php echo Yii::t('main', 'Recent issues');?>: <?php echo $ordersWithIssuesCount; ?></p>
 
-        <p><?php echo Yii::t('main', 'Delivery cost'); ?>: <?php echo $model->cost; ?> <?php echo $model->order->currency->title; ?></p>
-        <p><?php echo Yii::t('main', 'Recent issues');?>: <?php echo $ordersWithIssuesCount; ?></p>
-
+        </div>
+    </div>
+    <div class="panel-footer text-center">
         <?php $this->widget(
             'booster.widgets.TbButton',
             [

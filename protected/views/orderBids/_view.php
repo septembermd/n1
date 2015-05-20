@@ -13,7 +13,7 @@
     </div>
 
     <div class="col-md-2">
-        2
+        <?php echo $data->user->getRecentIssuesCount(); ?>
     </div>
 
     <div class="col-md-2">

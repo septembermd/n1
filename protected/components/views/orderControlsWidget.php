@@ -6,7 +6,7 @@
 $user = $acl->getUser();
 ?>
 <div class="row">
-    <div class="col-md-12 text-center" style="margin-top:50px;">
+    <div class="col-md-12 text-center">
         <?php if ($user->isCarrier()) : // Carrier view ?>
 
             <?php if ($model->isHaulerNeeded()) : // Status: Hauler nedded ?>
@@ -139,6 +139,42 @@ $user = $acl->getUser();
                 ); ?>
             <?php endif; ?>
 
+        <?php endif; ?>
+
+        <?php if ($user->isAdmin()) : // Admin actions ?>
+            <?php if ($model->isDeleted()) : ?>
+                <?php $this->widget(
+                    'booster.widgets.TbButton',
+                    [
+                        'label' => Yii::t('main', 'Delete Forever'),
+                        'context' => 'danger',
+                        'buttonType' =>'link',
+                        'url' => ['order/delete', 'id' => $model->id],
+                        'size' => 'large'
+                    ]
+                ); ?>
+            <?php else: ?>
+                <?php $this->widget(
+                    'booster.widgets.TbButton',
+                    [
+                        'label' => Yii::t('main', 'Edit'),
+                        'context' => 'info',
+                        'buttonType' =>'link',
+                        'url' => ['order/update', 'id' => $model->id],
+                        'size' => 'large'
+                    ]
+                ); ?>
+                <?php $this->widget(
+                    'booster.widgets.TbButton',
+                    [
+                        'label' => Yii::t('main', 'Delete'),
+                        'context' => 'danger',
+                        'buttonType' =>'link',
+                        'url' => ['order/softDelete', 'id' => $model->id],
+                        'size' => 'large'
+                    ]
+                ); ?>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </div>

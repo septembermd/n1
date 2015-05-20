@@ -69,7 +69,7 @@ class OrderController extends Controller
                 },
             ],
             ['allow', // allow to perform 'delete' action
-                'actions' => ['delete'],
+                'actions' => ['delete', 'softDelete'],
                 'expression' => function() use ($acl) {
                     return $acl->canDeleteOrder();
                 },
@@ -201,15 +201,30 @@ class OrderController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::app()->request->isPostRequest) {
-            // we only allow deletion via POST request
-            $this->loadModel($id)->delete();
+        $this->loadModel($id)->delete();
 
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax']))
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['admin']);
-        } else {
-            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax'])){
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['index']);
+        }
+    }
+
+    /**
+     * Soft delete order
+     *
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionSoftDelete($id)
+    {
+        /** @var Order $model */
+        $model = $this->loadModel($id);
+        $model->setAttribute('is_deleted', Order::IS_DELETED);
+        $model->save();
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax'])){
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['view', 'id' => $model->id]);
         }
     }
 
