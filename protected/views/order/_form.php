@@ -1,6 +1,7 @@
 <?php
 /** @var TbActiveForm $form */
-
+/** @var Order $model */
+Yii::app()->clientScript->registerScript('orderStatusMap', "ORDER_STATUS = $.parseJSON('".CJSON::encode(Order::getStatusMap())."');");
 Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClientScript::POS_END);
 ?>
 <?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
@@ -21,6 +22,10 @@ Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClien
 
 <?php echo $form->errorSummary($model); ?>
 
+<?php if ($model->isNewRecord || $model->isDraft()) {
+    echo $form->hiddenField($model, 'status_id', ['value' => Order::STATUS_HAULER_NEEDED]);
+}?>
+
 <?php echo $form->dropDownListGroup($model, 'supplier_id', ['widgetOptions' => ['data' => Supplier::getList(), 'htmlOptions' => [
     'class' => 'span5',
     'maxlength' => 9,
@@ -30,7 +35,6 @@ Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClien
         'update' => '#Order_loading_id',
     ]
 ]]]); ?>
-<div id="beer"></div>
 
 <?php echo $form->dropDownListGroup($model, 'loading_id', ['widgetOptions' => ['data' => [], 'htmlOptions' => ['class' => 'span5', 'maxlength' => 9]]]); ?>
 

@@ -17,6 +17,9 @@ $this->menu = [
 <?php
 $statusNavigationItems = [];
 foreach (Order::$statusMap as $statusId => $label) {
+    if ($statusId === Order::STATUS_DRAFT) {
+        continue;
+    }
     $unviewedOrderCount = $order->getUnviewedOrderCountByUserAndStatus($this->acl->getUser(), $statusId);
     $itemLabel = $unviewedOrderCount
         ? sprintf('%s <span class="badge">%s</span>', Yii::t('main', $label), $unviewedOrderCount)

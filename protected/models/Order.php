@@ -43,25 +43,50 @@ class Order extends CActiveRecord
     const STATUS_IN_TRANSIT = 2;
     const STATUS_DELIVERED = 3;
     const STATUS_WITHDRAWN = 4;
+    const STATUS_DRAFT = 5;
 
     const IS_ACTIVE = 0;
     const IS_DELETED = 1;
 
     const REMARK_SUCCESS = 1;
 
+    /** @var array status map */
     public static $statusMap = [
         self::STATUS_HAULER_NEEDED => "Hauler needed",
         self::STATUS_IN_TRANSIT => "In transit",
         self::STATUS_DELIVERED => "Delivered",
-        self::STATUS_WITHDRAWN => "Withdrawn"
+        self::STATUS_WITHDRAWN => "Withdrawn",
+        self::STATUS_DRAFT => "Draft"
     ];
 
+    /**
+     * Get status label by status
+     *
+     * @param $status
+     * @return bool
+     */
     public static function getStatusLabel($status) {
         if(isset(self::$statusMap[$status])) {
             return self::$statusMap[$status];
         }
 
         return false;
+    }
+
+    /**
+     * Get status map
+     *
+     * @return array
+     */
+    public static function getStatusMap()
+    {
+        return [
+            'HAULER_NEDDED' => self::STATUS_HAULER_NEEDED,
+            'IN_TRANSIT' => self::STATUS_IN_TRANSIT,
+            'DELIVERED' => self::STATUS_DELIVERED,
+            'WITHDRAWN' => self::STATUS_WITHDRAWN,
+            'DRAFT' => self::STATUS_DRAFT
+        ];
     }
 
 	/**
@@ -338,6 +363,16 @@ class Order extends CActiveRecord
     }
 
     /**
+     * Check if order status is 'Draft'
+     *
+     * @return bool
+     */
+    public function isDraft()
+    {
+        return $this->status_id == self::STATUS_DRAFT;
+    }
+
+    /**
      * Check if order is deleted
      *
      * @return bool
@@ -429,6 +464,21 @@ class Order extends CActiveRecord
         }
 
         return self::model()->count($criteria);
+    }
+
+    /**
+     * Get draft order
+     *
+     * @param User $user
+     * @return static
+     */
+    public function getDraftOrderByUser(User $user)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('creator_id', $user->id);
+        $criteria->compare('status_id', self::STATUS_DRAFT);
+
+        return self::model()->find($criteria);
     }
 
 }

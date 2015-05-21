@@ -112,18 +112,27 @@ class OrderController extends Controller
     public function actionCreate()
     {
         $model = new Order;
+        // Load saved draft
+        $draftModel = $model->getDraftOrderByUser($this->acl->getUser());
+        if ($draftModel) {
+            $model = $draftModel;
+        }
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
         if (isset($_POST['Order'])) {
-            $model->attributes = $_POST['Order'];
+            $model->setAttributes($_POST['Order']);
             $model->setAttribute('creator_id', Yii::app()->user->getId());
             $model->orderItems = $_POST['OrderItems'];
-            if ($model->saveWithRelated('orderItems')) {
-                $this->redirect(['view', 'id' => $model->id]);
-            }
 
+            if ($model->saveWithRelated('orderItems')) {
+                if ($model->isDraft()) {
+                    $this->redirect(['index']);
+                } else {
+                    $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         $this->render('create', [
