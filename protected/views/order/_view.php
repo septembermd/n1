@@ -12,7 +12,7 @@
             <?php echo CHtml::encode(Order::getStatusLabel($data->status_id)); ?>
         </div>
         <div class="col-md-2">
-            <?php if ($this->acl->canViewCreator()) : ?>
+            <?php if ($this->acl->canViewOrderCreator($data)) : ?>
                 <b><?php echo CHtml::encode($data->getAttributeLabel('creator_id')); ?>:</b>
                 <?php echo CHtml::link($data->creator->fullname, ['user/view', 'id' => $data->creator_id]); ?>
             <?php endif; ?>
@@ -22,7 +22,7 @@
             <?php echo CHtml::encode($data->supplier->title); ?>
         </div>
         <div class="col-md-2">
-            <?php if ($data->isInTransit() || $data->isDelivered()) : ?>
+            <?php if ($data->isInTransit() || $data->isDelivered() || ($data->isDeleted() && $data->carrier)) : ?>
                 <b><?php echo CHtml::encode($data->getAttributeLabel('carrier_id')); ?>:</b>
                 <?php echo CHtml::encode($data->carrier->company->title); ?>
             <?php endif; ?>

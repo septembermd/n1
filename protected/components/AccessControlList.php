@@ -319,9 +319,34 @@ class AccessControlList {
     }
 
     /**
+     * @param Order $order
      * @return bool
      */
-    public function canViewCreator()
+    public function canViewOrderCreator(Order $order)
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        if ($this->user->isSupervisor()) {
+            return true;
+        }
+
+        if ($this->user->isManager()) {
+            return true;
+        }
+
+        if ($this->user->isCarrier() && !$order->isHaulerNeeded()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canViewOrderBidsCount()
     {
         if ($this->user->isAdmin()) {
             return true;

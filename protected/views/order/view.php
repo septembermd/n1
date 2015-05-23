@@ -27,7 +27,7 @@ $this->menu = [
                     'value' => function($order) {
                         return CHtml::link($order->creator->fullname, ['user/view', 'id' => $order->creator_id]);
                     },
-                    'visible' => $this->acl->canViewCreator()
+                    'visible' => $this->acl->canViewOrderCreator($model)
                 ],
                 [
                     'name' => 'status_id',
@@ -36,7 +36,8 @@ $this->menu = [
                 ],
                 [
                     'name' => 'bidsCount',
-                    'label' => Yii::t('main', 'Number of Bids')
+                    'label' => Yii::t('main', 'Number of Bids'),
+                    'visible' => $this->acl->canViewOrderBidsCount()
                 ],
                 [
                     'name' => 'currency.title',
