@@ -1,7 +1,12 @@
-/assets/
+/.idea/
 /nbproject/
+
+/protected/composer.lock
 /protected/config/main.php
 /protected/runtime/
-/images/site/
+/protected/vendor/
+/assets/
 /files/
-/.idea/
+/images/site/
+
+

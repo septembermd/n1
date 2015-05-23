@@ -1,0 +1,8 @@
+{
+  "name": "septembermd/number1",
+  "require": {
+    "php": ">=5.5",
+    "yiisoft/yii": "1.1.*",
+    "ikirux/yii-swift-mailer": "dev-master"
+  }
+}
