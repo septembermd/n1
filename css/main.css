@@ -5,9 +5,13 @@
     padding: 10px 0;
 }
 .order-item {
-    margin-bottom:20px;
+    padding:10px 0;
+    margin-bottom: 2px;
+    border-top: 1px dashed #e8e8e8;
 }
-
+.order-item:first-child {
+    border-top: none;
+}
 .order-item.viewed {
-    background-color: #f8fafc;
+    background-color: #dff0d8;
 }
