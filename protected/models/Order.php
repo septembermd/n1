@@ -123,7 +123,7 @@ class Order extends CActiveRecord
 			['creator_id, carrier_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9],
 			['status_id, is_deleted', 'length', 'max'=>1],
             ['load_date, deliver_date, valid_date', 'date', 'format' => 'yyyy-MM-dd', 'allowEmpty' => false],
-            ['load_date, deliver_date, valid_date', 'compare', 'compareValue' => date('Y-m-d'), 'operator' => '>=', 'message' => '{attribute} must start with current date.'],
+            ['load_date, deliver_date, valid_date', 'compare', 'compareAttribute' => 'created', 'operator' => '>=', 'message' => '{attribute} must start with created date.'],
             ['load_date, deliver_date', 'compare', 'compareAttribute' => 'valid_date', 'operator' => '<=', 'message' => '{attribute} must not be more than {compareAttribute}'],
             ['deliver_date', 'compare', 'compareAttribute' => 'load_date', 'operator' => '>=', 'message' => '{attribute} must not be less than {compareAttribute}'],
 			['created, carrier_id, supplier_id, remark_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'],

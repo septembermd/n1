@@ -167,6 +167,7 @@ class OrderBidsController extends Controller
      */
     public function actionAccept($orderBidId)
     {
+        /** @var OrderBids $orderBid */
         $orderBid = $this->loadModel($orderBidId);
         // Set flag which shows that this bid won
         $orderBid->setAttribute('is_winner', OrderBids::IS_WINNER);
