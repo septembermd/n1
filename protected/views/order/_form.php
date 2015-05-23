@@ -49,11 +49,11 @@ Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClien
 
 <?php echo $form->dropDownListGroup($model, 'temperature_id', ['widgetOptions' => ['data' => Temperature::getList(), 'htmlOptions' => ['class' => 'span5']]]); ?>
 
-<?php echo $form->datePickerGroup($model, 'valid_date', ['widgetOptions' => ['options' => ['format' => 'yyyy-mm-dd', 'startDate'=>'+1d'], 'htmlOptions' => ['class' => 'span5']]]); ?>
+<?php echo $form->datePickerGroup($model, 'valid_date', ['widgetOptions' => ['options' => ['format' => 'yyyy-mm-dd', 'startDate'=>'+1d', 'autoclose' => true], 'htmlOptions' => ['class' => 'span5']]]); ?>
 
-<?php echo $form->datePickerGroup($model, 'load_date', ['widgetOptions' => ['options' => ['format' => 'yyyy-mm-dd', 'startDate'=>'0d'], 'htmlOptions' => ['class' => 'span5']]]); ?>
+<?php echo $form->datePickerGroup($model, 'load_date', ['widgetOptions' => ['options' => ['format' => 'yyyy-mm-dd', 'startDate'=>'0d', 'autoclose' => true], 'htmlOptions' => ['class' => 'span5']]]); ?>
 
-<?php echo $form->datePickerGroup($model, 'deliver_date', ['widgetOptions' => ['options' => ['format' => 'yyyy-mm-dd', 'startDate'=>'0d'], 'htmlOptions' => ['class' => 'span5']]]); ?>
+<?php echo $form->datePickerGroup($model, 'deliver_date', ['widgetOptions' => ['options' => ['format' => 'yyyy-mm-dd', 'startDate'=>'0d', 'autoclose' => true], 'htmlOptions' => ['class' => 'span5']]]); ?>
 
 <h5><strong><?php echo Yii::t('main', 'Order Items'); ?>:</strong></h5>
 
