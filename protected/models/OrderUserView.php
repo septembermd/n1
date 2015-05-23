@@ -29,12 +29,12 @@ class OrderUserView extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('order_id, user_id', 'length', 'max'=>9),
+		return [
+			['order_id, user_id', 'length', 'max'=>9],
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order_id, user_id', 'safe', 'on'=>'search'),
-		);
+			['id, order_id, user_id', 'safe', 'on'=>'search'],
+        ];
 	}
 
 	/**
@@ -44,10 +44,10 @@ class OrderUserView extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'order' => array(self::BELONGS_TO, 'Order', 'order_id'),
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-		);
+		return [
+			'order' => [self::BELONGS_TO, 'Order', 'order_id'],
+			'user' => [self::BELONGS_TO, 'User', 'user_id'],
+        ];
 	}
 
 	/**
@@ -55,11 +55,11 @@ class OrderUserView extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'id' => 'ID',
 			'order_id' => 'Order',
 			'user_id' => 'User',
-		);
+        ];
 	}
 
 	/**
@@ -84,9 +84,9 @@ class OrderUserView extends CActiveRecord
 		$criteria->compare('order_id',$this->order_id,true);
 		$criteria->compare('user_id',$this->user_id,true);
 
-		return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, [
 			'criteria'=>$criteria,
-		));
+        ]);
 	}
 
 	/**

@@ -1,12 +1,12 @@
 <?php
-$this->breadcrumbs = array(
-    Yii::t('main', 'Email Templates') => array('admin'),
+$this->breadcrumbs = [
+    Yii::t('main', 'Email Templates') => ['admin'],
     Yii::t('main', 'Manage'),
-);
+];
 
-$this->menu = array(
-    array('label' => Yii::t('main', 'Email Templates'), 'url' => array('admin')),
-);
+$this->menu = [
+    ['label' => Yii::t('main', 'Email Templates'), 'url' => ['admin']],
+];
 
 ?>
 
@@ -22,20 +22,20 @@ $this->menu = array(
             or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
         </p>
 
-        <?php $this->widget('booster.widgets.TbGridView', array(
+        <?php $this->widget('booster.widgets.TbGridView', [
             'id' => 'email-template-grid',
             'type' => 'striped',
             'dataProvider' => $model->search(),
             'filter' => $model,
-            'columns' => array(
+            'columns' => [
                 'slug',
                 'subject',
-                array(
+                [
                     'class' => 'booster.widgets.TbButtonColumn',
                     'template' => '{view} {update}'
-                ),
-            ),
-        )); ?>
+                ],
+            ],
+        ]); ?>
 
     </div>
 </div>

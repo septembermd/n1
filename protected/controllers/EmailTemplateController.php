@@ -7,9 +7,9 @@ class EmailTemplateController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
@@ -22,17 +22,17 @@ class EmailTemplateController extends Controller
     {
         $acl = $this->acl;
 
-        return array(
-            array('allow',  // allow all users to perform 'view', 'update', 'admin' actions
-                'actions' => array('view', 'update', 'admin'),
+        return [
+            ['allow',  // allow all users to perform 'view', 'update', 'admin' actions
+                'actions' => ['view', 'update', 'admin'],
                 'expression' => function() use ($acl) {
                     return $acl->canManageEmailTemplates();
                 },
-            ),
-            array('deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
+            ],
+            ['deny',  // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
@@ -42,9 +42,9 @@ class EmailTemplateController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     /**
@@ -63,12 +63,12 @@ class EmailTemplateController extends Controller
         if (isset($_POST['EmailTemplate'])) {
             $model->attributes = $_POST['EmailTemplate'];
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -81,9 +81,9 @@ class EmailTemplateController extends Controller
         if (isset($_GET['EmailTemplate']))
             $model->attributes = $_GET['EmailTemplate'];
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**

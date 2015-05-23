@@ -2,18 +2,18 @@
 
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
-return array(
+return [
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Console Application',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=> ['log'],
 
 	// application components
-	'components'=>array(
-		'db'=>array(
+	'components'=> [
+		'db'=> [
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
+        ],
 		// uncomment the following to use a MySQL database
 		/*
 		'db'=>array(
@@ -24,14 +24,14 @@ return array(
 			'charset' => 'utf8',
 		),
 		*/
-		'log'=>array(
+		'log'=> [
 			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
+			'routes'=> [
+				[
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
-				),
-			),
-		),
-	),
-);
+                ],
+            ],
+        ],
+    ],
+];

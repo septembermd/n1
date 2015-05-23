@@ -26,14 +26,14 @@ class EmailTemplate extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('slug', 'length', 'max' => 255),
-            array('subject', 'length', 'max' => 255),
-            array('body', 'length', 'max' => 3000),
+        return [
+            ['slug', 'length', 'max' => 255],
+            ['subject', 'length', 'max' => 255],
+            ['body', 'length', 'max' => 3000],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, slug, body, value', 'safe', 'on' => 'search'),
-        );
+            ['id, slug, body, value', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -43,7 +43,7 @@ class EmailTemplate extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array();
+        return [];
     }
 
     /**
@@ -51,12 +51,12 @@ class EmailTemplate extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'slug' => Yii::t('main', 'Slug'),
             'subject' => Yii::t('main', 'Subject'),
             'body' => Yii::t('main', 'Body'),
-        );
+        ];
     }
 
     /**
@@ -82,9 +82,9 @@ class EmailTemplate extends CActiveRecord
         $criteria->compare('subject', $this->subject, true);
         $criteria->compare('body', $this->body, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     /**

@@ -1,13 +1,13 @@
 <?php
-$this->breadcrumbs = array(
-    Yii::t('main', 'Email Templates') => array('admin'),
+$this->breadcrumbs = [
+    Yii::t('main', 'Email Templates') => ['admin'],
     $model->slug,
-);
+];
 
-$this->menu = array(
-    array('label' => Yii::t('main', 'Manage Email Templates'), 'url' => array('admin')),
-    array('label' => Yii::t('main', 'Update Email Template'), 'url' => array('update', 'id' => $model->id)),
-);
+$this->menu = [
+    ['label' => Yii::t('main', 'Manage Email Templates'), 'url' => ['admin']],
+    ['label' => Yii::t('main', 'Update Email Template'), 'url' => ['update', 'id' => $model->id]],
+];
 ?>
 
 <div class="panel panel-default">
