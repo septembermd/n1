@@ -16,7 +16,7 @@ $this->menu = [
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo Yii::t('main', 'Profile'); ?></h3>
-        <?php echo CHtml::link(Yii::t('main', 'Back'), ['user/index'], ['class' => 'btn btn-info pull-right']) ?>
+        <?php echo CHtml::link(Yii::t('main', 'Back'), "javascript: window.history.back();", ['class' => 'btn btn-info pull-right']) ?>
     </div>
     <div class="panel-body">
         <?php $this->widget('booster.widgets.TbDetailView', [
