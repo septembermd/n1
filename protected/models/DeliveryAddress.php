@@ -58,9 +58,9 @@ class DeliveryAddress extends CActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id' => 'ID',
-			'country_id' => 'Country',
-			'address' => 'Address',
+			'id' => Yii::t('main', 'Delivery ID'),
+			'country_id' => Yii::t('main', 'Delivery Country'),
+			'address' => Yii::t('main', 'Delivery Address'),
         ];
 	}
 

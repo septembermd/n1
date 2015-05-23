@@ -61,10 +61,10 @@ class SupplierAddresses extends CActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id' => 'ID',
-			'supplier_id' => 'Supplier',
-			'country_id' => 'Country',
-			'address' => 'Address',
+			'id' => Yii::t('main', 'Supplier ID'),
+			'supplier_id' => Yii::t('main', 'Supplier'),
+			'country_id' => Yii::t('main', 'Supplier Country'),
+			'address' => Yii::t('main', 'Supplier Address'),
         ];
 	}
 

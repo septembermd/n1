@@ -64,8 +64,8 @@ class Company extends ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id' => 'ID',
-			'title' => 'Title',
+			'id' => Yii::t('main', 'ID'),
+			'title' => Yii::t('main', 'Title'),
         ];
 	}
 

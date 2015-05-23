@@ -1,4 +1,6 @@
 <?php
+/** @var Order $model */
+
 $this->breadcrumbs = [
     'Orders' => ['index'],
     $model->id,
@@ -20,32 +22,37 @@ $this->menu = [
                 'id',
                 [
                     'name' => 'creator.fullname',
-                    'label' => Yii::t('main', 'Creator'),
+                    'label' => $model->getAttributeLabel('creator_id'),
                     'type' => 'raw',
                     'value' => function($order) {
                         return CHtml::link($order->creator->fullname, ['user/view', 'id' => $order->creator_id]);
-                    }
+                    },
+                    'visible' => $this->acl->canViewCreator()
                 ],
                 [
                     'name' => 'status_id',
-                    'label' => Yii::t('main', 'Status'),
+                    'label' => $model->getAttributeLabel('status_id'),
                     'value' => Order::getStatusLabel($model->status_id)
                 ],
                 [
+                    'name' => 'bidsCount',
+                    'label' => Yii::t('main', 'Number of Bids')
+                ],
+                [
                     'name' => 'currency.title',
-                    'label' => Yii::t('main', 'Currency')
+                    'label' => Yii::t('main', 'Pay In')
                 ],
                 [
                     'name' => 'supplier.title',
-                    'label' => Yii::t('main', 'Supplier Company'),
+                    'label' => $model->getAttributeLabel('supplier_id'),
                 ],
                 [
                     'name' => 'loading.country.title',
-                    'label' => Yii::t('main', 'Supplier Country')
+                    'label' => $model->getAttributeLabel('loading.country_id')
                 ],
                 [
                     'name' => 'loading.address',
-                    'label' => Yii::t('main', 'Supplier Address')
+                    'label' => $model->getAttributeLabel('loading.address')
                 ],
 
                 [

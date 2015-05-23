@@ -163,7 +163,7 @@ class Order extends CActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'creator_id' => Yii::t('main', 'Creator'),
+			'creator_id' => Yii::t('main', 'Responsible'),
             'carrier_id' => Yii::t('main', 'Hauler'),
 			'currency_id' => Yii::t('main', 'Currency'),
 			'status_id' => Yii::t('main', 'Status'),
