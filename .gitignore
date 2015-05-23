@@ -1,6 +1,5 @@
 /.idea/
 /nbproject/
-
 /protected/composer.lock
 /protected/composer.phar
 /protected/config/main.php
@@ -9,5 +8,3 @@
 /assets/
 /files/
 /images/site/
-
-

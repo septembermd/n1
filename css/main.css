@@ -4,3 +4,10 @@
 .footer-main {
     padding: 10px 0;
 }
+.order-item {
+    margin-bottom:20px;
+}
+
+.order-item.viewed {
+    background-color: #f8fafc;
+}

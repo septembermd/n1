@@ -1,7 +1,7 @@
 <?php
 /** @var Order $data */
 ?>
-<div class="view" style="margin-bottom:20px;">
+<div class="view order-item <?php echo $data->isViewedByUser($this->acl->getUser()) ? "" : "viewed" ; ?>">
     <div class="row">
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
