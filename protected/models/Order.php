@@ -263,7 +263,10 @@ class Order extends CActiveRecord
      */
     public function getBidsCount()
     {
-        return $this->orderBidsCount;
+        return $this->orderBidsCount([
+            'condition' => 'is_deleted='.OrderBids::STATE_ACTIVE
+
+        ]);
     }
 
     /**
