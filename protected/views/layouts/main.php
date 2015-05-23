@@ -11,8 +11,6 @@
     <link rel="shortcut icon" href="<?php echo Yii::app()->baseUrl; ?>/static/images/favicon.ico" type="image/x-icon" />
 
     <!-- Stylesheets -->
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/static/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->baseUrl; ?>/static/css/bootstrap-theme.min.css" />
     <?php Yii::app()->clientScript->registerCssFile("/css/mcustomscrollbar/jquery.mCustomScrollbar.css"); ?>
     <?php Yii::app()->clientScript->registerCssFile("/css/fontawesome/font-awesome.min.css"); ?>
     <?php Yii::app()->clientScript->registerCssFile("/css/theme-default.css"); ?>
