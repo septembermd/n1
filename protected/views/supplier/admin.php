@@ -35,6 +35,7 @@ $this->menu = [
 
         <?php $this->widget('booster.widgets.TbGridView', [
             'id' => 'supplier-grid',
+            'type' => 'striped',
             'dataProvider' => $model->search(),
             'filter' => $model,
             'columns' => [

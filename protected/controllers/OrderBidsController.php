@@ -21,7 +21,6 @@ class OrderBidsController extends Controller
     {
         $acl = $this->acl;
 
-
         return [
             ['allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => ['create'],

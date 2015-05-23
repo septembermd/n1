@@ -17,7 +17,7 @@ $this->menu = [
         <h3 class="panel-title">
             <?php echo Yii::t('main', 'Order Bids'); ?>
         </h3>
-        <span class="badge pull-right"><?php printf('%s %s', $dataProvider->getItemCount(), Yii::t('main', 'offers')); ?></span>
+        <span class="label label-success pull-right"><?php printf('%s %s', $dataProvider->getItemCount(), Yii::t('main', 'offers')); ?></span>
     </div>
     <div class="panel-body">
 

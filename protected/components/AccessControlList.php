@@ -420,7 +420,8 @@ class AccessControlList {
      * @param OrderBids $orderBids
      * @return bool
      */
-    public function canWithdrawOrderBid(OrderBids $orderBids) {
+    public function canWithdrawOrderBid(OrderBids $orderBids)
+    {
         if ($this->user->isAdmin()) {
             return true;
         }
@@ -435,6 +436,18 @@ class AccessControlList {
             if ($bestOrderBids->id === $orderBids->id) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canManageEmailTemplates()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
         }
 
         return false;
