@@ -24,13 +24,13 @@ class OrderBids extends CActiveRecord
     const IS_WINNER = 1;
     const IS_COMPETITOR = 0;
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'order_bids';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'order_bids';
+    }
 
     /**
      * Model behaviors
@@ -46,94 +46,95 @@ class OrderBids extends CActiveRecord
         ];
     }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return [
-			['user_id, order_id, cost', 'required'],
-			['user_id, order_id', 'length', 'max'=>9],
-			['cost', 'length', 'max'=>7],
-			['is_winner, is_deleted', 'length', 'max'=>1],
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			['id, user_id, order_id, cost, created, is_winner, is_deleted', 'safe', 'on'=>'search'],
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return [
+            ['user_id, order_id, cost', 'required'],
+            ['user_id, order_id', 'length', 'max' => 9],
+            ['cost', 'numerical', 'min' => 1, 'max' => 9999999],
+            ['cost', 'length', 'max' => 7],
+            ['is_winner, is_deleted', 'length', 'max' => 1],
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            ['id, user_id, order_id, cost, created, is_winner, is_deleted', 'safe', 'on' => 'search'],
         ];
-	}
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return [
-			'user' => [self::BELONGS_TO, 'User', 'user_id'],
-			'order' => [self::BELONGS_TO, 'Order', 'order_id'],
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return [
+            'user' => [self::BELONGS_TO, 'User', 'user_id'],
+            'order' => [self::BELONGS_TO, 'Order', 'order_id'],
         ];
-	}
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'id' => 'ID',
-			'user_id' => 'User',
-			'order_id' => 'Order',
-			'cost' => 'Cost',
-			'created' => 'Created',
-			'is_winner' => 'Is Winner',
-			'is_deleted' => 'Is Deleted',
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'user_id' => 'User',
+            'order_id' => 'Order',
+            'cost' => 'Cost',
+            'created' => 'Created',
+            'is_winner' => 'Is Winner',
+            'is_deleted' => 'Is Deleted',
         ];
-	}
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('order_id',$this->order_id,true);
-		$criteria->compare('cost',$this->cost,true);
-		$criteria->compare('created',$this->created,true);
-		$criteria->compare('is_winner',$this->is_winner,true);
-		$criteria->compare('is_deleted',$this->is_deleted,true);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('user_id', $this->user_id, true);
+        $criteria->compare('order_id', $this->order_id, true);
+        $criteria->compare('cost', $this->cost, true);
+        $criteria->compare('created', $this->created, true);
+        $criteria->compare('is_winner', $this->is_winner, true);
+        $criteria->compare('is_deleted', $this->is_deleted, true);
 
-		return new CActiveDataProvider($this, [
-			'criteria'=>$criteria,
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
         ]);
-	}
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return OrderBids the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return OrderBids the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
     /**
      * @param $orderId
@@ -143,7 +144,7 @@ class OrderBids extends CActiveRecord
     {
         $criteria = new CDbCriteria();
         $criteria->compare('order_id', $orderId);
-        $dataProvider =  new CActiveDataProvider(__CLASS__, ['criteria' => $criteria]);
+        $dataProvider = new CActiveDataProvider(__CLASS__, ['criteria' => $criteria]);
 
         return $dataProvider;
     }
@@ -172,7 +173,7 @@ class OrderBids extends CActiveRecord
             JOIN (  SELECT ord.*
                     FROM `user` `usr`
                     JOIN `order` `ord` ON usr.id=ord.carrier_id
-                    WHERE (ord.remark_id!=".Order::REMARK_SUCCESS.") AND (ord.status_id='".Order::STATUS_DELIVERED."')
+                    WHERE (ord.remark_id!=" . Order::REMARK_SUCCESS . ") AND (ord.status_id='" . Order::STATUS_DELIVERED . "')
             ) AS s ON s.carrier_id=t.user_id
 		";
         $criteria->compare('t.order_id', $order->id);
