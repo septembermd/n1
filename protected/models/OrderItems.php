@@ -30,7 +30,7 @@ class OrderItems extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return [
-			['order_id, type, amount', 'required'],
+			['order_id, type, amount', 'required', 'on' => ['insert', 'update']],
 			['order_id', 'length', 'max'=>9],
 			['type', 'length', 'max'=>150],
 			['amount', 'length', 'max'=>20],

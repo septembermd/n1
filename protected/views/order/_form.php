@@ -22,9 +22,9 @@ Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClien
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php if ($model->isNewRecord || $model->isDraft()) {
+<?php //if ($model->isNewRecord || $model->isDraft()) {
     echo $form->hiddenField($model, 'status_id', ['value' => Order::STATUS_HAULER_NEEDED]);
-}?>
+//}?>
 
 <?php echo $form->dropDownListGroup($model, 'supplier_id', ['widgetOptions' => ['data' => Supplier::getList(), 'htmlOptions' => [
     'class' => 'span5',

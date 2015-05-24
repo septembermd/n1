@@ -65,8 +65,9 @@ class Order extends CActiveRecord
      * @param $status
      * @return bool
      */
-    public static function getStatusLabel($status) {
-        if(isset(self::$statusMap[$status])) {
+    public static function getStatusLabel($status)
+    {
+        if (isset(self::$statusMap[$status])) {
             return self::$statusMap[$status];
         }
 
@@ -89,20 +90,21 @@ class Order extends CActiveRecord
         ];
     }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'order';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'order';
+    }
 
     /**
      * Model behaviors
      *
      * @return array
      */
-    public function behaviors(){
+    public function behaviors()
+    {
         return [
             'ESaveRelatedBehavior' => [
                 'class' => 'application.components.ESaveRelatedBehavior'
@@ -110,37 +112,39 @@ class Order extends CActiveRecord
         ];
     }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return [
-			['creator_id, currency_id, supplier_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required'],
-			['currency_id, temperature_id', 'numerical', 'integerOnly'=>true],
-			['creator_id, carrier_id, supplier_id, loading_id, delivery_id', 'length', 'max'=>9],
-			['status_id, is_deleted', 'length', 'max'=>1],
-            ['load_date, deliver_date, valid_date', 'date', 'format' => 'yyyy-MM-dd', 'allowEmpty' => false],
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return [
+            ['creator_id, currency_id, supplier_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required', 'on' => ['insert', 'update']],
+            ['currency_id, temperature_id', 'numerical', 'integerOnly' => true],
+            ['creator_id, carrier_id, supplier_id, loading_id, delivery_id', 'length', 'max' => 9],
+            ['status_id, is_deleted', 'length', 'max' => 1],
+            ['load_date, deliver_date, valid_date', 'date', 'format' => 'yyyy-MM-dd', 'allowEmpty' => false, 'on' => ['insert', 'update']],
+            ['load_date, deliver_date, valid_date', 'default', 'setOnEmpty' => true, 'value' => null, 'on' => 'saveDraft'],
+            ['created', 'default', 'value' => date('Y-m-d'), 'setOnEmpty' => false, 'on' => ['insert', 'update']],
             ['load_date, deliver_date, valid_date', 'compare', 'compareAttribute' => 'created', 'operator' => '>=', 'message' => '{attribute} must start with created date.'],
             ['load_date, deliver_date', 'compare', 'compareAttribute' => 'valid_date', 'operator' => '<=', 'message' => '{attribute} must not be more than {compareAttribute}'],
             ['deliver_date', 'compare', 'compareAttribute' => 'load_date', 'operator' => '>=', 'message' => '{attribute} must not be less than {compareAttribute}'],
-			['created, carrier_id, supplier_id, remark_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'],
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			['id, creator_id, carrier_id, currency_id, status_id, supplier_id, loading_id, delivery_id, temperature_id, remark_id, valid_date, load_date, deliver_date, loaded_on_date, delivered_on_date, deleted_on_date, is_deleted, created', 'safe', 'on'=>'search'],
+            ['created, carrier_id, supplier_id, remark_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'],
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            ['id, creator_id, carrier_id, currency_id, status_id, supplier_id, loading_id, delivery_id, temperature_id, remark_id, valid_date, load_date, deliver_date, loaded_on_date, delivered_on_date, deleted_on_date, is_deleted, created', 'safe', 'on' => 'search'],
         ];
-	}
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return [
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return [
             'creator' => [self::BELONGS_TO, 'User', 'creator_id'],
             'carrier' => [self::BELONGS_TO, 'User', 'carrier_id'],
             'supplier' => [self::BELONGS_TO, 'Supplier', 'supplier_id'],
@@ -154,87 +158,87 @@ class Order extends CActiveRecord
             'orderItems' => [self::HAS_MANY, 'OrderItems', 'order_id'],
             'orderUserViews' => [self::HAS_MANY, 'OrderItems', 'order_id'],
         ];
-	}
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'id' => 'ID',
-			'creator_id' => Yii::t('main', 'Responsible'),
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'creator_id' => Yii::t('main', 'Responsible'),
             'carrier_id' => Yii::t('main', 'Hauler'),
-			'currency_id' => Yii::t('main', 'Currency'),
-			'status_id' => Yii::t('main', 'Status'),
-			'supplier_id' => Yii::t('main', 'Supplier Company'),
-			'loading_id' => Yii::t('main', 'Supplier Address'),
-			'delivery_id' => Yii::t('main', 'Delivery Address'),
-			'temperature_id' => Yii::t('main', 'Temperature Control'),
-			'remark_id' => Yii::t('main', 'Remark'),
-			'valid_date' => Yii::t('main', 'Valid Until'),
-			'load_date' => Yii::t('main', 'Load Until'),
-			'deliver_date' => Yii::t('main', 'Deliver Due'),
-			'loaded_on_date' => Yii::t('main', 'Loaded On Date'),
-			'delivered_on_date' => Yii::t('main', 'Delivered On Date'),
-			'deleted_on_date' => Yii::t('main', 'Deleted On Date'),
-			'is_deleted' => Yii::t('main', 'Is Deleted'),
-			'created' => Yii::t('main', 'Created'),
+            'currency_id' => Yii::t('main', 'Currency'),
+            'status_id' => Yii::t('main', 'Status'),
+            'supplier_id' => Yii::t('main', 'Supplier Company'),
+            'loading_id' => Yii::t('main', 'Supplier Address'),
+            'delivery_id' => Yii::t('main', 'Delivery Address'),
+            'temperature_id' => Yii::t('main', 'Temperature Control'),
+            'remark_id' => Yii::t('main', 'Remark'),
+            'valid_date' => Yii::t('main', 'Valid Until'),
+            'load_date' => Yii::t('main', 'Load Until'),
+            'deliver_date' => Yii::t('main', 'Deliver Due'),
+            'loaded_on_date' => Yii::t('main', 'Loaded On Date'),
+            'delivered_on_date' => Yii::t('main', 'Delivered On Date'),
+            'deleted_on_date' => Yii::t('main', 'Deleted On Date'),
+            'is_deleted' => Yii::t('main', 'Is Deleted'),
+            'created' => Yii::t('main', 'Created'),
         ];
-	}
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('creator_id',$this->creator_id,true);
-        $criteria->compare('carrier_id',$this->carrier_id,true);
-		$criteria->compare('currency_id',$this->currency_id);
-		$criteria->compare('status_id',$this->status_id,true);
-		$criteria->compare('supplier_id',$this->supplier_id,true);
-		$criteria->compare('loading_id',$this->loading_id,true);
-		$criteria->compare('delivery_id',$this->delivery_id,true);
-		$criteria->compare('temperature_id',$this->temperature_id);
-		$criteria->compare('remark_id',$this->remark_id);
-		$criteria->compare('valid_date',$this->valid_date,true);
-		$criteria->compare('load_date',$this->load_date,true);
-		$criteria->compare('deliver_date',$this->deliver_date,true);
-		$criteria->compare('loaded_on_date',$this->loaded_on_date,true);
-		$criteria->compare('delivered_on_date',$this->delivered_on_date,true);
-		$criteria->compare('deleted_on_date',$this->deleted_on_date,true);
-		$criteria->compare('is_deleted',$this->is_deleted,true);
-		$criteria->compare('created',$this->created,true);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('creator_id', $this->creator_id, true);
+        $criteria->compare('carrier_id', $this->carrier_id, true);
+        $criteria->compare('currency_id', $this->currency_id);
+        $criteria->compare('status_id', $this->status_id, true);
+        $criteria->compare('supplier_id', $this->supplier_id, true);
+        $criteria->compare('loading_id', $this->loading_id, true);
+        $criteria->compare('delivery_id', $this->delivery_id, true);
+        $criteria->compare('temperature_id', $this->temperature_id);
+        $criteria->compare('remark_id', $this->remark_id);
+        $criteria->compare('valid_date', $this->valid_date, true);
+        $criteria->compare('load_date', $this->load_date, true);
+        $criteria->compare('deliver_date', $this->deliver_date, true);
+        $criteria->compare('loaded_on_date', $this->loaded_on_date, true);
+        $criteria->compare('delivered_on_date', $this->delivered_on_date, true);
+        $criteria->compare('deleted_on_date', $this->deleted_on_date, true);
+        $criteria->compare('is_deleted', $this->is_deleted, true);
+        $criteria->compare('created', $this->created, true);
 
-		return new CActiveDataProvider($this, [
-			'criteria'=>$criteria,
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
         ]);
-	}
+    }
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Order the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return Order the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
     /**
      * Get order bid by user
@@ -245,7 +249,7 @@ class Order extends CActiveRecord
     public function getOrderBidByUser(User $user)
     {
         $orderBids = $this->orderBids([
-            'condition' => 'user_id='.$user->id,
+            'condition' => 'user_id=' . $user->id,
             'limit' => 1
         ]);
 
@@ -264,7 +268,7 @@ class Order extends CActiveRecord
     public function getBidsCount()
     {
         return $this->orderBidsCount([
-            'condition' => "is_deleted='".OrderBids::STATE_ACTIVE."'"
+            'condition' => "is_deleted='" . OrderBids::STATE_ACTIVE . "'"
 
         ]);
     }
@@ -313,7 +317,7 @@ class Order extends CActiveRecord
     public function isTransportationOfferedByUser(User $user)
     {
         $orderBidsCount = $this->orderBidsCount([
-            'condition' => 'user_id='.$user->id
+            'condition' => 'user_id=' . $user->id
         ]);
 
         return ($orderBidsCount > 0);
@@ -458,7 +462,7 @@ class Order extends CActiveRecord
     public function getUnviewedOrderCountByUserAndStatus(User $user, $status = null)
     {
         $orderUserView = OrderUserView::model()->getOrderUserViewByUser($user);
-        $orderUserViewList = CHtml::listData($orderUserView,'order_id','user_id');
+        $orderUserViewList = CHtml::listData($orderUserView, 'order_id', 'user_id');
         $orderUserViewIds = array_keys($orderUserViewList);
 
         $criteria = new CDbCriteria();

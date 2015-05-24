@@ -111,12 +111,15 @@ class OrderController extends Controller
      */
     public function actionCreate()
     {
+        /** @var Order $model */
         $model = new Order;
         // Load saved draft
         $draftModel = $model->getDraftOrderByUser($this->acl->getUser());
         if ($draftModel) {
             $model = $draftModel;
         }
+        // Get current model scenario
+        $scenario = $model->getScenario();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -126,12 +129,19 @@ class OrderController extends Controller
             $model->setAttribute('creator_id', Yii::app()->user->getId());
             $model->orderItems = $_POST['OrderItems'];
 
-            if ($model->saveWithRelated('orderItems')) {
-                if ($model->isDraft()) {
-                    $this->redirect(['index']);
-                } else {
-                    $this->redirect(['view', 'id' => $model->id]);
-                }
+            if ($model->isDraft()) {
+                $redirect = ['index'];
+                $scenario = 'saveDraft';
+                $model->setScenario($scenario);
+                // Order is not created until it is actually posted
+                $model->setAttribute('created', null);
+            } else {
+                $redirect = ['view', 'id' => $model->id];
+            }
+
+            // Same scenario should apply to related models
+            if ($model->saveWithRelated(['orderItems' => ['scenario' => $scenario]])) {
+                $this->redirect($redirect);
             }
         }
 
