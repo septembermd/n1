@@ -223,6 +223,7 @@ class Order extends CActiveRecord
         $criteria->compare('deleted_on_date', $this->deleted_on_date, true);
         $criteria->compare('is_deleted', $this->is_deleted, true);
         $criteria->compare('created', $this->created, true);
+        $criteria->order = 'id DESC';
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,

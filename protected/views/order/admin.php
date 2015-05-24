@@ -1,4 +1,6 @@
 <?php
+/** @var Order $model */
+
 $this->breadcrumbs = [
     'Orders' => ['index'],
     'Manage',

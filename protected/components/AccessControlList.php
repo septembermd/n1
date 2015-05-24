@@ -46,6 +46,18 @@ class AccessControlList {
     /**
      * @return bool
      */
+    public function canPerformOrdersAdminActions()
+    {
+        if ($this->user->isAdmin()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
     public function canPerformUsersAdminActions()
     {
         if ($this->user->isAdmin()) {
