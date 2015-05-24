@@ -37,15 +37,9 @@ $statusNavigationItems[] = [
 ];
 ?>
 
-
 <?php if ($this->acl->canCreateOrder()) : ?>
     <?php echo CHtml::link(Yii::t('main', 'New Order'), ['order/create'], ['class' => 'btn btn-primary pull-right']); ?>
 <?php endif; ?>
-
-<?php if ($this->acl->canPerformOrdersAdminActions()) : ?>
-    <?php echo CHtml::link(Yii::t('main', 'Manage Orders'), ['order/admin'], ['class' => 'btn btn-primary pull-right', 'style' => 'margin-right:5px']); ?>
-<?php endif; ?>
-
 
 <?php $this->widget(
     'booster.widgets.TbMenu',
