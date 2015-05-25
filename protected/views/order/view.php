@@ -40,13 +40,15 @@ $this->menu = [
                 <?php echo Order::getStatusLabel($model->status_id); ?>
             </div>
             <div class="col-md-2">
-                <h6>
-                    <?php echo CHtml::encode($model->getAttributeLabel('carrier_id')); ?>
-                </h6>
-                <?php echo $model->carrier
-                    ? CHtml::link($model->carrier->fullname, ['user/view', 'id' => $model->carrier_id])
-                    : Yii::t('main', 'No Hauler');
-                ?>
+                <?php if ($model->isCarrierChosen()) : ?>
+                    <h6>
+                        <?php echo CHtml::encode($model->getAttributeLabel('carrier_id')); ?>
+                    </h6>
+                    <?php echo $model->carrier
+                        ? CHtml::link($model->carrier->fullname, ['user/view', 'id' => $model->carrier_id])
+                        : Yii::t('main', 'No Hauler');
+                    ?>
+                <?php endif;?>
             </div>
             <div class="col-md-2">
                 <?php if ($this->acl->canViewOrderBidsCount()) : ?>
