@@ -148,6 +148,29 @@ class AccessControlList {
     }
 
     /**
+     * @param Order $order
+     * @return bool
+     */
+    public function canViewOrderRemark(Order $order)
+    {
+        if ($order->isDelivered()) {
+            if ($this->user->isAdmin()) {
+                return true;
+            }
+
+            if ($this->user->isSupervisor()) {
+                return true;
+            }
+
+            if ($this->user->isManager()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return bool
      */
     public function canCreateOrder()
