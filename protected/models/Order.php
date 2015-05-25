@@ -296,6 +296,7 @@ class Order extends CActiveRecord
             $criteria->compare('is_deleted', self::IS_DELETED);
         } elseif ($status) {
             $criteria->compare('status_id', $status);
+            $criteria->compare('is_deleted', self::IS_ACTIVE);
         }
 
         if ($user->isCarrier() && $status !== self::STATUS_HAULER_NEEDED) {
