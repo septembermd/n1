@@ -19,7 +19,6 @@
  * @property Order[] $orders
  * @property integer $carrierOrdersCount
  * @property OrderBids[] $orderBids
- * @property StatusChanges[] $statusChanges
  * @property Company $company
  */
 class User extends ActiveRecord
@@ -163,7 +162,6 @@ class User extends ActiveRecord
             'orders' => [self::HAS_MANY, 'Orders', 'creator_id'],
             'carrierOrdersCount' => [self::STAT, 'Order', 'carrier_id'],
             'orderBids' => [self::HAS_MANY, 'OrderBids', 'user_id'],
-            'statusChanges' => [self::HAS_MANY, 'StatusChanges', 'user_id'],
             'orderCarriers' => [self::HAS_MANY, 'Orders', 'carrier_id'],
             'orderUserViews' => [self::HAS_MANY, 'OrderUserView', 'user_id'],
             'company' => [self::BELONGS_TO, 'Company', 'company_id'],

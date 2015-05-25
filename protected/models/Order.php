@@ -166,7 +166,7 @@ class Order extends CActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => Yii::t('main', 'Order ID'),
             'creator_id' => Yii::t('main', 'Responsible'),
             'carrier_id' => Yii::t('main', 'Hauler'),
             'currency_id' => Yii::t('main', 'Currency'),
@@ -284,6 +284,23 @@ class Order extends CActiveRecord
     }
 
     /**
+     *
+     */
+    public function getBidWon()
+    {
+        $orderBids = $this->orderBids([
+            'condition' => "is_winner='" . OrderBids::IS_WINNER . "'",
+            'limit' => 1
+        ]);
+
+        if (isset($orderBids[0])) {
+            return $orderBids[0];
+        }
+
+        return null;
+    }
+
+    /**
      * @param User $user
      * @param integer $status
      * @param bool $isDeleted
@@ -331,7 +348,7 @@ class Order extends CActiveRecord
      */
     public function isCarrierChosen()
     {
-        return $this->carrier_id !== null;
+        return $this->carrier_id != null;
     }
 
     /**

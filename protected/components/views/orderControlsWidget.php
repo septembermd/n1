@@ -26,7 +26,10 @@ $user = $acl->getUser();
                                 'context' => 'primary',
                                 'buttonType' =>'link',
                                 'url' => ['orderBids/delete', 'id' => $userBid->id, 'orderId' => $model->id],
-                                'size' => 'large'
+                                'size' => 'large',
+                                'htmlOptions' => [
+                                    'confirm' => Yii::t('main', "Are you sure you'd like to submit this action?"),
+                                ]
                             ]
                         ); ?>
                     <?php endif; ?>
@@ -150,7 +153,10 @@ $user = $acl->getUser();
                         'context' => 'danger',
                         'buttonType' =>'link',
                         'url' => ['order/delete', 'id' => $model->id],
-                        'size' => 'large'
+                        'size' => 'large',
+                        'htmlOptions' => [
+                            'confirm' => Yii::t('main', "Are you sure you'd like to submit this action?"),
+                        ]
                     ]
                 ); ?>
             <?php else: ?>
