@@ -31,13 +31,13 @@ $this->menu = [
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('id')); ?>
                 </h6>
-                <?php echo Order::getStatusLabel($model->status_id); ?>
+                <?php echo CHtml::encode($model->id); ?>
             </div>
             <div class="col-md-2">
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('status_id')); ?>
                 </h6>
-                <?php echo CHtml::link($model->creator->fullname, ['user/view', 'id' => $model->creator_id]); ?>
+                <?php echo Order::getStatusLabel($model->status_id); ?>
             </div>
             <div class="col-md-2">
                 <h6>
