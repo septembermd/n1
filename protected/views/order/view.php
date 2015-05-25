@@ -41,12 +41,6 @@ $this->menu = [
             </div>
             <div class="col-md-2">
                 <h6>
-                    <?php echo CHtml::encode($model->getAttributeLabel('creator_id')); ?>
-                </h6>
-                <?php echo CHtml::link($model->creator->fullname, ['user/view', 'id' => $model->creator_id]); ?>
-            </div>
-            <div class="col-md-2">
-                <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('carrier_id')); ?>
                 </h6>
                 <?php echo $model->carrier
@@ -59,7 +53,7 @@ $this->menu = [
                     <h6>
                         <?php echo Yii::t('main', 'Number of Bids'); ?>
                     </h6>
-                    <?php echo CHtml::link($model->creator->fullname, ['user/view', 'id' => $model->creator_id]); ?>
+                    <?php echo CHtml::encode($model->getBidsCount()); ?>
                 <?php endif; ?>
             </div>
         </div>
