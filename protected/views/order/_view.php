@@ -9,7 +9,11 @@
         </div>
         <div class="col-md-2">
             <b><?php echo CHtml::encode($data->getAttributeLabel('status_id')); ?>:</b>
-            <?php echo CHtml::encode(Order::getStatusLabel($data->status_id)); ?>
+            <?php if ($data->isDeleted()): ?>
+                <?php echo Yii::t('main', 'Deleted'); ?>
+            <?php else: ?>
+                <?php echo CHtml::encode(Order::getStatusLabel($data->status_id)); ?>
+            <?php endif; ?>
         </div>
         <div class="col-md-2">
             <?php if ($this->acl->canViewOrderCreator($data)) : ?>
