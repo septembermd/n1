@@ -1,6 +1,6 @@
 <?php $form = $this->beginWidget('booster.widgets.TbActiveForm', [
     'id' => 'order-bids-form',
-    'enableAjaxValidation' => false,
+    'enableAjaxValidation' => true,
 ]); ?>
 
 <?php echo $form->errorSummary($model); ?>

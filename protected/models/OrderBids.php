@@ -56,7 +56,7 @@ class OrderBids extends CActiveRecord
         return [
             ['user_id, order_id, cost', 'required'],
             ['user_id, order_id', 'length', 'max' => 9],
-            ['cost', 'numerical', 'min' => 1, 'max' => 9999999],
+            ['cost', 'numerical', 'integerOnly' => true, 'min' => 1, 'max' => 9999999],
             ['cost', 'length', 'max' => 7],
             ['is_winner, is_deleted', 'length', 'max' => 1],
             // The following rule is used by search().
