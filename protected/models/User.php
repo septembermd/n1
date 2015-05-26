@@ -141,7 +141,7 @@ class User extends ActiveRecord
             $pattern = '/[a-zA-Z0-9-+ ]/';
             foreach ($this->$attribute as $key => $phone) {
                 if(!preg_match($pattern, $phone)) {
-                    $this->addError('phone', 'Invalid characters in phone numbe1r.');
+                    $this->addError('phone', 'Invalid characters in phone number.');
                     break;
                 }
             }
@@ -275,7 +275,7 @@ class User extends ActiveRecord
     public function beforeUpdate()
     {
         // Save new password if user filled in the field
-        if (!empty($this->password)) {
+        if (!empty($this->new_password)) {
             $this->setPassword($this->new_password);
         }
     }
