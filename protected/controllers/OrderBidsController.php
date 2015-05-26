@@ -144,7 +144,7 @@ class OrderBidsController extends Controller
         $model->order_id = $orderId;
 
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+         $this->performAjaxValidation($model);
 
         if (isset($_POST['OrderBids'])) {
             $model->attributes = $_POST['OrderBids'];
@@ -196,26 +196,27 @@ class OrderBidsController extends Controller
      */
     public function actionDelete($id)
     {
-//        if (Yii::app()->request->isPostRequest) {
-            /** @var OrderBids $model */
-            $model = $this->loadModel($id);
-            if ($this->acl->canDeleteOrderBids($model)) {
-                // we only allow deletion via POST request
-                $model->delete();
-            } else {
-                throw new CHttpException(400, Yii::t('main', 'You are not allowed to delete this bid.'));
-            }
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax'])) {
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['order/view', 'id' => $model->order_id]);
-            }
-//        } else {
-//            throw new CHttpException(400, Yii::t('main', 'Invalid request. Please do not repeat this request again.'));
-//        }
+        /** @var OrderBids $model */
+        $model = $this->loadModel($id);
+        if ($this->acl->canDeleteOrderBids($model)) {
+            // we only allow deletion via POST request
+            $model->delete();
+        } else {
+            throw new CHttpException(400, Yii::t('main', 'You are not allowed to delete this bid.'));
+        }
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax'])) {
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['order/view', 'id' => $model->order_id]);
+        }
     }
 
+    /**
+     * Withdraw order bid
+     *
+     * @param $id
+     * @throws CHttpException
+     */
     public function actionWithdraw($id) {
-//        if (Yii::app()->request->isPostRequest) {
         /** @var OrderBids $model */
         $model = $this->loadModel($id);
         // Check if user can withdraw this offer
@@ -226,9 +227,6 @@ class OrderBidsController extends Controller
         if ($model->save()) {
             $this->redirect(['order/view', 'id' => $model->order_id]);
         }
-//        } else {
-//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
-//        }
     }
 
     /**

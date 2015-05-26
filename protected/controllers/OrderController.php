@@ -88,6 +88,7 @@ class OrderController extends Controller
 
     /**
      * Displays a particular model.
+     *
      * @param integer $id the ID of the model to be displayed
      * @throws CHttpException
      */
@@ -220,6 +221,7 @@ class OrderController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
+     *
      * @param integer $id the ID of the model to be deleted
      * @throws CHttpException
      */
