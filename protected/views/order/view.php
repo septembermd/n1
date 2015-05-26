@@ -37,18 +37,20 @@ $this->menu = [
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('status_id')); ?>
                 </h6>
-                <?php echo Order::getStatusLabel($model->status_id); ?>
+                <?php if ($model->isDeleted()) : ?>
+                    <?php echo Yii::t('main', 'Deleted'); ?>
+                <?php else : ?>
+                    <?php echo Order::getStatusLabel($model->status_id); ?>
+                <?php endif; ?>
             </div>
             <div class="col-md-2">
-                <?php if ($model->isCarrierChosen()) : ?>
-                    <h6>
-                        <?php echo CHtml::encode($model->getAttributeLabel('carrier_id')); ?>
-                    </h6>
-                    <?php echo $model->carrier
-                        ? CHtml::link($model->carrier->fullname, ['user/view', 'id' => $model->carrier_id])
-                        : Yii::t('main', 'No Hauler');
-                    ?>
-                <?php endif;?>
+                <h6>
+                    <?php echo CHtml::encode($model->getAttributeLabel('carrier_id')); ?>
+                </h6>
+                <?php echo $model->isCarrierChosen()
+                    ? CHtml::link($model->carrier->fullname, ['user/view', 'id' => $model->carrier_id])
+                    : Yii::t('main', 'No Hauler');
+                ?>
             </div>
             <div class="col-md-2">
                 <?php if ($this->acl->canViewOrderBidsCount()) : ?>
