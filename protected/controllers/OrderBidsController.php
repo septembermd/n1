@@ -115,6 +115,8 @@ class OrderBidsController extends Controller
             $model->is_deleted = OrderBids::STATE_DELETED;
             if ($model->save()) {
                 $this->redirect(['order/view', 'id' => $model->order_id]);
+            } else {
+                throw new CHttpException(400, Yii::t('main', 'Error trying to withdraw bid.'));
             }
         }
         $this->render('withdrawBid', ['model' => $model, 'orderBidWithdrawForm' => $orderBidWithdrawForm]);
@@ -151,6 +153,8 @@ class OrderBidsController extends Controller
             if ($model->save()) {
                 // todo: send email notification
                 $this->redirect(['order/view', 'id' => $model->order_id]);
+            } else {
+                throw new CHttpException(400, Yii::t('main', 'Error while adding bid.'));
             }
         }
 
@@ -177,14 +181,14 @@ class OrderBidsController extends Controller
         $orderBid->order->setAttribute('status_id', Order::STATUS_IN_TRANSIT);
 
         if($orderBid->hasErrors() || $orderBid->order->hasErrors()) {
-            throw new CHttpException(400, 'Validation error.');
+            throw new CHttpException(400, Yii::t('main', 'Validation error.'));
         }
 
         if ($orderBid->save() && $orderBid->order->save()) {
             // todo: send email notification to selected carrier
             $this->redirect(['order/view', 'id' => $orderBid->order_id]);
         } else {
-            throw new CHttpException(400, 'Validation error.');
+            throw new CHttpException(400,  Yii::t('main', 'Validation error.'));
         }
     }
 
@@ -196,26 +200,27 @@ class OrderBidsController extends Controller
      */
     public function actionDelete($id)
     {
-//        if (Yii::app()->request->isPostRequest) {
-            /** @var OrderBids $model */
-            $model = $this->loadModel($id);
-            if ($this->acl->canDeleteOrderBids($model)) {
-                // we only allow deletion via POST request
-                $model->delete();
-            } else {
-                throw new CHttpException(400, Yii::t('main', 'You are not allowed to delete this bid.'));
-            }
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax'])) {
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['order/view', 'id' => $model->order_id]);
-            }
-//        } else {
-//            throw new CHttpException(400, Yii::t('main', 'Invalid request. Please do not repeat this request again.'));
-//        }
+        /** @var OrderBids $model */
+        $model = $this->loadModel($id);
+        if ($this->acl->canDeleteOrderBids($model)) {
+            // we only allow deletion via POST request
+            $model->delete();
+        } else {
+            throw new CHttpException(400, Yii::t('main', 'You are not allowed to delete this bid.'));
+        }
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax'])) {
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['order/view', 'id' => $model->order_id]);
+        }
     }
 
+    /**
+     * Withdraw order bid
+     *
+     * @param $id
+     * @throws CHttpException
+     */
     public function actionWithdraw($id) {
-//        if (Yii::app()->request->isPostRequest) {
         /** @var OrderBids $model */
         $model = $this->loadModel($id);
         // Check if user can withdraw this offer
@@ -225,10 +230,9 @@ class OrderBidsController extends Controller
         $model->setAttribute('is_deleted', OrderBids::STATE_DELETED);
         if ($model->save()) {
             $this->redirect(['order/view', 'id' => $model->order_id]);
+        } else {
+            throw new CHttpException(400,  Yii::t('main', 'Validation error.'));
         }
-//        } else {
-//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
-//        }
     }
 
     /**
