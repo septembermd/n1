@@ -170,7 +170,7 @@ class OrderBids extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->select = "t.*, COUNT(t.id) as issueCount";
         $criteria->join = "
-            JOIN (  SELECT ord.*
+            LEFT JOIN (  SELECT ord.*
                     FROM `user` `usr`
                     JOIN `order` `ord` ON usr.id=ord.carrier_id
                     WHERE (ord.remark_id!=" . Order::REMARK_SUCCESS . ") AND (ord.status_id='" . Order::STATUS_DELIVERED . "')
