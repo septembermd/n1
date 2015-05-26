@@ -144,8 +144,6 @@ class OrderController extends Controller
             // Same scenario should apply to related models
             if ($model->saveWithRelated(['orderItems' => ['scenario' => $scenario]])) {
                 $this->redirect($redirect);
-            } else {
-                throw new CHttpException(400, Yii::t('main', 'Validation error.'));
             }
         }
 
@@ -157,9 +155,7 @@ class OrderController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     *
      * @param integer $id the ID of the model to be updated
-     * @throws CHttpException
      */
     public function actionUpdate($id)
     {
@@ -173,8 +169,6 @@ class OrderController extends Controller
             $model->orderItems = $_POST['OrderItems'];
             if ($model->saveWithRelated('orderItems')) {
                 $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                throw new CHttpException(400, Yii::t('main', 'Error updating order.'));
             }
         }
 
@@ -197,7 +191,7 @@ class OrderController extends Controller
         if ($order->save()) {
             $this->redirect(['order/index', 'status' => Order::STATUS_WITHDRAWN]);
         } else {
-            throw new CHttpException(400, Yii::t('main', 'Error saving order.'));
+            var_dump($order->getErrors(), $order);
         }
     }
 
@@ -280,7 +274,7 @@ class OrderController extends Controller
             // todo: send email notification to carrier, manager, supervisor
             if ($order->save()) {
                 $this->redirect(['order/index', 'status' => Order::STATUS_DELIVERED]);
-            } else {
+            }else {
                 throw new CHttpException('400', Yii::t('main', 'Error accomplishing order.'));
             }
         }
@@ -337,8 +331,6 @@ class OrderController extends Controller
         if ($order->save()) {
             // todo: send email notification to carrier, manager ... ?
             $this->redirect(['order/view', 'id' => $order->id]);
-        } else {
-            throw new CHttpException(400, Yii::t('main', 'Error loading cargo.'));
         }
     }
 
@@ -374,9 +366,8 @@ class OrderController extends Controller
     {
         $model = new Order('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Order'])) {
+        if (isset($_GET['Order']))
             $model->attributes = $_GET['Order'];
-        }
 
         $this->render('admin', [
             'model' => $model,
