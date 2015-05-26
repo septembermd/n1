@@ -126,7 +126,6 @@ class Order extends CActiveRecord
             ['status_id, is_deleted', 'length', 'max' => 1],
             ['load_date, deliver_date, valid_date', 'date', 'format' => 'yyyy-MM-dd', 'allowEmpty' => false, 'on' => ['insert', 'update']],
             ['load_date, deliver_date, valid_date', 'default', 'setOnEmpty' => true, 'value' => null, 'on' => 'saveDraft'],
-            ['created', 'default', 'value' => date('Y-m-d'), 'setOnEmpty' => false, 'on' => ['insert', 'update']],
             ['load_date, deliver_date, valid_date', 'compare', 'compareAttribute' => 'created', 'operator' => '>=', 'message' => '{attribute} must start with created date.'],
             ['load_date, deliver_date', 'compare', 'compareAttribute' => 'valid_date', 'operator' => '<=', 'message' => '{attribute} must not be more than {compareAttribute}'],
             ['deliver_date', 'compare', 'compareAttribute' => 'load_date', 'operator' => '>=', 'message' => '{attribute} must not be less than {compareAttribute}'],

@@ -134,8 +134,10 @@ class OrderController extends Controller
                 $scenario = 'saveDraft';
                 $model->setScenario($scenario);
                 // Order is not created until it is actually posted
+                // It is posted when status changed from "Draft"
                 $model->setAttribute('created', null);
             } else {
+                $model->setAttribute('created', date('Y-m-d'));
                 $redirect = ['view', 'id' => $model->id];
             }
 
@@ -188,6 +190,8 @@ class OrderController extends Controller
         $order->setAttribute('status_id', Order::STATUS_WITHDRAWN);
         if ($order->save()) {
             $this->redirect(['order/index', 'status' => Order::STATUS_WITHDRAWN]);
+        } else {
+            var_dump($order->getErrors(), $order);
         }
     }
 
@@ -203,6 +207,7 @@ class OrderController extends Controller
         $order = $this->loadModel($id);
         if ($order->isDeleted()) {
             $order->setAttribute('is_deleted', Order::IS_ACTIVE);
+            $order->setAttribute('deleted_on_date', null);
             if ($order->save()) {
                 // todo: send email notification to carrier, manager, supervisor
                 $this->redirect(['order/view', 'id' => $order->id]);
@@ -239,11 +244,14 @@ class OrderController extends Controller
         /** @var Order $model */
         $model = $this->loadModel($id);
         $model->setAttribute('is_deleted', Order::IS_DELETED);
-        $model->save();
-
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax'])){
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['view', 'id' => $model->id]);
+        $model->setAttribute('deleted_on_date', date('Y-m-d'));
+        if ($model->save()) {
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if (!isset($_GET['ajax'])){
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : ['view', 'id' => $model->id]);
+            }
+        } else {
+            throw new CHttpException('400', Yii::t('main', 'Error deleting order.'));
         }
     }
 
@@ -266,6 +274,8 @@ class OrderController extends Controller
             // todo: send email notification to carrier, manager, supervisor
             if ($order->save()) {
                 $this->redirect(['order/index', 'status' => Order::STATUS_DELIVERED]);
+            }else {
+                throw new CHttpException('400', Yii::t('main', 'Error accomplishing order.'));
             }
         }
 
@@ -294,7 +304,9 @@ class OrderController extends Controller
         if ($order->save()) {
             // todo: send email notification to supervisor, manager, carrier
             $this->redirect(['order/view', 'id' => $order->id]);
-        } else var_dump($order->getErrors());
+        } else {
+            throw new CHttpException('400', Yii::t('main', 'Error reopening order.'));
+        }
     }
 
     /**
@@ -313,7 +325,7 @@ class OrderController extends Controller
         }
         // Allow to load only cargo in transit
         if (!$order->isInTransit()) {
-            throw new CHttpException(400, Yii::t('main', 'You are not allowed to load cargo which is not in transit.'));
+            throw new CHttpException(403, Yii::t('main', 'You are not allowed to load cargo which is not in transit.'));
         }
         $order->setAttribute('loaded_on_date', new CDbExpression('NOW()'));
         if ($order->save()) {
