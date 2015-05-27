@@ -27,8 +27,8 @@ class UserController extends Controller
                 'actions' => ['view'],
                 'users' => ['@'],
             ],
-            ['allow', // allow admin users to perform actions
-                'actions' => ['index', 'create', 'update', 'delete'],
+            ['allow', // allow admin users to perform actions (add 'delete' action if requirements changed)
+                'actions' => ['index', 'create', 'update'],
                 'expression' => function () use ($acl) {
                     return $acl->canPerformUsersAdminActions();
                 },
@@ -125,6 +125,7 @@ class UserController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
+     *
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id)
@@ -150,6 +151,7 @@ class UserController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
+     *
      * @param integer $id the ID of the model to be loaded
      * @return User the loaded model
      * @throws CHttpException

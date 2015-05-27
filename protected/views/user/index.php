@@ -12,8 +12,12 @@ $this->menu = [
 ];
 
 $gridColumns = [
-    ['name' => 'id', 'header' => '#', 'htmlOptions' => ['style' => 'width: 60px']],
-    ['name' => 'fullname', 'header' => Yii::t('main', 'Name')],
+    ['name' => 'id', 'header' => '#', 'htmlOptions' => ['style' => 'width: 60px'], 'type'  => 'raw', 'value' => function ($data) {
+        return CHtml::link($data->id, ['user/view', 'id' => $data->id]);
+    }],
+    ['name' => 'fullname', 'header' => Yii::t('main', 'Name'), 'type'  => 'raw', 'value' => function ($data) {
+        return CHtml::link($data->fullname, ['user/view', 'id' => $data->id]);
+    }],
     ['name' => 'email', 'header' => Yii::t('main', 'Email')],
     ['name' => 'company_id', 'header' => Yii::t('main', 'Company'), 'value' => function ($data) {
         return $data->company->title;
@@ -22,13 +26,14 @@ $gridColumns = [
     ['name' => 'role_id', 'header' => Yii::t('main', 'Role'), 'value' => function ($data) {
         return User::getRoleLabel($data->role_id);
     }],
-    ['name' => 'is_active', 'header' => Yii::t('main', 'Active'), 'value' => function ($data) {
+    ['name' => 'is_active', 'header' => Yii::t('main', 'Status'), 'value' => function ($data) {
         return User::getUserStateLabel($data->is_active);
     }],
     ['name' => 'created', 'header' => Yii::t('main', 'Created')],
     [
         'htmlOptions' => ['nowrap' => 'nowrap'],
         'class' => 'booster.widgets.TbButtonColumn',
+        'template' => "{update}",
         'viewButtonUrl' => function ($data) {
             return Yii::app()->createUrl('user/view', ['id' => $data['id']]);
         },
@@ -36,7 +41,7 @@ $gridColumns = [
             return Yii::app()->createUrl('user/update', ['id' => $data['id']]);
         },
         'deleteButtonUrl' => function ($data) {
-            return Yii::app()->createUrl('user/delete', ['id' => $data['id']]);
+            return false;
         },
     ]
 ];

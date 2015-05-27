@@ -146,7 +146,7 @@ class AccessControlList {
 
         return false;
     }
-    
+
     /**
      * @return bool
      */
