@@ -146,30 +146,7 @@ class AccessControlList {
 
         return false;
     }
-
-    /**
-     * @param Order $order
-     * @return bool
-     */
-    public function canViewOrderRemark(Order $order)
-    {
-        if ($order->isDelivered()) {
-            if ($this->getUser()->isAdmin()) {
-                return true;
-            }
-
-            if ($this->getUser()->isSupervisor()) {
-                return true;
-            }
-
-            if ($this->getUser()->isManager()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+    
     /**
      * @return bool
      */

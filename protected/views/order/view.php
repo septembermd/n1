@@ -172,7 +172,7 @@ $this->menu = [
                 <?php echo CHtml::encode($model->temperature->title);?>
             </div>
             <div class="col-md-3">
-                <?php if ($this->acl->canViewOrderRemark($model)) : ?>
+                <?php if ($model->isDelivered()) : ?>
                     <h6>
                         <?php echo Yii::t('main', 'Remark'); ?>
                     </h6>
