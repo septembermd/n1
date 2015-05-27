@@ -138,7 +138,8 @@ class User extends ActiveRecord
     public function validPhone($attribute, $params)
     {
         if (is_array($this->$attribute)) {
-            $pattern = '/^[a-zA-Z0-9-+ ]+$/';
+            // Here "-" (dash) and "–" (long dash) are different symbols
+            $pattern = '/^[a-zA-Z0-9-+– ]+$/';
             foreach ($this->$attribute as $key => $phone) {
                 if(!preg_match($pattern, $phone)) {
                     $this->addError('phone', 'Invalid characters in phone number.');
