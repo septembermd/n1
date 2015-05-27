@@ -32,11 +32,11 @@ class AccessControlList {
      */
     public function canAuthenticate()
     {
-        if (!$this->user->isActive()) {
+        if (!$this->getUser()->isActive()) {
             return false;
         }
 
-        if ($this->user->role_id !== Yii::app()->user->role_id) {
+        if ($this->getUser()->role_id !== Yii::app()->user->role_id) {
             return false;
         }
 
@@ -48,7 +48,7 @@ class AccessControlList {
      */
     public function canPerformUsersAdminActions()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
@@ -60,7 +60,7 @@ class AccessControlList {
      */
     public function canPerformSuppliersAdminActions()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
@@ -74,11 +74,11 @@ class AccessControlList {
     public function canViewUser(User $user)
     {
         // Only administrator can view admin profile
-        if (!$this->user->isAdmin() && $user->isAdmin()) {
+        if (!$this->getUser()->isAdmin() && $user->isAdmin()) {
             return false;
         }
         // Carrier can view only his profile
-        if ($this->user->isCarrier() && $this->user->id !== $user->id)
+        if ($this->getUser()->isCarrier() && $this->getUser()->id !== $user->id)
         {
             return false;
         }
@@ -91,19 +91,19 @@ class AccessControlList {
      */
     public function canAccessOrders()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
-        if ($this->user->isCarrier()) {
+        if ($this->getUser()->isCarrier()) {
             return true;
         }
 
@@ -116,25 +116,25 @@ class AccessControlList {
      */
     public function canViewOrder(Order $order)
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
-        if ($this->user->isCarrier()) {
+        if ($this->getUser()->isCarrier()) {
             // Carrier cannot view deleted orders
             if ($order->isDeleted()) {
                 return false;
             }
             // Carrier can view order only if he is selected for the order
-            if ($order->carrier_id === $this->user->id) {
+            if ($order->carrier_id === $this->getUser()->id) {
                 return true;
             }
 
@@ -154,15 +154,15 @@ class AccessControlList {
     public function canViewOrderRemark(Order $order)
     {
         if ($order->isDelivered()) {
-            if ($this->user->isAdmin()) {
+            if ($this->getUser()->isAdmin()) {
                 return true;
             }
 
-            if ($this->user->isSupervisor()) {
+            if ($this->getUser()->isSupervisor()) {
                 return true;
             }
 
-            if ($this->user->isManager()) {
+            if ($this->getUser()->isManager()) {
                 return true;
             }
         }
@@ -175,15 +175,15 @@ class AccessControlList {
      */
     public function canCreateOrder()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -195,7 +195,7 @@ class AccessControlList {
      */
     public function canUpdateOrder()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
@@ -207,15 +207,15 @@ class AccessControlList {
      */
     public function canWithdrawOrder()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -227,15 +227,15 @@ class AccessControlList {
      */
     public function canRestoreOrder()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -247,15 +247,15 @@ class AccessControlList {
      */
     public function canAccomplishOrder()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -267,15 +267,15 @@ class AccessControlList {
      */
     public function canReopenOrder()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -287,7 +287,7 @@ class AccessControlList {
      */
     public function canAccessLoadCargo()
     {
-        if ($this->user->isCarrier())
+        if ($this->getUser()->isCarrier())
         {
             return true;
         }
@@ -302,7 +302,7 @@ class AccessControlList {
     public function canLoadCargo(Order $order)
     {
         // Carrier can load cargo only if he is selected for the order
-        if ($this->user->isCarrier() && $order->carrier_id === $this->user->id) {
+        if ($this->getUser()->isCarrier() && $order->carrier_id === $this->getUser()->id) {
             return true;
         }
 
@@ -314,7 +314,7 @@ class AccessControlList {
      */
     public function canDeleteOrder()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
@@ -326,15 +326,15 @@ class AccessControlList {
      */
     public function canViewDeletedOrders()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -347,19 +347,19 @@ class AccessControlList {
      */
     public function canViewOrderCreator(Order $order)
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
-        if ($this->user->isCarrier() && !$order->isHaulerNeeded()) {
+        if ($this->getUser()->isCarrier() && !$order->isHaulerNeeded()) {
             return true;
         }
 
@@ -371,15 +371,15 @@ class AccessControlList {
      */
     public function canViewOrderBidsCount()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -391,7 +391,7 @@ class AccessControlList {
      */
     public function canCreateOrderBids()
     {
-        if ($this->user->isCarrier()) {
+        if ($this->getUser()->isCarrier()) {
             return true;
         }
 
@@ -403,11 +403,11 @@ class AccessControlList {
      */
     public function canViewOrderBids()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
@@ -419,15 +419,15 @@ class AccessControlList {
      */
     public function canAcceptOrderBids()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -439,7 +439,7 @@ class AccessControlList {
      */
     public function canAcceptBestOrderBids()
     {
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             return true;
         }
 
@@ -452,12 +452,12 @@ class AccessControlList {
      */
     public function canDeleteOrderBids(OrderBids $orderBids)
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
         // Carrier can delete only self created bids
-        if ($this->user->isCarrier() && $orderBids->user_id === $this->user->id) {
+        if ($this->getUser()->isCarrier() && $orderBids->user_id === $this->getUser()->id) {
             return true;
         }
 
@@ -470,15 +470,15 @@ class AccessControlList {
      */
     public function canWithdrawOrderBid(OrderBids $orderBids)
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
-        if ($this->user->isSupervisor()) {
+        if ($this->getUser()->isSupervisor()) {
             return true;
         }
 
-        if ($this->user->isManager()) {
+        if ($this->getUser()->isManager()) {
             // Manager can withdraw only best offer
             $bestOrderBids = OrderBids::model()->findBestOfferByOrder($orderBids->order);
             if ($bestOrderBids->id === $orderBids->id) {
@@ -494,7 +494,7 @@ class AccessControlList {
      */
     public function canManageEmailTemplates()
     {
-        if ($this->user->isAdmin()) {
+        if ($this->getUser()->isAdmin()) {
             return true;
         }
 
