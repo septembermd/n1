@@ -1,4 +1,6 @@
 <?php
+/** @var Order $model */
+
 $this->breadcrumbs = [
     'Orders' => ['index'],
     'Accomplish Order',
@@ -26,7 +28,26 @@ $this->menu = [
 
         <?php echo $form->hiddenField($model, 'id'); ?>
 
-        <?php echo $form->dropDownListGroup($model, 'remark_id', ['widgetOptions' => ['data' => Remark::getList(), 'htmlOptions' => ['class' => 'span5', 'maxlength' => 7]]]); ?>
+        <?php echo $form->dropDownListGroup($model, 'remark_id', [
+            'widgetOptions' => [
+                'data' => Remark::getList(),
+                'htmlOptions' => [
+                    'class' => 'span5',
+                    'maxlength' => 7,
+                    'options' => [
+                        Order::REMARK_SUCCESS => [
+                            'disabled' => $model->isDeliveryDelayed()
+                        ],
+                        Order::REMARK_DELIVERY_DELAYED => [
+                            'selected' => $model->isDeliveryDelayed()
+                        ],
+                        ORDER::REMARK_CARGO_SPOILED => [
+                            'disabled' => $model->isDeliveryDelayed()
+                        ]
+                    ]
+                ]
+            ]
+        ]); ?>
 
         <div class="form-actions">
             <?php $this->widget('booster.widgets.TbButton', [

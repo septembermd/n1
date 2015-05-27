@@ -49,6 +49,9 @@ class Order extends CActiveRecord
     const IS_DELETED = 1;
 
     const REMARK_SUCCESS = 1;
+    const REMARK_DELIVERY_DELAYED = 2;
+    const REMARK_CARGO_SPOILED = 3;
+    const REMARK_DELIVERY_DELAYED_AND_CARGO_SPOILED = 4;
 
     /** @var array status map */
     public static $statusMap = [
@@ -408,6 +411,14 @@ class Order extends CActiveRecord
     public function isDeleted()
     {
         return $this->is_deleted == self::IS_DELETED;
+    }
+
+    public function isDeliveryDelayed()
+    {
+        $todayDateTime = new DateTime();
+        $validUntilDateTime = new DateTime($this->valid_date);
+
+        return $todayDateTime > $validUntilDateTime;
     }
 
     /**
