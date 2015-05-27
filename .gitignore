@@ -3,6 +3,7 @@
 /protected/composer.lock
 /protected/composer.phar
 /protected/config/main.php
+/protected/config/console.php
 /protected/runtime/
 /protected/vendor/
 /assets/

@@ -520,4 +520,13 @@ class Order extends CActiveRecord
         return self::model()->find($criteria);
     }
 
+    public function getDelayedOrders()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('DATE(NOW()) > DATE(valid_date)');
+        $criteria->addCondition('remark_id IS NULL');
+
+        return self::model()->findAll($criteria);
+    }
+
 }

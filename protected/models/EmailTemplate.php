@@ -11,6 +11,8 @@
  */
 class EmailTemplate extends CActiveRecord
 {
+    const TEMPLATE_ORDER_DELAYED = 'order_delivery_delayed';
+
     /**
      * @return string the associated database table name
      */
@@ -97,5 +99,16 @@ class EmailTemplate extends CActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
+    }
+
+    /**
+     * Find email template by slug
+     *
+     * @param $slug
+     * @return static
+     */
+    public function getEmailTemplateBySlug($slug)
+    {
+        return self::model()->findByAttributes(['slug' => $slug]);
     }
 }
