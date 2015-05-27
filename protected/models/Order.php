@@ -181,9 +181,9 @@ class Order extends CActiveRecord
             'valid_date' => Yii::t('main', 'Valid Until'),
             'load_date' => Yii::t('main', 'Load Until'),
             'deliver_date' => Yii::t('main', 'Deliver Due'),
-            'loaded_on_date' => Yii::t('main', 'Loaded On Date'),
-            'delivered_on_date' => Yii::t('main', 'Delivered On Date'),
-            'deleted_on_date' => Yii::t('main', 'Deleted On Date'),
+            'loaded_on_date' => Yii::t('main', 'Loaded On'),
+            'delivered_on_date' => Yii::t('main', 'Delivered On'),
+            'deleted_on_date' => Yii::t('main', 'Deleted On'),
             'is_deleted' => Yii::t('main', 'Is Deleted'),
             'created' => Yii::t('main', 'Created'),
         ];

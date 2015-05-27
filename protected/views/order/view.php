@@ -97,10 +97,17 @@ $this->menu = [
                 <?php echo CHtml::encode($model->delivery->country->title); ?>
             </div>
             <div class="col-md-2">
-                <h6>
-                    <?php echo CHtml::encode($model->getAttributeLabel('load_date')); ?>
-                </h6>
-                <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->load_date); ?>
+                <?php if ($model->isCargoLoaded()) : ?>
+                    <h6>
+                        <?php echo CHtml::encode($model->getAttributeLabel('loaded_on_date')); ?>
+                    </h6>
+                    <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->loaded_on_date); ?>
+                <?php else: ?>
+                    <h6>
+                        <?php echo CHtml::encode($model->getAttributeLabel('load_date')); ?>
+                    </h6>
+                    <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->load_date); ?>
+                <?php endif; ?>
             </div>
             <div class="col-md-2">
                 <h6>
