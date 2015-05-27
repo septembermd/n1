@@ -7,6 +7,7 @@
  */
 
 class ApplicationBehavior extends CBehavior {
+
     private $_owner;
 
     public function events()

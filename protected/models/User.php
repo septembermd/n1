@@ -241,6 +241,8 @@ class User extends ActiveRecord
     }
 
     /**
+     * Before model saved
+     *
      * @return bool
      */
     public function beforeSave()
@@ -277,6 +279,17 @@ class User extends ActiveRecord
         // Save new password if user filled in the field
         if (!empty($this->new_password)) {
             $this->setPassword($this->new_password);
+        }
+    }
+
+    /**
+     * After model saved
+     */
+    public function afterSave()
+    {
+        if ($this->isNewRecord) {
+            $event = new CModelEvent();
+            $this->onUserCreated($event);
         }
     }
 
@@ -373,5 +386,14 @@ class User extends ActiveRecord
         $criteria->compare('status_id', Order::STATUS_DELIVERED);
 
         return $this->carrierOrdersCount($criteria);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onUserCreated($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
     }
 }
