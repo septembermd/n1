@@ -24,7 +24,11 @@ $this->menu = [
                     <h6>
                         <?php echo CHtml::encode($model->getAttributeLabel('creator_id')); ?>
                     </h6>
-                    <?php echo CHtml::link($model->creator->fullname, ['user/view', 'id' => $model->creator_id]); ?>
+                    <?php if ($this->acl->getUser()->isCarrier()): // Display Creator Info Popup ?>
+                        <?php echo CHtml::link($model->creator->fullname, '#', ['class' => 'mb-control', 'data-box' => '#responsibleInfo',]); ?>
+                    <?php else: ?>
+                        <?php echo CHtml::link($model->creator->fullname, ['user/view', 'id' => $model->creator_id]); ?>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
             <div class="col-md-2">
@@ -196,5 +200,12 @@ $this->menu = [
     </div>
 </div>
 
-
-
+<?php
+/** Creator Info Popup to display when carrier clicked creator name */
+if ($this->acl->getUser()->isCarrier() && $this->acl->canViewOrderCreator($model)) {
+    $this->renderPartial('_responsible_info', [
+        'id' => 'responsibleInfo',
+        'header' => Yii::t('main', 'Responsible Person Contact Info'),
+        'user' => $model->creator
+    ]);
+}
