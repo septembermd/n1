@@ -28,11 +28,12 @@ class EmailTemplate extends CActiveRecord
         // will receive user inputs.
         return [
             ['slug', 'length', 'max' => 255],
+            ['slug', 'unique'],
             ['subject', 'length', 'max' => 255],
             ['body', 'length', 'max' => 3000],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['id, slug, body, value', 'safe', 'on' => 'search'],
+            ['id, slug, subject, body', 'safe', 'on' => 'search'],
         ];
     }
 
