@@ -15,6 +15,11 @@ if(!$currentUser->isGuest) {
 
     $leftMenuItems = [
         [
+            'label' => '',
+            'itemOptions' => ['class' => 'xn-logo'],
+            'linkOptions' => ['class' => 'x-navigation-control'],
+        ],
+        [
             'label' => sprintf($profileLabel, $currentUser->fullname, User::getRoleLabel($currentUser->role_id)),
             'url' => ['user/view', 'id'=>$currentUser->id],
         ],
