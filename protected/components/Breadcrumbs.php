@@ -10,7 +10,6 @@ Yii::import("zii.widgets.CBreadcrumbs");
 class Breadcrumbs extends CBreadcrumbs
 {
 
-
     public $separator = ' <span class="seperator"> &nbsp; </span> ';
 
 

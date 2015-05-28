@@ -77,7 +77,8 @@ class UserIdentity extends CUserIdentity
      *
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         $errors = [];
 
         if ($this->errorCode === self::ERROR_USERNAME_INVALID || $this->errorCode === self::ERROR_PASSWORD_INVALID) {
