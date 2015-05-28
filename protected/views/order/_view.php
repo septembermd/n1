@@ -18,7 +18,11 @@
         <div class="col-md-2">
             <?php if ($this->acl->canViewOrderCreator($data)) : ?>
                 <b><?php echo CHtml::encode($data->getAttributeLabel('creator_id')); ?>:</b>
-                <?php echo CHtml::link($data->creator->fullname, ['user/view', 'id' => $data->creator_id]); ?>
+                <?php if ($this->acl->getUser()->isCarrier()): // Display Creator Info Popup ?>
+                    <?php echo CHtml::link($data->creator->fullname, '#', ['class' => 'mb-control', 'data-box' => '#responsibleInfo'.$data->id,]); ?>
+                <?php else: ?>
+                    <?php echo CHtml::link($data->creator->fullname, ['user/view', 'id' => $data->creator_id]); ?>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
         <div class="col-md-2">
@@ -60,52 +64,14 @@
         </div>
     </div>
 
-
-    <?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('temperature_id')); ?>:</b>
-	<?php echo CHtml::encode($data->temperature_id); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('remark_id')); ?>:</b>
-	<?php echo CHtml::encode($data->remark_id); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('valid_date')); ?>:</b>
-	<?php echo CHtml::encode($data->valid_date); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('load_date')); ?>:</b>
-	<?php echo CHtml::encode($data->load_date); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('deliver_date')); ?>:</b>
-	<?php echo CHtml::encode($data->deliver_date); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('loaded_on_date')); ?>:</b>
-	<?php echo CHtml::encode($data->loaded_on_date); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('delivered_on_date')); ?>:</b>
-	<?php echo CHtml::encode($data->delivered_on_date); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('deleted_on_date')); ?>:</b>
-	<?php echo CHtml::encode($data->deleted_on_date); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('is_deleted')); ?>:</b>
-	<?php echo CHtml::encode($data->is_deleted); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('created')); ?>:</b>
-	<?php echo CHtml::encode($data->created); ?>
-	<br />
-
-    <b><?php echo CHtml::encode($data->getAttributeLabel('is_deleted')); ?>:</b>
-    <?php echo CHtml::encode($data->is_deleted); ?>
-    <br />
-
-	*/ ?>
+<?php
+/** Creator Info Popup to display when carrier clicked creator name */
+if ($this->acl->getUser()->isCarrier() && $this->acl->canViewOrderCreator($data)) {
+    $this->renderPartial('_responsible_info', [
+        'id' => 'responsibleInfo'.$data->id,
+        'header' => Yii::t('main', 'Responsible Person Contact Info'),
+        'user' => $data->creator
+    ]);
+} ?>
 
 </div>
