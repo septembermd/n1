@@ -22,6 +22,7 @@
  * @property string $deleted_on_date
  * @property string $is_deleted
  * @property string $created
+ * @property string $status_updated_date
  *
  * The followings are the available model relations:
  * @property User $creator
@@ -62,6 +63,12 @@ class Order extends CActiveRecord
         self::STATUS_DRAFT => "Draft"
     ];
 
+    /** @var string $currentStatusId Actual status_id value */
+    public $currentStatusId;
+
+    /** @var string $currentIsDeleted Actual is_deleted value */
+    public $currentIsDeleted;
+
     /**
      * Get status label by status
      *
@@ -91,6 +98,44 @@ class Order extends CActiveRecord
             'WITHDRAWN' => self::STATUS_WITHDRAWN,
             'DRAFT' => self::STATUS_DRAFT
         ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentStatusId()
+    {
+        return $this->currentStatusId;
+    }
+
+    /**
+     * @param $status_id
+     * @return $this
+     */
+    public function setCurrentStatusId($status_id)
+    {
+        $this->currentStatusId = $status_id;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentIsDeleted()
+    {
+        return $this->currentIsDeleted;
+    }
+
+    /**
+     * @param $is_deleted
+     * @return $this
+     */
+    public function setCurrentDeleted($is_deleted)
+    {
+        $this->currentIsDeleted = $is_deleted;
+
+        return $this;
     }
 
     /**
@@ -132,10 +177,11 @@ class Order extends CActiveRecord
             ['load_date, deliver_date, valid_date', 'compare', 'compareAttribute' => 'created', 'operator' => '>=', 'message' => '{attribute} must start with created date.'],
             ['load_date, deliver_date', 'compare', 'compareAttribute' => 'valid_date', 'operator' => '<=', 'message' => '{attribute} must not be more than {compareAttribute}'],
             ['deliver_date', 'compare', 'compareAttribute' => 'load_date', 'operator' => '>=', 'message' => '{attribute} must not be less than {compareAttribute}'],
+            ['status_updated_date', 'default', 'value' => new CDbExpression('NOW()'), 'setOnEmpty' => false, 'on' => 'insert'],
             ['created, carrier_id, supplier_id, remark_id, loaded_on_date, delivered_on_date, deleted_on_date', 'safe'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['id, creator_id, carrier_id, currency_id, status_id, supplier_id, loading_id, delivery_id, temperature_id, remark_id, valid_date, load_date, deliver_date, loaded_on_date, delivered_on_date, deleted_on_date, is_deleted, created', 'safe', 'on' => 'search'],
+            ['id, creator_id, carrier_id, currency_id, status_id, supplier_id, loading_id, delivery_id, temperature_id, remark_id, valid_date, load_date, deliver_date, loaded_on_date, delivered_on_date, deleted_on_date, is_deleted, created, status_updated_date', 'safe', 'on' => 'search'],
         ];
     }
 
@@ -186,6 +232,7 @@ class Order extends CActiveRecord
             'deleted_on_date' => Yii::t('main', 'Deleted On'),
             'is_deleted' => Yii::t('main', 'Is Deleted'),
             'created' => Yii::t('main', 'Created'),
+            'status_updated_date' => Yii::t('main', 'Status Updated Date')
         ];
     }
 
@@ -225,6 +272,7 @@ class Order extends CActiveRecord
         $criteria->compare('deleted_on_date', $this->deleted_on_date, true);
         $criteria->compare('is_deleted', $this->is_deleted, true);
         $criteria->compare('created', $this->created, true);
+        $criteria->compare('status_updated_date', $this->created, true);
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
@@ -240,6 +288,32 @@ class Order extends CActiveRecord
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
+    }
+
+    /**
+     * After find
+     */
+    public function afterFind()
+    {
+        $this->setCurrentStatusId($this->status_id);
+        $this->setCurrentDeleted($this->is_deleted);
+
+        parent::afterFind();
+    }
+
+    /**
+     * Before model save
+     *
+     * @return bool
+     */
+    public function beforeSave()
+    {
+        // Update status_updated_date only if status changed or order restored
+        if ($this->getCurrentStatusId() !== $this->status_id || $this->getCurrentIsDeleted() !== $this->is_deleted) {
+            $this->status_updated_date = new CDbExpression('NOW()');
+        }
+
+        return parent::beforeSave();
     }
 
     /**
@@ -322,7 +396,7 @@ class Order extends CActiveRecord
             $criteria->compare('carrier_id', $user->id);
         }
 
-        $criteria->order = "id DESC";
+        $criteria->order = "status_updated_date DESC";
 
         return new CActiveDataProvider(__CLASS__, ['criteria' => $criteria]);
     }
