@@ -22,19 +22,24 @@ Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClien
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php //if ($model->isNewRecord || $model->isDraft()) {
+<?php if ($model->isNewRecord || $model->isDraft() || $model->isHaulerNeeded()) {
     echo $form->hiddenField($model, 'status_id', ['value' => Order::STATUS_HAULER_NEEDED]);
-//}?>
+} ?>
 
-<?php echo $form->dropDownListGroup($model, 'supplier_id', ['widgetOptions' => ['data' => Supplier::getList(), 'htmlOptions' => [
-    'class' => 'span5',
-    'maxlength' => 9,
-    'ajax' => [
-        'type' => 'POST',
-        'url' => ['getLoadingAddressList'],
-        'update' => '#Order_loading_id',
+<?php echo $form->dropDownListGroup($model, 'supplier_id', [
+    'widgetOptions' => [
+        'data' => Supplier::getList(),
+        'htmlOptions' => [
+            'class' => 'span5',
+            'maxlength' => 9,
+            'ajax' => [
+                'type' => 'POST',
+                'url' => ['getLoadingAddressList'],
+                'update' => '#Order_loading_id',
+            ]
+        ]
     ]
-]]]); ?>
+]); ?>
 
 <?php echo $form->dropDownListGroup($model, 'loading_id', ['widgetOptions' => ['data' => [], 'htmlOptions' => ['class' => 'span5', 'maxlength' => 9]]]); ?>
 
