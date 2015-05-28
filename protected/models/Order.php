@@ -584,7 +584,7 @@ class Order extends CActiveRecord
      * Get draft order
      *
      * @param User $user
-     * @return static
+     * @return Order
      */
     public function getDraftOrderByUser(User $user)
     {
@@ -595,6 +595,9 @@ class Order extends CActiveRecord
         return self::model()->find($criteria);
     }
 
+    /**
+     * @return Order[]
+     */
     public function getDelayedOrders()
     {
         $criteria = new CDbCriteria();

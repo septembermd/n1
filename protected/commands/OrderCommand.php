@@ -36,7 +36,7 @@ class OrderCommand extends CConsoleCommand
 
             /** @var EmailTemplate $emailTemplateModel */
             $emailTemplateModel = EmailTemplate::model();
-            $template = $emailTemplateModel->getEmailTemplateBySlug(EmailTemplate::TEMPLATE_ORDER_DELAYED."1");
+            $template = $emailTemplateModel->getEmailTemplateBySlug(EmailTemplate::TEMPLATE_ORDER_DELAYED);
 
             if ($template) {
                 $mailer->setSubject($template->subject)
