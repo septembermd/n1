@@ -23,3 +23,21 @@
 .xn-logo {
     height: 50px;
 }
+
+.footer-main {
+    background-color: #33414e;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+.footer-main .copyright {
+    padding-left: 215px;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .footer-main .copyright {
+        padding-left: 0;
+    }
+}

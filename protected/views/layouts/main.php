@@ -50,17 +50,21 @@
             </div>
         </div>
 
-        <footer class="footer-main clearfix">
+
+    </div>
+
+    <footer class="footer-main clearfix">
+        <div class="page-container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
-                        <a href="#" class="pull-left">Developed by Cybtronix</a>
-                        <span class="pull-right">Nr.1 &copy; 2015</span>
+                        <span class="pull-left">Request support by email <a href="mailto:dostavka@number.one">dostavka@number.one</a> or by phone - +373 69 99 9999</span>
+                        <span class="pull-right">Cybtronix &copy; 2015</span>
                     </div>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
 
 </div>
 

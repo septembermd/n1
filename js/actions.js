@@ -315,10 +315,11 @@ $(document).ready(function(){
 $(function(){                
     onload();
     
-    //$(window).resize(function(){
+    $(window).resize(function(){
         //x_navigation_onresize();
-        //page_content_onresize();    
-    //});
+        //page_content_onresize();
+        page_content_onresize();
+    });
 });
 
 function onload(){
