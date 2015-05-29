@@ -15,6 +15,9 @@
 .order-item.viewed {
     background-color: #dff0d8;
 }
+.order-item .row:first-child {
+    margin-bottom: 10px;
+}
 
 #login-form .error {
     font-weight: bold;
