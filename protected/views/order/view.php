@@ -48,7 +48,7 @@ $this->menu = [
                     <?php echo Order::getStatusLabel($model->status_id); ?>
                 <?php endif; ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('carrier_id')); ?>
                 </h6>
@@ -57,7 +57,7 @@ $this->menu = [
                     : Yii::t('main', 'No Hauler');
                 ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <?php if ($this->acl->canViewOrderBidsCount()) : ?>
                     <h6>
                         <?php echo Yii::t('main', 'Number of Bids'); ?>
@@ -74,13 +74,13 @@ $this->menu = [
                 </h6>
                 <?php echo CHtml::encode($model->supplier->title); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('created')); ?>
                 </h6>
                 <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->created); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('valid_date')); ?>
                 </h6>
@@ -101,7 +101,7 @@ $this->menu = [
                 </h6>
                 <?php echo CHtml::encode($model->delivery->country->title); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <?php if ($model->isCargoLoaded()) : ?>
                     <h6>
                         <?php echo CHtml::encode($model->getAttributeLabel('loaded_on_date')); ?>
@@ -114,7 +114,7 @@ $this->menu = [
                     <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->load_date); ?>
                 <?php endif; ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('deliver_date')); ?>
                 </h6>
@@ -135,7 +135,7 @@ $this->menu = [
                 </h6>
                 <?php echo CHtml::encode($model->delivery->address); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <?php if ($model->isCarrierChosen()):?>
                     <h6>
                         <?php echo Yii::t('main', 'Delivery Cost'); ?>
@@ -143,7 +143,7 @@ $this->menu = [
                     <?php echo CHtml::encode($model->getBidWon()->cost); ?>
                 <?php endif; ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <?php if ($model->isCarrierChosen()):?>
                     <h6>
                         <?php echo $model->getAttributeLabel('currency_id') ?>
@@ -154,16 +154,33 @@ $this->menu = [
         </div>
 
         <div class="row text-center" style="margin-top: 20px;">
-            <div class="col-md-3">
-                <h6>
-                    <?php echo Yii::t('main', 'Cargo'); ?>
-                </h6>
-                <?php ;?>
-            </div>
-            <div class="col-md-2">
-                <h6>
-                    <?php echo Yii::t('main', 'Amount'); ?>
-                </h6>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>
+                            <?php echo Yii::t('main', 'Cargo'); ?>
+                        </h6>
+                        <?php ;?>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>
+                            <?php echo Yii::t('main', 'Amount'); ?>
+                        </h6>
+                    </div>
+                </div>
+
+                <?php foreach ($model->orderItems as $item) : ?>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <?php echo CHtml::encode($item->type); ?>
+                        </div>
+
+                        <div class="col-md-6">
+                            <?php echo CHtml::encode($item->amount); ?>
+                        </div>
+
+                    </div>
+                <?php endforeach; ?>
             </div>
 
             <div class="col-md-2">
@@ -181,19 +198,6 @@ $this->menu = [
                 <?php endif; ?>
             </div>
         </div>
-
-        <?php foreach ($model->orderItems as $item) : ?>
-        <div class="row text-center">
-                <div class="col-md-3">
-                    <?php echo CHtml::encode($item->type); ?>
-                </div>
-
-                <div class="col-md-2">
-                    <?php echo CHtml::encode($item->amount); ?>
-                </div>
-
-        </div>
-        <?php endforeach; ?>
 
     </div>
     <div class="panel-footer">
