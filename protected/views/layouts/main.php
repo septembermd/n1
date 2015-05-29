@@ -35,28 +35,6 @@
     <div class="page-content">
 
         <?php $this->widget(
-            'zii.widgets.CMenu',
-            [
-                'encodeLabel' => false,
-                'htmlOptions' => ['class' => 'x-navigation x-navigation-horizontal x-navigation-panel'],
-                'itemCssClass' => 'xn-icon-button',
-                'items' => [
-                    [
-                        'label' => '<span class="fa fa-dedent"></span>',
-                        'url' => '#',
-                        'linkOptions' => ['class' => 'x-navigation-minimize']
-                    ],
-                    [
-                        'label' => '<span class="fa fa-power-off"></span>',
-                        'url' => ['site/logout'],
-                        'active' => false,
-                        'itemOptions' => ['class' => 'xn-icon-button pull-right last']
-                    ],
-                ]
-            ]
-        );?>
-
-        <?php $this->widget(
             'booster.widgets.TbBreadcrumbs',
             [
                 'homeLink' => 'Nr.1',
