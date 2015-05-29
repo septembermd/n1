@@ -16,9 +16,11 @@ $this->menu = [
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title"><?php echo Yii::t('main', 'Profile'); ?></h3>
-        <span class="pull-right">
-            <?php echo CHtml::link('<span class="fa fa-power-off"></span> Logout', ['site/logout'], ['class' => 'xn-icon-button btn btn-danger']) ?>
-        </span>
+        <?php if ($model->isSelf($this->acl->getUser())): ?>
+            <span class="pull-right">
+                <?php echo CHtml::link('<span class="fa fa-power-off"></span> Logout', ['site/logout'], ['class' => 'xn-icon-button btn btn-danger']) ?>
+            </span>
+        <?php endif; ?>
     </div>
     <div class="panel-body">
         <?php $this->widget('booster.widgets.TbDetailView', [
