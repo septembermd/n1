@@ -15,6 +15,7 @@ $this->menu = [
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Order #<?php echo $model->id; ?></h3>
+        <?php echo CHtml::link(Yii::t('main', 'Back'), ['order/index'], ['class' => 'btn btn-info pull-right']); ?>
     </div>
     <div class="panel-body">
 
