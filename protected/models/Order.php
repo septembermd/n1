@@ -169,7 +169,8 @@ class Order extends CActiveRecord
         // will receive user inputs.
         return [
             ['creator_id, currency_id, supplier_id, loading_id, delivery_id, temperature_id, valid_date, load_date, deliver_date', 'required', 'on' => ['insert', 'update']],
-            ['currency_id, temperature_id', 'numerical', 'integerOnly' => true],
+            ['currency_id, temperature_id, delivery_id, loading_id, supplier_id', 'numerical', 'integerOnly' => true],
+            ['currency_id, temperature_id, delivery_id, loading_id, supplier_id', 'default', 'setOnEmpty' => true, 'value' => null],
             ['creator_id, carrier_id, supplier_id, loading_id, delivery_id', 'length', 'max' => 9],
             ['status_id, is_deleted', 'length', 'max' => 1],
             ['load_date, deliver_date, valid_date', 'date', 'format' => 'yyyy-MM-dd', 'allowEmpty' => false, 'on' => ['insert', 'update']],

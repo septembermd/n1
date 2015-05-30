@@ -36,23 +36,27 @@ Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClien
                 'type' => 'POST',
                 'url' => ['getLoadingAddressList'],
                 'update' => '#Order_loading_id',
-            ]
+                'error' => "function(data){
+                    $('#Order_loading_id').empty().html('<option value=\"\">Select supplier address</option>');
+                }"
+            ],
+            'empty' => 'Select supplier company'
         ]
     ]
 ]); ?>
 
-<?php echo $form->dropDownListGroup($model, 'loading_id', ['widgetOptions' => ['data' => [], 'htmlOptions' => ['class' => 'span5', 'maxlength' => 9]]]); ?>
+<?php echo $form->dropDownListGroup($model, 'loading_id', ['widgetOptions' => ['data' => [], 'htmlOptions' => ['class' => 'span5', 'maxlength' => 9, 'empty' => 'Select supplier address']]]); ?>
 
 <?php echo $form->dropDownListGroup($model, 'delivery_id', [
     'widgetOptions' => [
         'data' => DeliveryAddress::getList(),
-        'htmlOptions' => ['class' => 'span5', 'maxlength' => 9]
+        'htmlOptions' => ['class' => 'span5', 'maxlength' => 9, 'empty' => 'Select delivery address']
     ]
 ]); ?>
 
-<?php echo $form->dropDownListGroup($model, 'currency_id', ['widgetOptions' => ['data' => Currency::getList(), 'htmlOptions' => ['class' => 'span5']]]); ?>
+<?php echo $form->dropDownListGroup($model, 'currency_id', ['widgetOptions' => ['data' => Currency::getList(), 'htmlOptions' => ['class' => 'span5', 'empty' => 'Select currency']]]); ?>
 
-<?php echo $form->dropDownListGroup($model, 'temperature_id', ['widgetOptions' => ['data' => Temperature::getList(), 'htmlOptions' => ['class' => 'span5']]]); ?>
+<?php echo $form->dropDownListGroup($model, 'temperature_id', ['widgetOptions' => ['data' => Temperature::getList(), 'htmlOptions' => ['class' => 'span5', 'empty' => 'Select temperature']]]); ?>
 
 <?php echo $form->datePickerGroup($model, 'valid_date', ['widgetOptions' => ['options' => ['format' => 'yyyy-mm-dd', 'startDate'=>'+1d', 'autoclose' => true], 'htmlOptions' => ['class' => 'span5']]]); ?>
 
