@@ -3,14 +3,14 @@
         <div class="col-md-5">
             <div class="form-group <?php echo $model->hasErrors('type') ? 'has-error' : ''; ?>">
                 <?php echo CHtml::activeLabelEx($model, '[' . $index . ']type', ['class'=>'control-label']); ?>
-                <?php echo CHtml::activeTextField($model, '[' . $index . ']type', ['class'=>'span5 form-control', 'maxlength' => 150]); ?>
+                <?php echo CHtml::activeTextField($model, '[' . $index . ']type', ['placeholder' => 'Enter type of cargo', 'class'=>'span5 form-control', 'maxlength' => 150]); ?>
                 <?php echo CHtml::error($model, '[' . $index . ']type', ['class'=>'help-block error']); ?>
             </div>
         </div>
         <div class="col-md-5">
             <div class="form-group <?php echo $model->hasErrors('amount') ? 'has-error' : ''; ?>">
                 <?php echo CHtml::activeLabelEx($model, '[' . $index . ']amount', ['class'=>'control-label']); ?>
-                <?php echo CHtml::activeTextField($model, '[' . $index . ']amount', ['class'=>'span5 form-control', 'maxlength' => 150]); ?>
+                <?php echo CHtml::activeTextField($model, '[' . $index . ']amount', ['placeholder' => 'Cargo amount', 'class'=>'span5 form-control', 'maxlength' => 150]); ?>
                 <?php echo CHtml::error($model, '[' . $index . ']amount', ['class'=>'help-block error']); ?>
             </div>
         </div>
