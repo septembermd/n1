@@ -13,7 +13,7 @@
     border-top: none;
 }
 .order-item.viewed {
-    background-color: #dff0d8;
+    background-color: #feffe1;
 }
 .order-item .row:first-child {
     margin-bottom: 10px;
