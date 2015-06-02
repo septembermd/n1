@@ -317,6 +317,17 @@ class Order extends CActiveRecord
         return parent::beforeSave();
     }
 
+    public function afterSave()
+    {
+        // Check if order was reopened
+        if ($this->getCurrentStatusId() == Order::STATUS_DELIVERED && $this->status_id == Order::STATUS_IN_TRANSIT) {
+            $event = new CModelEvent();
+            $this->onOrderReopened($event);
+        }
+
+        parent::afterSave();
+    }
+
     /**
      * Get order bid by user
      *
@@ -608,6 +619,15 @@ class Order extends CActiveRecord
         $criteria->compare('is_deleted', Order::IS_ACTIVE);
 
         return self::model()->findAll($criteria);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onOrderReopened($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
     }
 
 }

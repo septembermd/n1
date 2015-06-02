@@ -295,6 +295,9 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = $this->loadModel($id);
 
+        $event = new OrderReopenedEvent($order);
+        $order->onOrderReopened = [$event, 'sendNotification'];
+
         // Reset status id to 'In transit'
         $order->setAttribute('status_id', Order::STATUS_IN_TRANSIT);
         // Clear remark and loaded cargo date
