@@ -42,6 +42,7 @@ class OrderReopenedEvent extends NotificationEvent
                 $replacements = [
                     $email => [
                         '{{order}}' => CHtml::link('#'.$order->id, Yii::app()->createAbsoluteUrl('order/view', ['id' => $order->id])),
+                        '{{site}}' => Yii::app()->createAbsoluteUrl('/')
                     ]
                 ];
                 $mailer->setSubject($emailTemplate->subject)
