@@ -39,7 +39,7 @@ class UserCreatedEvent extends NotificationEvent
                 $userCreated->email => [
                     '{{login}}' => $userCreated->email,
                     '{{password}}' => $userCreated->realPassword,
-                    '{{login_url}}' => Yii::app()->createAbsoluteUrl('user/login')
+                    '{{login_url}}' => Yii::app()->createAbsoluteUrl('site/login')
                 ]
             ];
 
