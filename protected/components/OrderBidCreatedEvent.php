@@ -47,7 +47,7 @@ class OrderBidCreatedEvent extends NotificationEvent
                 $orderBid->order->creator->email => [
                     '{{order}}' => CHtml::link('#'.$orderBid->id, $orderAbsoluteUrl),
                     '{{order_url}}'=> CHtml::link($orderAbsoluteUrl, $orderAbsoluteUrl),
-                    '{{carrier}}' => $orderBid->user->fullname,
+                    '{{carrier}}' => CHtml::link($orderBid->user->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $orderBid->user_id])),
                     '{{items_list}}' => $this->controller->renderPartial('/orderItems/_list', ['items' => $orderBid->order->orderItems]),
                     '{{delivery_country}}' => $orderBid->order->delivery->country->title,
                     '{{loading_country}}' => $orderBid->order->loading->country->title,
