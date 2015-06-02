@@ -1,5 +1,11 @@
 {
   "name": "septembermd/number1",
+  "repositories": [
+    {
+      "url": "https://github.com/septembermd/Yii-SwiftMailer.git",
+      "type": "git"
+    }
+  ],
   "require": {
     "php": ">=5.5",
     "yiisoft/yii": "1.1.*",

@@ -38,10 +38,18 @@ class OrderCommand extends CConsoleCommand
             $emailTemplateModel = EmailTemplate::model();
             $template = $emailTemplateModel->getEmailTemplateBySlug(EmailTemplate::TEMPLATE_ORDER_DELAYED);
 
+            $replacements = [
+                $order->carrier->email => [
+                    '{{order}}' => CHtml::link('#'.$order->id, Yii::app()->createAbsoluteUrl('order/view', ['id' => $order->id])),
+                    '{{carrier}}' => CHtml::link($order->carrier->fullname, Yii::app()->createAbsoluteUrl('order/view', ['id' => $order->carrier_id]))
+                ]
+            ];
+
             if ($template) {
                 $mailer->setSubject($template->subject)
                     ->setBody($template->body)
                     ->setTo($order->carrier->email)
+                    ->setDecoratorReplacements($replacements)
                     ->send();
             } else {
                 Yii::log("Email template not found!", CLogger::LEVEL_ERROR, 'email_notification');
