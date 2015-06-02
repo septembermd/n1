@@ -41,8 +41,8 @@ class OrderBidCreatedEvent extends NotificationEvent
 
         $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => self::MESSAGE_TEMPLATE]);
         if ($emailTemplate) {
-            $users = [$orderBid->order->creator->email,];
             $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
+            $deliverDueDate = new DateTime($orderBid->order->deliver_date);
             $replacements = [
                 $orderBid->order->creator->email => [
                     '{{order}}' => CHtml::link('#'.$orderBid->id, $orderAbsoluteUrl),
@@ -52,17 +52,15 @@ class OrderBidCreatedEvent extends NotificationEvent
                     '{{delivery_country}}' => $orderBid->order->delivery->country->title,
                     '{{loading_country}}' => $orderBid->order->loading->country->title,
                     '{{temperature_control}}' => $orderBid->order->temperature->title,
+                    '{{deliver_due_date}}' => $deliverDueDate->format('F jS, Y')
                 ]
             ];
 
-            foreach($users as $email) {
-                $mailer->setSubject($emailTemplate->subject)
-                    ->addAddress($email)
-                    ->setBody($emailTemplate->body)
-                    ->setDecoratorReplacements($replacements)
-                    ->send();
-            }
-
+            $mailer->setSubject($emailTemplate->subject)
+                ->addAddress($orderBid->order->creator->email)
+                ->setBody($emailTemplate->body)
+                ->setDecoratorReplacements($replacements)
+                ->send();
 
             Yii::log(sprintf('Sent email notification about new order bid for order #%s by user #%s', $orderBid->order_id, $orderBid->user_id));
         } else {
