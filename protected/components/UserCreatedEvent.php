@@ -36,9 +36,11 @@ class UserCreatedEvent extends NotificationEvent
         $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => self::MESSAGE_TEMPLATE]);
         if ($emailTemplate) {
             $replacements = [
-                '{{login}}' => $userCreated->email,
-                '{{password}}' => $userCreated->password,
-                '{{login_url}}' => Yii::app()->createAbsoluteUrl('user/login')
+                $userCreated->email => [
+                    '{{login}}' => $userCreated->email,
+                    '{{password}}' => $userCreated->password,
+                    '{{login_url}}' => Yii::app()->createAbsoluteUrl('user/login')
+                ]
             ];
 
             $mailer->setSubject($emailTemplate->subject)
