@@ -38,7 +38,7 @@ class UserCreatedEvent extends NotificationEvent
             $replacements = [
                 $userCreated->email => [
                     '{{login}}' => $userCreated->email,
-                    '{{password}}' => $userCreated->password,
+                    '{{password}}' => $userCreated->realPassword,
                     '{{login_url}}' => Yii::app()->createAbsoluteUrl('user/login')
                 ]
             ];

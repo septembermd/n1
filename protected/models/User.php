@@ -10,6 +10,7 @@
  * @property string $email
  * @property string $phone
  * @property string $password
+ * @property string $realPassword
  * @property string $salt
  * @property string $role_id
  * @property string $created
@@ -33,6 +34,9 @@ class User extends ActiveRecord
 
     /** @var string New password value */
     public $new_password;
+
+    /** @var string Real password */
+    public $realPassword;
 
     /** @var array User phone numbers */
     public $phone_numbers;
@@ -311,6 +315,7 @@ class User extends ActiveRecord
      */
     public function setPassword($password)
     {
+        $this->realPassword = $this->password;
         $this->password = CPasswordHelper::hashPassword($password);
         $this->salt = CPasswordHelper::generateSalt();
     }
