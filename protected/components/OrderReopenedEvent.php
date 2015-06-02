@@ -41,7 +41,7 @@ class OrderReopenedEvent extends NotificationEvent
             foreach ($users as $email) {
                 $replacements = [
                     $email => [
-                        '{{order}}' => CHtml::link('#'.$order->id, Yii::app()->createAbsoluteUrl('site/login')),
+                        '{{order}}' => CHtml::link('#'.$order->id, Yii::app()->createAbsoluteUrl('order/view', ['id' => $order->id])),
                     ]
                 ];
                 $mailer->setSubject($emailTemplate->subject)
