@@ -604,6 +604,8 @@ class Order extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->addCondition('DATE(NOW()) > DATE(valid_date)');
         $criteria->addCondition('remark_id IS NULL');
+        $criteria->compare('status_id', Order::STATUS_IN_TRANSIT);
+        $criteria->compare('is_deleted', Order::IS_ACTIVE);
 
         return self::model()->findAll($criteria);
     }
