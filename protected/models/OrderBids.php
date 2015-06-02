@@ -136,6 +136,16 @@ class OrderBids extends CActiveRecord
         return parent::model($className);
     }
 
+    public function afterSave()
+    {
+        if ($this->isNewRecord) {
+            $event = new CModelEvent();
+            $this->onOrderBidCreated($event);
+        }
+
+        parent::afterSave();
+    }
+
     /**
      * @param $orderId
      * @return CActiveDataProvider
@@ -208,5 +218,14 @@ class OrderBids extends CActiveRecord
         $criteria = $this->getBestOfferCriteriaByOrder($order);
 
         return self::model()->count($criteria);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onOrderBidCreated($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
     }
 }

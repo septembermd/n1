@@ -175,12 +175,4 @@ class UserController extends Controller
             Yii::app()->end();
         }
     }
-
-    /**
-     * @param $event
-     */
-    public function onUserCreated($event)
-    {
-        $user = $event->sender;
-    }
 }

@@ -140,6 +140,9 @@ class OrderBidsController extends Controller
 
         $model = new OrderBids;
 
+        $event = new OrderBidCreatedEvent($model, $this);
+        $model->onOrderBidCreated = [$event, 'sendNotification'];
+
         $model->user_id = $currentUser->id;
         $model->order_id = $orderId;
 
