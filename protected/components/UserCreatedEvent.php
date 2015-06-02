@@ -25,7 +25,7 @@ class UserCreatedEvent extends NotificationEvent
     /**
      * Send message
      */
-    public function sendMail()
+    public function sendNotification()
     {
         /** @var User $userCreated */
         $userCreated = $this->sender;
@@ -35,9 +35,16 @@ class UserCreatedEvent extends NotificationEvent
 
         $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => self::MESSAGE_TEMPLATE]);
         if ($emailTemplate) {
+            $replacements = [
+                '{{login}}' => $userCreated->email,
+                '{{password}}' => $userCreated->password,
+                '{{login_url}}' => Yii::app()->createAbsoluteUrl('user/login')
+            ];
+
             $mailer->setSubject($emailTemplate->subject)
                 ->addAddress($userCreated->email)
                 ->setBody($emailTemplate->body)
+                ->setDecoratorReplacements($replacements)
                 ->send();
         }
     }

@@ -18,6 +18,7 @@ abstract class NotificationEvent extends CEvent
 
     /**
      * @param mixed|null $sender
+     * @param null $params
      */
     public function __construct($sender = null, $params = null)
     {
@@ -51,5 +52,5 @@ abstract class NotificationEvent extends CEvent
      *
      * @return mixed
      */
-    public abstract function sendMail();
+    public abstract function sendNotification();
 }

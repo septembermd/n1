@@ -69,7 +69,7 @@ class UserController extends Controller
 
         // trigger event created
         $event = new UserCreatedEvent($model);
-        $model->onUserCreated = [$event, 'sendMail'];
+        $model->onUserCreated = [$event, 'sendNotification'];
 
         if (isset($_POST['User'])) {
             $model->setAttributes($_POST['User']);
