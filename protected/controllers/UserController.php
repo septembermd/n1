@@ -67,6 +67,10 @@ class UserController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
+        // trigger event created
+        $event = new UserCreatedEvent($model);
+        $model->onUserCreated = [$event, 'sendNotification'];
+
         if (isset($_POST['User'])) {
             $model->setAttributes($_POST['User']);
             $model->setAttribute('created', date('Y-m-d H:i:s'));
@@ -74,10 +78,6 @@ class UserController extends Controller
             if ($model->validate(null, false)) {
                 $model->setPassword($model->password);
                 if ($model->save()) {
-                    // trigger event created
-                    $event = new UserCreatedEvent($model);
-                    $model->onUserCreated = [$event, 'sendNotification'];
-
                     $this->redirect(['view', 'id' => $model->id]);
                 }
             }
