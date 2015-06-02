@@ -9,7 +9,7 @@
 /**
  * Class OrderCommand
  */
-class OrderCommand extends CConsoleCommand
+class OrderCommand extends ConsoleCommand
 {
     public function actionCheckDelayedOrders()
     {
@@ -17,19 +17,24 @@ class OrderCommand extends CConsoleCommand
         /** @var Order[] $orders */
         $orders = Order::model()->getDelayedOrders();
         $ordersCount = count($orders);
-        printf("Found %s delayed %s" . PHP_EOL, $ordersCount, $this->pluralize('order', $ordersCount));
+        Yii::log(
+            sprintf("Found %s delayed %s" . PHP_EOL, $ordersCount, $this->pluralize('order', $ordersCount)),
+            CLogger::LEVEL_ERROR,
+            'email_notification'
+        );
 
         foreach ($orders as $order) {
-            $message = sprintf(
-                "Sending notification email about delayed Order #%s to Carrier #%s %s <%s>",
-                $order->id,
-                $order->carrier_id,
-                $order->carrier->fullname,
-                $order->carrier->email
+            Yii::log(
+                sprintf(
+                    "Sending notification email about delayed Order #%s to Carrier #%s %s <%s>",
+                    $order->id,
+                    $order->carrier_id,
+                    $order->carrier->fullname,
+                    $order->carrier->email
+                ),
+                CLogger::LEVEL_INFO,
+                'email_notification'
             );
-
-            Yii::log($message, CLogger::LEVEL_INFO, 'email_notification');
-            echo $message . PHP_EOL;
 
             /** @var SwiftMailer $mailer */
             $mailer = Yii::app()->mailer;
@@ -62,21 +67,5 @@ class OrderCommand extends CConsoleCommand
         echo "Done!" . PHP_EOL;
 
         return 0;
-    }
-
-    /**
-     * Pluralize word depending on count
-     *
-     * @param string $name
-     * @param int $count
-     * @return string
-     */
-    public function pluralize($name, $count = 1)
-    {
-        if ($count == 1) {
-            return $name;
-        }
-
-        return parent::pluralize($name);
     }
 }
