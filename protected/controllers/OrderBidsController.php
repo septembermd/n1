@@ -177,6 +177,10 @@ class OrderBidsController extends Controller
     {
         /** @var OrderBids $orderBid */
         $orderBid = $this->loadModel($orderBidId);
+
+        $event = new HaulerChosenEvent($orderBid, $this);
+        $orderBid->order->onHaulerChosen = [$event, 'sendNotification'];
+
         // Set flag which shows that this bid won
         $orderBid->setAttribute('is_winner', OrderBids::IS_WINNER);
         // Set carrier id to order
