@@ -48,13 +48,15 @@ class OrderBidWithdrawnEvent extends NotificationEvent
 
             $replacements = [];
             $users = [$orderBid->user->email];
-            $mailer->addAddress($users);
 
-            $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
             $supervisors = User::model()->findAllSupervisors();
             foreach ($supervisors as $supervisor) {
                 $users[] = $supervisor->email;
             }
+
+            $mailer->addAddress($users);
+            
+            $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
             foreach ($users as $email) {
                 $replacements[$email] = [
                     '{{order}}' => CHtml::link('#'.$orderBid->id, $orderAbsoluteUrl),
