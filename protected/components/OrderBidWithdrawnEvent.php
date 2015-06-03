@@ -55,7 +55,7 @@ class OrderBidWithdrawnEvent extends NotificationEvent
             }
 
             $mailer->addAddress($users);
-            
+
             $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
             foreach ($users as $email) {
                 $replacements[$email] = [

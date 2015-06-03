@@ -39,11 +39,11 @@ class OrderBidCreatedEvent extends NotificationEvent
 
         $emailTemplate = $this->getTemplate();
         if ($emailTemplate) {
-            $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
+            $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->order_id]);
             $deliverDueDate = new DateTime($orderBid->order->deliver_date);
             $replacements = [
                 $orderBid->order->creator->email => [
-                    '{{order}}' => CHtml::link('#'.$orderBid->id, $orderAbsoluteUrl),
+                    '{{order}}' => CHtml::link('#'.$orderBid->order_id, $orderAbsoluteUrl),
                     '{{order_url}}'=> CHtml::link($orderAbsoluteUrl, $orderAbsoluteUrl),
                     '{{carrier}}' => CHtml::link($orderBid->user->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $orderBid->user_id])),
                     '{{items_list}}' => $this->controller->renderPartial('/orderItems/_list', ['items' => $orderBid->order->orderItems]),
