@@ -10,8 +10,6 @@
  */
 class OrderBidCreatedEvent extends NotificationEvent
 {
-    const MESSAGE_TEMPLATE = "order_bid_created";
-
     /** @var OrderBidsController controller instance */
     protected $controller;
 
