@@ -660,9 +660,23 @@ class Order extends CActiveRecord
     public function getDelayedOrders()
     {
         $criteria = new CDbCriteria();
-        $criteria->addCondition('DATE(NOW()) > DATE(valid_date)');
+        $criteria->addCondition('DATE(NOW()) > DATE(deliver_date)');
         $criteria->addCondition('remark_id IS NULL');
         $criteria->compare('status_id', Order::STATUS_IN_TRANSIT);
+        $criteria->compare('is_deleted', Order::IS_ACTIVE);
+
+        return self::model()->findAll($criteria);
+    }
+
+    /**
+     * @return static[]
+     */
+    public function getPostponedOrders()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('DATE(NOW()) > DATE(valid_date)');
+        $criteria->addCondition('remark_id IS NULL');
+        $criteria->compare('status_id', Order::STATUS_HAULER_NEEDED);
         $criteria->compare('is_deleted', Order::IS_ACTIVE);
 
         return self::model()->findAll($criteria);

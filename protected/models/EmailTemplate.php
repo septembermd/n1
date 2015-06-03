@@ -12,6 +12,7 @@
 class EmailTemplate extends CActiveRecord
 {
     const TEMPLATE_ORDER_DELAYED = 'order_delivery_delayed';
+    const TEMPLATE_ORDER_POSTPONED ='order_postponed';
 
     /**
      * @return string the associated database table name
