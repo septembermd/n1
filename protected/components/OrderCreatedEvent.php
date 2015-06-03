@@ -43,6 +43,7 @@ class OrderCreatedEvent extends NotificationEvent
                 $users[] = $carrier->email;
             }
             $replacements = [];
+            $deliverDueDate = new DateTime($order->deliver_date);
             foreach ($users as $email) {
                 $replacements[$email] = [
                     '{{order}}' => CHtml::link('#'.$order->id, $orderAbsoluteUrl),
@@ -52,6 +53,7 @@ class OrderCreatedEvent extends NotificationEvent
                     '{{delivery_address}}' => $order->delivery->address,
                     '{{loading_country}}' => $order->loading->country->title,
                     '{{temperature_control}}' => $order->temperature->title,
+                    '{{deliver_due_date}}' => $deliverDueDate->format('F jS, Y')
                 ];
             }
 
