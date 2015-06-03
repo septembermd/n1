@@ -268,12 +268,14 @@ class OrderController extends Controller
         /** @var Order $order */
         $order = $this->loadModel($id);
 
+        $event = new OrderDeliveredEvent($order, $this);
+        $order->onOrderDelivered = [$event, 'sendNotification'];
+
         if (isset($_POST['Order'])) {
             $order->setAttributes($_POST['Order']);
             // Set order status to 'Delivered'
             $order->setAttribute('status_id', Order::STATUS_DELIVERED);
             $order->setAttribute('delivered_on_date', new CDbExpression('NOW()'));
-            // todo: send email notification to carrier, manager, supervisor
             if ($order->save()) {
                 $this->redirect(['order/index', 'status' => Order::STATUS_DELIVERED]);
             }else {

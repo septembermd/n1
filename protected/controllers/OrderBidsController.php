@@ -116,7 +116,6 @@ class OrderBidsController extends Controller
 
         if (isset($_POST['OrderBidWithdrawForm'])) {
             $orderBidWithdrawForm->attributes = $_POST['OrderBidWithdrawForm'];
-            // todo: send email notification to supervisor, carrier
             $model->is_deleted = OrderBids::STATE_DELETED;
             if ($model->save()) {
                 $this->redirect(['order/view', 'id' => $model->order_id]);
@@ -157,7 +156,6 @@ class OrderBidsController extends Controller
         if (isset($_POST['OrderBids'])) {
             $model->attributes = $_POST['OrderBids'];
             if ($model->save()) {
-                // todo: send email notification
                 $this->redirect(['order/view', 'id' => $model->order_id]);
             }
         }
@@ -193,7 +191,6 @@ class OrderBidsController extends Controller
         }
 
         if ($orderBid->save() && $orderBid->order->save()) {
-            // todo: send email notification to selected carrier
             $this->redirect(['order/view', 'id' => $orderBid->order_id]);
         } else {
             throw new CHttpException(400, 'Validation error.');

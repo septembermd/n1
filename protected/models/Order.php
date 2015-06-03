@@ -331,6 +331,12 @@ class Order extends CActiveRecord
             $this->onHaulerChosen($event);
         }
 
+        // Check if order was delivered
+        if ($this->getCurrentStatusId() == Order::STATUS_IN_TRANSIT && $this->status_id == Order::STATUS_DELIVERED) {
+            $event = new CModelEvent();
+            $this->onOrderDelivered($event);
+        }
+
         parent::afterSave();
     }
 
@@ -641,6 +647,15 @@ class Order extends CActiveRecord
      * @throws CException
      */
     public function onHaulerChosen($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onOrderDelivered($event)
     {
         $this->raiseEvent(__FUNCTION__, $event);
     }
