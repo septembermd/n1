@@ -47,16 +47,20 @@ class OrderBidWithdrawnEvent extends NotificationEvent
                 ->setBody($emailTemplate->body);
 
             $replacements = [];
-            $users = [$orderBid->user->email, $currentUser->email];
+            $users = [$orderBid->user->email];
             $mailer->addAddress($users);
 
             $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
-
+            $supervisors = User::model()->findAllSupervisors();
+            foreach ($supervisors as $supervisor) {
+                $users[] = $supervisor->email;
+            }
             foreach ($users as $email) {
                 $replacements[$email] = [
                     '{{order}}' => CHtml::link('#'.$orderBid->id, $orderAbsoluteUrl),
                     '{{carrier}}' => CHtml::link($orderBid->user->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $currentUser->id])),
-                    '{{reason}}' => $this->form->reason
+                    '{{reason}}' => $this->form->reason,
+                    '{{bids_url}}' => CHtml::link(Yii::app()->createAbsoluteUrl('orderBids/index'), Yii::app()->createAbsoluteUrl('orderBids/index'))
                 ];
             }
             $mailer->setDecoratorReplacements($replacements)

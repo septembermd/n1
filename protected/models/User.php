@@ -395,6 +395,16 @@ class User extends ActiveRecord
     }
 
     /**
+     * @return static[]
+     */
+    public function findAllSupervisors()
+    {
+        return self::model()->findAllByAttributes([
+            'role_id' => self::ROLE_SUPERVISOR
+        ]);
+    }
+
+    /**
      * @param $event
      * @throws CException
      */
