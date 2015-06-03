@@ -36,22 +36,19 @@ class OrderReopenedEvent extends NotificationEvent
         if ($emailTemplate) {
             /** @var SwiftMailer $mailer */
             $mailer = $this->getMailer();
+            $mailer->setSubject($emailTemplate->subject)
+                ->setBody($emailTemplate->body);
 
             $users = [$order->creator->email, $order->carrier->email];
             foreach ($users as $email) {
-                $replacements = [
-                    $email => [
-                        '{{order}}' => CHtml::link('#'.$order->id, Yii::app()->createAbsoluteUrl('order/view', ['id' => $order->id])),
-                        '{{site}}' => Yii::app()->createAbsoluteUrl('/')
-                    ]
+                $replacements[$email] = [
+                    '{{order}}' => CHtml::link('#' . $order->id, Yii::app()->createAbsoluteUrl('order/view', ['id' => $order->id])),
+                    '{{site}}' => Yii::app()->createAbsoluteUrl('/')
                 ];
-                $mailer->setSubject($emailTemplate->subject)
-                    ->addAddress($email)
-                    ->setBody($emailTemplate->body)
-                    ->setDecoratorReplacements($replacements)
-                    ->send();
-
+                $mailer->addAddress($users);
             }
+            $mailer->setDecoratorReplacements($replacements)
+                ->send();
 
             Yii::log('Sent notification that order is reopened');
         } else {
