@@ -343,7 +343,7 @@ class Order extends CActiveRecord
     public function afterSave()
     {
         // New order created
-        if (($this->isNewRecord && !$this->isDraft()) || ($this->getCurrentStatusId() == self::STATUS_DELIVERED && $this->status_id == self::STATUS_HAULER_NEEDED)) {
+        if (($this->isNewRecord && !$this->isDraft()) || ($this->getCurrentStatusId() == self::STATUS_DRAFT && $this->status_id == self::STATUS_HAULER_NEEDED)) {
             $event = new CModelEvent();
             $this->onOrderCreated($event);
         }
