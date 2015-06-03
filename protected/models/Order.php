@@ -342,26 +342,31 @@ class Order extends CActiveRecord
 
     public function afterSave()
     {
+        // New order created
+        if (($this->isNewRecord && !$this->isDraft()) || ($this->getCurrentStatusId() == self::STATUS_DELIVERED && $this->status_id == self::STATUS_HAULER_NEEDED)) {
+            $event = new CModelEvent();
+            $this->onOrderCreated($event);
+        }
         // Check if order was reopened
-        if ($this->getCurrentStatusId() == Order::STATUS_DELIVERED && $this->status_id == Order::STATUS_IN_TRANSIT) {
+        if ($this->getCurrentStatusId() == self::STATUS_DELIVERED && $this->status_id == self::STATUS_IN_TRANSIT) {
             $event = new CModelEvent();
             $this->onOrderReopened($event);
         }
 
         // Check if hauler chosen
-        if ($this->getCurrentStatusId() == Order::STATUS_HAULER_NEEDED && $this->status_id == Order::STATUS_IN_TRANSIT) {
+        if ($this->getCurrentStatusId() == self::STATUS_HAULER_NEEDED && $this->status_id == self::STATUS_IN_TRANSIT) {
             $event = new CModelEvent();
             $this->onHaulerChosen($event);
         }
 
         // Check if order was delivered
-        if ($this->getCurrentStatusId() == Order::STATUS_IN_TRANSIT && $this->status_id == Order::STATUS_DELIVERED) {
+        if ($this->getCurrentStatusId() == self::STATUS_IN_TRANSIT && $this->status_id == self::STATUS_DELIVERED) {
             $event = new CModelEvent();
             $this->onOrderDelivered($event);
         }
 
         // Check if order was withdrawn
-        if ($this->getCurrentStatusId() == Order::STATUS_HAULER_NEEDED && $this->status_id == Order::STATUS_WITHDRAWN) {
+        if ($this->getCurrentStatusId() == self::STATUS_HAULER_NEEDED && $this->status_id == self::STATUS_WITHDRAWN) {
             $event = new CModelEvent();
             $this->onOrderWithdrawn($event);
         }
@@ -680,6 +685,15 @@ class Order extends CActiveRecord
         $criteria->compare('is_deleted', Order::IS_ACTIVE);
 
         return self::model()->findAll($criteria);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onOrderCreated($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
     }
 
     /**

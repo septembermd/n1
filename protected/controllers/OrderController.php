@@ -119,6 +119,10 @@ class OrderController extends Controller
         if ($draftModel) {
             $model = $draftModel;
         }
+
+        $event = new OrderCreatedEvent($model, $this);
+        $model->onOrderCreated = [$event, 'sendNotification'];
+
         // Get current model scenario
         $scenario = $model->getScenario();
 

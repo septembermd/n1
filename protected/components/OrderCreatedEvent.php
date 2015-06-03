@@ -2,13 +2,13 @@
 /**
  * Created by Victor Davydov <septembermd@gmail.com>
  * Date: 6/3/15
- * Time: 10:51 AM
+ * Time: 7:23 PM
  */
 
 /**
- * Class OrderDeliveredEvent
+ * Class OrderCreatedEvent
  */
-class OrderDeliveredEvent extends NotificationEvent
+class OrderCreatedEvent extends NotificationEvent
 {
     protected $controller;
 
@@ -37,23 +37,21 @@ class OrderDeliveredEvent extends NotificationEvent
             $mailer = $this->getMailer();
 
             $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $order->id]);
-            $supervisors = User::model()->findAllSupervisors();
-            $users = [$order->creator->email, $order->carrier->email];
-            foreach ($supervisors as $supervisor) {
-                $users[] = $supervisor->email;
+            $carriers = User::model()->findAllCarriers();
+            $users = [];
+            foreach ($carriers as $carrier) {
+                $users[] = $carrier->email;
             }
             $replacements = [];
             foreach ($users as $email) {
                 $replacements[$email] = [
                     '{{order}}' => CHtml::link('#'.$order->id, $orderAbsoluteUrl),
                     '{{order_url}}'=> CHtml::link($orderAbsoluteUrl, $orderAbsoluteUrl),
-                    '{{carrier}}' => CHtml::link($order->carrier->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $order->carrier_id])),
                     '{{items_list}}' => $this->controller->renderPartial('/orderItems/_list', ['items' => $order->orderItems], true),
                     '{{delivery_country}}' => $order->delivery->country->title,
                     '{{delivery_address}}' => $order->delivery->address,
                     '{{loading_country}}' => $order->loading->country->title,
                     '{{temperature_control}}' => $order->temperature->title,
-                    '{{remark}}' => $order->remark->title,
                 ];
             }
 
@@ -63,7 +61,7 @@ class OrderDeliveredEvent extends NotificationEvent
                 ->setDecoratorReplacements($replacements)
                 ->send();
 
-            Yii::log(sprintf('Sent email notification that order is delivered for order #%s', $order->id));
+            Yii::log(sprintf('Sent email notification that a new order order #%s created', $order->id));
         } else {
             Yii::log(sprintf('Failed to send notification. Not found template %s', $this->getTemplateName()), CLogger::LEVEL_ERROR);
         }
@@ -76,6 +74,6 @@ class OrderDeliveredEvent extends NotificationEvent
      */
     public function getTemplateName()
     {
-        return 'order_delivered';
+        return 'order_created';
     }
 }

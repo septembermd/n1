@@ -400,7 +400,19 @@ class User extends ActiveRecord
     public function findAllSupervisors()
     {
         return self::model()->findAllByAttributes([
-            'role_id' => self::ROLE_SUPERVISOR
+            'role_id' => self::ROLE_SUPERVISOR,
+            'is_active' => self::STATE_ACTIVE
+        ]);
+    }
+
+    /**
+     * @return static[]
+     */
+    public function findAllCarriers()
+    {
+        return self::model()->findAllByAttributes([
+            'role_id' => self::ROLE_CARRIER,
+            'is_active' => self::STATE_ACTIVE
         ]);
     }
 

@@ -6,11 +6,17 @@
  */
 
 /** @var OrderItems[] $items */
+
 ?>
 <?php if (is_array($items)):?>
     <ul>
     <?php foreach($items as $item) :?>
-        <li><?php echo $item->type; ?> - <?php echo $item->amount;?></li>
+        <?php if (is_array($item)) :?>
+            <li><?php echo $item['type']; ?> - <?php echo $item['amount'];?></li>
+        <?php else: ?>
+            <li><?php echo $item->type; ?> - <?php echo $item->amount;?></li>
+        <?php endif; ?>
+
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>
