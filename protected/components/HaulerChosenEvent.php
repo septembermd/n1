@@ -45,7 +45,7 @@ class HaulerChosenEvent extends NotificationEvent
                 $order->carrier->email => [
                     '{{order}}' => CHtml::link('#'.$order->id, $orderAbsoluteUrl),
                     '{{order_url}}'=> CHtml::link($orderAbsoluteUrl, $orderAbsoluteUrl),
-                    '{{carrier}}' => CHtml::link($order->carrier->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $order->carrier->user_id])),
+                    '{{carrier}}' => CHtml::link($order->carrier->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $order->carrier_id])),
                     '{{items_list}}' => $this->controller->renderPartial('/orderItems/_list', ['items' => $order->orderItems]),
                     '{{delivery_country}}' => $order->delivery->country->title,
                     '{{loading_country}}' => $order->loading->country->title,
