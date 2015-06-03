@@ -188,6 +188,10 @@ class OrderController extends Controller
     {
         /** @var Order $order */
         $order = $this->loadModel($id);
+
+        $event = new OrderWithdrawnEvent($order, $this);
+        $order->onOrderWithdrawn = [$event, 'sendNotification'];
+
         $order->setAttribute('status_id', Order::STATUS_WITHDRAWN);
         if ($order->save()) {
             $this->redirect(['order/index', 'status' => Order::STATUS_WITHDRAWN]);

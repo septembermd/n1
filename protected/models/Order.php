@@ -337,6 +337,12 @@ class Order extends CActiveRecord
             $this->onOrderDelivered($event);
         }
 
+        // Check if order was withdrawn
+        if ($this->getCurrentStatusId() == Order::STATUS_HAULER_NEEDED && $this->status_id == Order::STATUS_WITHDRAWN) {
+            $event = new CModelEvent();
+            $this->onOrderWithdrawn($event);
+        }
+
         parent::afterSave();
     }
 
@@ -656,6 +662,15 @@ class Order extends CActiveRecord
      * @throws CException
      */
     public function onOrderDelivered($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onOrderWithdrawn($event)
     {
         $this->raiseEvent(__FUNCTION__, $event);
     }
