@@ -11,17 +11,6 @@
  */
 class OrderReopenedEvent extends NotificationEvent
 {
-    const MESSAGE_TEMPLATE = 'order_reopened';
-
-    /**
-     * @param mixed|null $sender
-     * @param null $options
-     */
-    public function __construct($sender, $options = null)
-    {
-        parent::__construct($sender, $options);
-    }
-
     /**
      * Send mail
      *
@@ -32,13 +21,14 @@ class OrderReopenedEvent extends NotificationEvent
         /** @var Order $order */
         $order = $this->sender;
 
-        $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => self::MESSAGE_TEMPLATE]);
+        $emailTemplate = $this->getTemplate();
         if ($emailTemplate) {
             /** @var SwiftMailer $mailer */
             $mailer = $this->getMailer();
             $mailer->setSubject($emailTemplate->subject)
                 ->setBody($emailTemplate->body);
 
+            $replacements = [];
             $users = [$order->creator->email, $order->carrier->email];
             foreach ($users as $email) {
                 $replacements[$email] = [
@@ -52,7 +42,17 @@ class OrderReopenedEvent extends NotificationEvent
 
             Yii::log('Sent notification that order is reopened');
         } else {
-            Yii::log(sprintf('Failed to send notification. Not found template %s', self::MESSAGE_TEMPLATE), CLogger::LEVEL_ERROR);
+            Yii::log(sprintf('Failed to send notification. Not found template %s', $this->getTemplateName()), CLogger::LEVEL_ERROR);
         }
+    }
+
+    /**
+     * Template name
+     *
+     * @return string
+     */
+    public function getTemplateName()
+    {
+        return 'order_reopened';
     }
 }

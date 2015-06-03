@@ -11,17 +11,6 @@
  */
 class UserCreatedEvent extends NotificationEvent
 {
-    const MESSAGE_TEMPLATE = 'user_created';
-
-    /**
-     * @param mixed|null $sender
-     * @param null $options
-     */
-    public function __construct($sender, $options = null)
-    {
-        parent::__construct($sender, $options);
-    }
-
     /**
      * Send message
      */
@@ -33,7 +22,7 @@ class UserCreatedEvent extends NotificationEvent
         /** @var SwiftMailer $mailer */
         $mailer = $this->getMailer();
 
-        $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => self::MESSAGE_TEMPLATE]);
+        $emailTemplate = $this->getTemplate();
         if ($emailTemplate) {
             $replacements = [
                 $userCreated->email => [
@@ -48,6 +37,18 @@ class UserCreatedEvent extends NotificationEvent
                 ->setBody($emailTemplate->body)
                 ->setDecoratorReplacements($replacements)
                 ->send();
+        } else {
+            Yii::log(sprintf('Failed to send notification. Not found template %s', $this->getTemplateName()), CLogger::LEVEL_ERROR);
         }
+    }
+
+    /**
+     * Template name
+     *
+     * @return string
+     */
+    public function getTemplateName()
+    {
+        return 'user_created';
     }
 }

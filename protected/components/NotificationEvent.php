@@ -46,6 +46,15 @@ abstract class NotificationEvent extends CEvent
         return $this;
     }
 
+    /**
+     * @return EmailTemplate
+     */
+    public function getTemplate()
+    {
+        $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => $this->getTemplateName()]);
+
+        return $emailTemplate;
+    }
 
     /**
      * Send mail
@@ -53,4 +62,11 @@ abstract class NotificationEvent extends CEvent
      * @return mixed
      */
     public abstract function sendNotification();
+
+    /**
+     * Template name
+     *
+     * @return string
+     */
+    public abstract function getTemplateName();
 }

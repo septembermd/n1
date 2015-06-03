@@ -39,7 +39,7 @@ class OrderBidCreatedEvent extends NotificationEvent
         /** @var SwiftMailer $mailer */
         $mailer = $this->getMailer();
 
-        $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => self::MESSAGE_TEMPLATE]);
+        $emailTemplate = $this->getTemplate();
         if ($emailTemplate) {
             $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
             $deliverDueDate = new DateTime($orderBid->order->deliver_date);
@@ -64,7 +64,17 @@ class OrderBidCreatedEvent extends NotificationEvent
 
             Yii::log(sprintf('Sent email notification about new order bid for order #%s by user #%s', $orderBid->order_id, $orderBid->user_id));
         } else {
-            Yii::log(sprintf('Failed to send notification. Not found template %s', self::MESSAGE_TEMPLATE), CLogger::LEVEL_ERROR);
+            Yii::log(sprintf('Failed to send notification. Not found template %s', $this->getTemplateName()), CLogger::LEVEL_ERROR);
         }
+    }
+
+    /**
+     * Template name
+     *
+     * @return string
+     */
+    public function getTemplateName()
+    {
+        return 'order_bid_created';
     }
 }
