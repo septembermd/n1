@@ -7,8 +7,8 @@
  * @property string $id
  * @property string $creator_id
  * @property string $carrier_id
- * @property integer $currency_id
  * @property string $status_id
+ * @property integer $currency_id
  * @property string $supplier_id
  * @property string $loading_id
  * @property string $delivery_id
@@ -218,8 +218,8 @@ class Order extends CActiveRecord
             'id' => Yii::t('main', 'Order ID'),
             'creator_id' => Yii::t('main', 'Responsible'),
             'carrier_id' => Yii::t('main', 'Hauler'),
-            'currency_id' => Yii::t('main', 'Currency'),
             'status_id' => Yii::t('main', 'Status'),
+            'currency_id' => Yii::t('main', 'Currency'),
             'supplier_id' => Yii::t('main', 'Supplier Company'),
             'loading_id' => Yii::t('main', 'Supplier Address'),
             'delivery_id' => Yii::t('main', 'Delivery Address'),
@@ -258,8 +258,8 @@ class Order extends CActiveRecord
         $criteria->compare('id', $this->id, true);
         $criteria->compare('creator_id', $this->creator_id, true);
         $criteria->compare('carrier_id', $this->carrier_id, true);
-        $criteria->compare('currency_id', $this->currency_id);
         $criteria->compare('status_id', $this->status_id, true);
+        $criteria->compare('currency_id', $this->currency_id);
         $criteria->compare('supplier_id', $this->supplier_id, true);
         $criteria->compare('loading_id', $this->loading_id, true);
         $criteria->compare('delivery_id', $this->delivery_id, true);

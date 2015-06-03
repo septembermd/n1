@@ -24,6 +24,27 @@ class OrderBids extends CActiveRecord
     const IS_WINNER = 1;
     const IS_COMPETITOR = 0;
 
+    public $currentIsDeleted;
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentIsDeleted()
+    {
+        return $this->currentIsDeleted;
+    }
+
+    /**
+     * @param $isDeleted
+     * @return $this
+     */
+    public function setCurrentIsDeleted($isDeleted)
+    {
+        $this->currentIsDeleted = $isDeleted;
+
+        return $this;
+    }
+
     /**
      * @return string the associated database table name
      */
@@ -136,11 +157,31 @@ class OrderBids extends CActiveRecord
         return parent::model($className);
     }
 
+    /**
+     * After find
+     */
+    public function afterFind()
+    {
+        $this->setCurrentIsDeleted($this->is_deleted);
+
+        parent::afterFind();
+    }
+
+    /**
+     * Before save
+     */
     public function afterSave()
     {
+        // Order bid created
         if ($this->isNewRecord) {
             $event = new CModelEvent();
             $this->onOrderBidCreated($event);
+        }
+
+        // Order bid withdrawn
+        if ($this->isWithdrawn() && $this->getCurrentIsDeleted() == self::STATE_ACTIVE) {
+            $event = new CModelEvent();
+            $this->onOrderBidWithdrawn($event);
         }
 
         parent::afterSave();
@@ -225,6 +266,15 @@ class OrderBids extends CActiveRecord
      * @throws CException
      */
     public function onOrderBidCreated($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onOrderBidWithdrawn($event)
     {
         $this->raiseEvent(__FUNCTION__, $event);
     }

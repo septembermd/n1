@@ -104,11 +104,16 @@ class OrderBidsController extends Controller
     {
         /** @var OrderBids $orderBid */
         $model = $this->loadModel($id);
+
         if (!$this->acl->canWithdrawOrderBid($model)) {
             throw new CHttpException('403', Yii::t('main', 'You are not allowed to withdraw this order bid.'));
         }
         $orderBidWithdrawForm = new OrderBidWithdrawForm();
         $orderBidWithdrawForm->orderBid = $model;
+
+        $event = new OrderBidWithdrawnEvent($model, $orderBidWithdrawForm, $this);
+        $model->onOrderBidWithdrawn = [$event, 'sendNotification'];
+
         if (isset($_POST['OrderBidWithdrawForm'])) {
             $orderBidWithdrawForm->attributes = $_POST['OrderBidWithdrawForm'];
             // todo: send email notification to supervisor, carrier
@@ -222,6 +227,7 @@ class OrderBidsController extends Controller
     public function actionWithdraw($id) {
         /** @var OrderBids $model */
         $model = $this->loadModel($id);
+
         // Check if user can withdraw this offer
         if (!$this->acl->canWithdrawOrderBid($model)) {
             throw new CHttpException(400, Yii::t('main', 'You are not allowed to withdraw this bid.'));
