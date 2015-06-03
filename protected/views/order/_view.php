@@ -56,8 +56,12 @@
             <?php echo CHtml::encode($data->deliver_date); ?>
         </div>
         <div class="col-md-2">
-            <h6><?php echo Yii::t('main', 'Number of Bids'); ?></h6>
-            <?php echo $data->getBidsCount(); ?>
+            <?php if ($this->acl->canViewOrderBidsCount()) : ?>
+                <h6>
+                    <?php echo Yii::t('main', 'Number of Bids'); ?>
+                </h6>
+                <?php echo CHtml::encode($data->getBidsCount()); ?>
+            <?php endif; ?>
         </div>
         <div class="col-md-2">
             <?php echo CHtml::link(Yii::t('main', 'Order Details'), ['order/view', 'id' => $data->id], ['class' => 'btn btn-sm btn-info']); ?>
