@@ -330,6 +330,10 @@ class OrderController extends Controller
     {
         /** @var Order $order */
         $order = $this->loadModel($id);
+
+        $event = new OrderLoadedEvent($order, $this);
+        $order->onOrderLoaded = [$event, 'sendNotification'];
+
         // Check if user can load cargo on this order
         if (!$this->acl->canLoadCargo($order)) {
             throw new CHttpException(403, Yii::t('main', 'You are not allowed to load cargo for this order.'));

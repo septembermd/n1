@@ -63,11 +63,14 @@ class Order extends CActiveRecord
         self::STATUS_DRAFT => "Draft"
     ];
 
-    /** @var string $currentStatusId Actual status_id value */
+    /** @var string Actual status_id value */
     public $currentStatusId;
 
-    /** @var string $currentIsDeleted Actual is_deleted value */
+    /** @var string Actual is_deleted value */
     public $currentIsDeleted;
+
+    /** @var bool Actual status if cargo loaded */
+    public $currentCargoLoaded;
 
     /**
      * Get status label by status
@@ -134,6 +137,25 @@ class Order extends CActiveRecord
     public function setCurrentDeleted($is_deleted)
     {
         $this->currentIsDeleted = $is_deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCurrentCargoLoaded()
+    {
+        return $this->currentCargoLoaded;
+    }
+
+    /**
+     * @param $isCargoLoaded
+     * @return $this
+     */
+    public function setCurrentCargoLoaded($isCargoLoaded)
+    {
+        $this->currentCargoLoaded = $isCargoLoaded;
 
         return $this;
     }
@@ -298,6 +320,7 @@ class Order extends CActiveRecord
     {
         $this->setCurrentStatusId($this->status_id);
         $this->setCurrentDeleted($this->is_deleted);
+        $this->setCurrentCargoLoaded($this->isCargoLoaded());
 
         parent::afterFind();
     }
@@ -341,6 +364,12 @@ class Order extends CActiveRecord
         if ($this->getCurrentStatusId() == Order::STATUS_HAULER_NEEDED && $this->status_id == Order::STATUS_WITHDRAWN) {
             $event = new CModelEvent();
             $this->onOrderWithdrawn($event);
+        }
+
+        // Check if order was loaded
+        if ($this->isCargoLoaded() && !$this->getCurrentCargoLoaded()) {
+            $event = new CModelEvent();
+            $this->onOrderLoaded($event);
         }
 
         parent::afterSave();
@@ -671,6 +700,15 @@ class Order extends CActiveRecord
      * @throws CException
      */
     public function onOrderWithdrawn($event)
+    {
+        $this->raiseEvent(__FUNCTION__, $event);
+    }
+
+    /**
+     * @param $event
+     * @throws CException
+     */
+    public function onOrderLoaded($event)
     {
         $this->raiseEvent(__FUNCTION__, $event);
     }
