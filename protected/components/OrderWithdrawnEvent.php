@@ -55,7 +55,7 @@ class OrderWithdrawnEvent extends NotificationEvent
                 $replacements[$email] = [
                     '{{order}}' => CHtml::link('#'.$order->id, $orderAbsoluteUrl),
                     '{{order_url}}'=> CHtml::link($orderAbsoluteUrl, $orderAbsoluteUrl),
-                    '{{items_list}}' => $this->controller->renderPartial('/orderItems/_list', ['items' => $order->orderItems]),
+                    '{{items_list}}' => $this->controller->renderPartial('/orderItems/_list', ['items' => $order->orderItems], true),
                     '{{delivery_country}}' => $order->delivery->country->title,
                     '{{loading_country}}' => $order->loading->country->title,
                     '{{deliver_due_date}}' => $deliverDueDate->format('F jS, Y')
