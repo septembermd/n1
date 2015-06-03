@@ -78,13 +78,13 @@ $this->menu = [
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('created')); ?>
                 </h6>
-                <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->created); ?>
+                <?php $date = new DateTime($model->created); echo CHtml::encode($date->format('F jS, Y')); ?>
             </div>
             <div class="col-md-3">
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('valid_date')); ?>
                 </h6>
-                <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->valid_date); ?>
+                <?php $date = new DateTime($model->valid_date); echo CHtml::encode($date->format('F jS, Y')); ?>
             </div>
         </div>
 
@@ -106,19 +106,19 @@ $this->menu = [
                     <h6>
                         <?php echo CHtml::encode($model->getAttributeLabel('loaded_on_date')); ?>
                     </h6>
-                    <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->loaded_on_date); ?>
+                    <?php $date = new DateTime($model->loaded_on_date); echo CHtml::encode($date->format('F jS, Y')); ?>
                 <?php else: ?>
                     <h6>
                         <?php echo CHtml::encode($model->getAttributeLabel('load_date')); ?>
                     </h6>
-                    <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->load_date); ?>
+                    <?php $date = new DateTime($model->load_date); echo CHtml::encode($date->format('F jS, Y')); ?>
                 <?php endif; ?>
             </div>
             <div class="col-md-3">
                 <h6>
                     <?php echo CHtml::encode($model->getAttributeLabel('deliver_date')); ?>
                 </h6>
-                <?php echo Yii::app()->dateFormatter->format("dd MMMM yyyy", $model->deliver_date); ?>
+                <?php $date = new DateTime($model->deliver_date); echo CHtml::encode($date->format('F jS, Y')); ?>
             </div>
         </div>
 

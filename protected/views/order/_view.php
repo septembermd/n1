@@ -49,11 +49,11 @@
         </div>
         <div class="col-md-2">
             <h6><?php echo CHtml::encode($data->getAttributeLabel('created')); ?></h6>
-            <?php echo CHtml::encode($data->created); ?>
+            <?php $date = new DateTime($data->created); echo CHtml::encode($date->format('F jS, Y')); ?>
         </div>
         <div class="col-md-2">
             <h6><?php echo CHtml::encode($data->getAttributeLabel('deliver_date')); ?></h6>
-            <?php echo CHtml::encode($data->deliver_date); ?>
+            <?php $date = new DateTime($data->deliver_date); echo CHtml::encode($date->format('F jS, Y')); ?>
         </div>
         <div class="col-md-2">
             <?php if ($this->acl->canViewOrderBidsCount()) : ?>
