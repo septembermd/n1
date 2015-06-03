@@ -60,7 +60,7 @@ class HaulerChosenEvent extends NotificationEvent
                 ->setDecoratorReplacements($replacements)
                 ->send();
 
-            Yii::log(sprintf('Sent email notification that hauler has been chosen for order #%s', $order->order_id));
+            Yii::log(sprintf('Sent email notification that hauler has been chosen for order #%s', $order->id));
         } else {
             Yii::log(sprintf('Failed to send notification. Not found template %s', $this->getTemplateName()), CLogger::LEVEL_ERROR);
         }
