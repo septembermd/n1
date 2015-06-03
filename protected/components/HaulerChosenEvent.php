@@ -55,7 +55,7 @@ class HaulerChosenEvent extends NotificationEvent
             ];
 
             $mailer->setSubject($emailTemplate->subject)
-                ->addAddress($order->creator->email)
+                ->addAddress($order->carrier->email)
                 ->setBody($emailTemplate->body)
                 ->setDecoratorReplacements($replacements)
                 ->send();
