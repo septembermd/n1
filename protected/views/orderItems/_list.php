@@ -7,7 +7,7 @@
 
 /** @var OrderItems[] $items */
 ?>
-<?php if (is_array($items) && !empty($items)):?>
+<?php if (is_array($items)):?>
     <ul>
     <?php foreach($items as $item) :?>
         <li><?php echo $item->type; ?> - <?php echo $item->amount;?></li>
