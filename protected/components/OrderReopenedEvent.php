@@ -32,11 +32,11 @@ class OrderReopenedEvent extends NotificationEvent
         /** @var Order $order */
         $order = $this->sender;
 
-        /** @var SwiftMailer $mailer */
-        $mailer = $this->getMailer();
-
         $emailTemplate = EmailTemplate::model()->findByAttributes(['slug' => self::MESSAGE_TEMPLATE]);
         if ($emailTemplate) {
+            /** @var SwiftMailer $mailer */
+            $mailer = $this->getMailer();
+
             $users = [$order->creator->email, $order->carrier->email];
             foreach ($users as $email) {
                 $replacements = [
