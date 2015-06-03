@@ -82,6 +82,6 @@ class OrderBidWithdrawnEvent extends NotificationEvent
      */
     public function getTemplateName()
     {
-        return 'order_bid_created';
+        return 'order_bid_withdrawn';
     }
 }

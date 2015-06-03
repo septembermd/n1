@@ -3,7 +3,7 @@
 /** @var $model OrderBids */
 
 $this->breadcrumbs = [
-    Yii::t('main', 'Orders') => ['index'],
+    Yii::t('main', 'Orders') => ['order/index'],
     $model->order->id => ['order/view', 'id' => $model->order->id],
     Yii::t('main', 'Best Offer'),
 ];
