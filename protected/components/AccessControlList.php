@@ -477,4 +477,20 @@ class AccessControlList {
 
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function canManageDeliveryAddress()
+    {
+        if ($this->getUser()->isAdmin()) {
+            return true;
+        }
+
+        if ($this->getUser()->isManager()) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -39,6 +39,11 @@ if(!$currentUser->isGuest) {
             'visible' => $acl->canPerformSuppliersAdminActions()
         ],
         [
+            'label' => sprintf('<span class="fa fa-list"></span> <span class="xn-text">%s</span>', Yii::t('main', 'Delivery address')),
+            'url' => ['deliveryAddress/admin'],
+            'visible' => $acl->canManageDeliveryAddress()
+        ],
+        [
             'label' => sprintf('<span class="fa fa-envelope"></span> <span class="xn-text">%s</span>', Yii::t('main', 'Email templates')),
             'url' => ['emailTemplate/admin'],
             'visible' => $acl->canManageEmailTemplates()
