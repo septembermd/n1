@@ -95,6 +95,7 @@ class OrderBidWithdrawnEvent extends NotificationEvent
                     '{{carrier}}' => CHtml::link($orderBid->user->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $currentUser->id])),
                     '{{reason}}' => $this->form->reason,
                     '{{currency}}' => $orderBid->order->currency->title,
+                    '{{cost}}' => $orderBid->cost,
                     '{{bids_number}}' => $orderBid->order->orderBidsCount,
                     '{{bids_url}}' => CHtml::link(Yii::app()->createAbsoluteUrl('orderBids/index'), Yii::app()->createAbsoluteUrl('orderBids/index', ['orderId' => $orderBid->order_id]))
                 ];
