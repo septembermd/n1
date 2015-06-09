@@ -1,3 +1,7 @@
+html {
+    overflow-y: scroll;
+}
+
 .x-navigation > li.xn-logo > a:first-child {
     background-color: transparent;
 }
