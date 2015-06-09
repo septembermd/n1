@@ -91,7 +91,7 @@ Yii::app()->clientScript->registerScriptFile("/js/scripts/order/form.js", CClien
     'widgetOptions' => [
         'options' => [
             'format' => 'yyyy-mm-dd',
-            'startDate'=>'+1d',
+            'startDate'=>'0d',
             'autoclose' => true
         ],
         'htmlOptions' => [

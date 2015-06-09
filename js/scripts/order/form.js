@@ -33,27 +33,25 @@
             loadUntilDate = $loadUntilInput.data('datepicker').date,
             deliverDueDate = $deliverDueInput.data('datepicker').date;
 
-        if (loadUntilDate > validUntilDate) {
+        if (loadUntilDate < validUntilDate) {
             $loadUntilInput.val('');
         }
-        if (deliverDueDate < loadUntilDate || deliverDueDate > validUntilDate) {
+        if (deliverDueDate < loadUntilDate) {
             $deliverDueInput.val('');
         }
     }
 
     function setLoadUntilLimit() {
-        var dateEnd = $validUntilInput.val();
-        if (dateEnd) {
-            $loadUntilInput.datepicker('setEndDate', new Date(dateEnd));
+        var dateStart = $validUntilInput.val();
+        if (dateStart) {
+            $loadUntilInput.datepicker('setStartDate', new Date(dateStart));
         }
     }
 
     function setDeliverDueLimit() {
         var dateStart = $loadUntilInput.val();
-        var dateEnd = $validUntilInput.val();
-        if (dateStart && dateEnd) {
+        if (dateStart) {
             $deliverDueInput.datepicker('setStartDate', new Date(dateStart));
-            $deliverDueInput.datepicker('setEndDate', new Date(dateEnd));
         }
     }
 
