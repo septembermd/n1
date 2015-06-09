@@ -37,26 +37,23 @@ class OrderBidWithdrawnEvent extends NotificationEvent
         /** @var OrderBids $orderBid */
         $orderBid = $this->sender;
 
+        $currentUser = $this->controller->acl->getUser();
+
+        /** @var SwiftMailer $mailer */
+        $mailer = $this->getMailer();
+
+        $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
+
         $emailTemplate = $this->getTemplate();
         if ($emailTemplate) {
-            $currentUser = $this->controller->acl->getUser();
-
-            /** @var SwiftMailer $mailer */
-            $mailer = $this->getMailer();
             $mailer->setSubject($emailTemplate->subject)
                 ->setBody($emailTemplate->body);
 
             $replacements = [];
             $users = [$orderBid->user->email];
 
-            $supervisors = User::model()->findAllSupervisors();
-            foreach ($supervisors as $supervisor) {
-                $users[] = $supervisor->email;
-            }
-
             $mailer->addAddress($users);
 
-            $orderAbsoluteUrl = Yii::app()->createAbsoluteUrl('order/view', ['id' => $orderBid->id]);
             foreach ($users as $email) {
                 $replacements[$email] = [
                     '{{order}}' => CHtml::link('#'.$orderBid->id, $orderAbsoluteUrl),
@@ -79,6 +76,45 @@ class OrderBidWithdrawnEvent extends NotificationEvent
         } else {
             Yii::log(sprintf('Failed to send notification. Not found template %s', $this->getTemplateName()), CLogger::LEVEL_ERROR);
         }
+
+        $supervisorEmailTemplate = EmailTemplate::model()->findByAttributes(['slug' => $this->getSupervisorTemplateName()]);
+        if ($supervisorEmailTemplate) {
+            $mailer->setSubject($supervisorEmailTemplate->subject)
+                ->setBody($supervisorEmailTemplate->body);
+
+            $users = [];
+            $supervisors = User::model()->findAllSupervisors();
+            $replacements = [];
+            foreach ($supervisors as $supervisor) {
+                $users[] = $supervisor->email;
+            }
+            $mailer->addAddress($users);
+            foreach ($users as $email) {
+                $replacements[$email] = [
+                    '{{order}}' => CHtml::link('#'.$orderBid->id, $orderAbsoluteUrl),
+                    '{{carrier}}' => CHtml::link($orderBid->user->fullname, Yii::app()->createAbsoluteUrl('user/view', ['id' => $currentUser->id])),
+                    '{{reason}}' => $this->form->reason,
+                    '{{currency}}' => $orderBid->order->currency->title,
+                    '{{bids_number}}' => $orderBid->order->orderBidsCount,
+                    '{{bids_url}}' => CHtml::link(Yii::app()->createAbsoluteUrl('orderBids/index'), Yii::app()->createAbsoluteUrl('orderBids/index', ['orderId' => $orderBid->order_id]))
+                ];
+            }
+
+            $mailer->setDecoratorReplacements($replacements)
+                ->send();
+        } else {
+            Yii::log(sprintf('Failed to send notification. Not found template %s', $this->getSupervisorTemplateName()), CLogger::LEVEL_ERROR);
+        }
+    }
+
+    /**
+     * Supervisor template name
+     *
+     * @return string
+     */
+    public function getSupervisorTemplateName()
+    {
+        return 'order_bid_withdrawn_supervisor';
     }
 
     /**
