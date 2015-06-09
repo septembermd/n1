@@ -424,7 +424,7 @@ class Order extends CActiveRecord
     }
 
     /**
-     *
+     * @return null|OrderBids
      */
     public function getBidWon()
     {
@@ -551,6 +551,9 @@ class Order extends CActiveRecord
         return $this->is_deleted == self::IS_DELETED;
     }
 
+    /**
+     * @return bool
+     */
     public function isDeliveryDelayed()
     {
         $todayDateTime = new DateTime();
@@ -640,6 +643,25 @@ class Order extends CActiveRecord
             $criteria->compare('status_id', $status);
         }
         $criteria->compare('is_deleted', self::IS_ACTIVE);
+
+        return self::model()->count($criteria);
+    }
+
+    /**
+     * Get deleted unviewed order count
+     *
+     * @param User $user
+     * @return string
+     */
+    public function getUnviewedDeletedOrderCountByUser(User $user)
+    {
+        $orderUserView = OrderUserView::model()->getOrderUserViewByUser($user);
+        $orderUserViewList = CHtml::listData($orderUserView, 'order_id', 'user_id');
+        $orderUserViewIds = array_keys($orderUserViewList);
+
+        $criteria = new CDbCriteria();
+        $criteria->addNotInCondition('id', $orderUserViewIds);
+        $criteria->compare('is_deleted', self::IS_DELETED);
 
         return self::model()->count($criteria);
     }

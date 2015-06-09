@@ -30,8 +30,11 @@ foreach (Order::$statusMap as $statusId => $label) {
         'active' => $isDeleted ? false : ($currentStatus === $statusId)
     ];
 }
+$deletedOrderCount = $order->getUnviewedDeletedOrderCountByUser($this->acl->getUser());
 $statusNavigationItems[] = [
-    'label' => Yii::t('main', 'Deleted'),
+    'label' => $deletedOrderCount
+        ? sprintf('%s <span class="badge">%s</span>', Yii::t('main', 'Deleted'), $deletedOrderCount)
+        : Yii::t('main', 'Deleted'),
     'url' => ['order/index', 'deleted' => Order::IS_DELETED],
     'visible' => $this->acl->canViewDeletedOrders()
 ];
