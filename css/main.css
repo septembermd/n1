@@ -67,3 +67,7 @@ html {
 .remove-order-item {
     margin-top: 23px;
 }
+
+.order-item .row {
+    min-height: 75px;
+}
