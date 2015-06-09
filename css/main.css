@@ -55,3 +55,15 @@ html {
         padding-left: 0;
     }
 }
+
+.orderItem {
+    margin-top: 10px;
+}
+.add-order-item {
+    position: relative;
+    top: -28px;
+    margin-right: 160px;
+}
+.remove-order-item {
+    margin-top: 23px;
+}

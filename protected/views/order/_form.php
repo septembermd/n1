@@ -153,7 +153,7 @@ if (empty($model->orderItems)) {
     <?php echo CHtml::link(Yii::t('main', 'Add'), '#', ['class' => 'pull-right glyphicon glyphicon-plus btn btn-sm btn-default add-order-item']); ?>
 </div>
 
-<div class="form-actions">
+<div class="form-actions text-center">
     <?php $this->widget('booster.widgets.TbButton', [
         'buttonType' => 'submit',
         'context' => 'primary',

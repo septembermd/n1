@@ -16,7 +16,7 @@
         </div>
         <?php if($index > 0 || $index === '__proto_name__') : ?>
             <div class="col-md-2">
-                <?php echo CHtml::link(Yii::t('main', ''), '#', ['class'=>'glyphicon glyphicon-minus btn btn-sm btn-default remove-order-item','style'=>'margin-top:30px']); ?>
+                <?php echo CHtml::link(Yii::t('main', ''), '#', ['class'=>'glyphicon glyphicon-minus btn btn-sm btn-default remove-order-item']); ?>
             </div>
         <?php endif; ?>
     </div>
