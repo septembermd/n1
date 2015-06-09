@@ -120,7 +120,7 @@ class OrderCommand extends ConsoleCommand
             if ($template) {
                 $mailer->setSubject($template->subject)
                     ->setBody($template->body)
-                    ->setTo($order->carrier->email)
+                    ->setTo($order->creator->email)
                     ->setDecoratorReplacements($replacements)
                     ->send();
             } else {
